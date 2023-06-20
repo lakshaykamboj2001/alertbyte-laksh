@@ -17,7 +17,7 @@ const LoginModal = () => {
   const handleShow = () => setShow(true);
   return (
     <>
-      <Button className="btn btn-fill" onClick={handleShow}>Login</Button>
+      <Button className="btn btn-fill" onClick={handleShow}>Login <span></span></Button>
       <Modal show={show} onHide={handleClose} centered className="req-audit-modal">
         <Button className="ram-close" onClick={handleClose}> <FaTimes /> </Button>
         <Modal.Body>
@@ -34,7 +34,7 @@ const ConnectWallet = () => {
   const handleShow = () => setShow(true);
   return (
     <>
-      <Button className="btn btn-fill" onClick={handleShow}>Connect Wallet</Button>
+      <Button className="btn btn-fill" onClick={handleShow}>Connect Wallet<span></span></Button>
       <Modal show={show} onHide={handleClose} centered className="req-audit-modal">
         <Button className="ram-close" onClick={handleClose}> <FaTimes /> </Button>
         <Modal.Body>
@@ -301,14 +301,16 @@ function BsNavDropdown() {
             <FaBars className="navbar-toggler-icon"/>
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav ms-auto me-4 mb-2 mb-lg-0">
-              <li className="nav-item"> <Link className="nav-link" aria-current="page" href="/"> Home </Link> </li>
-              <li className="nav-item"> <Link className="nav-link" href="/blockchain-tools/"> Services </Link> </li>
-              <li className="nav-item"> <Link className="nav-link" href="/contact-us/"> Contact Us </Link> </li>
-              <li className="nav-item"> <Link className="nav-link" href="/portfolio/"> Resources </Link> </li>
+            <ul className="navbar-nav ms-auto me-4 mb-2 mb-lg-0 header-menu">
+              <li className="nav-item"> <Link className="nav-link" aria-current="page" href="/"> Home<span></span></Link> </li>
+              <li className="nav-item"> <Link className="nav-link" href="/blockchain-tools/"> Services<span></span>  </Link> </li>
+              <li className="nav-item"> <Link className="nav-link" href="/contact-us/"> Contact Us<span></span> </Link> </li>
+              <li className="nav-item"> <Link className="nav-link" href="/portfolio/"> Resources<span></span> </Link> </li>
             </ul>
-            <LoginModal />
-            <ConnectWallet />
+            <div className="header-butns">
+              <LoginModal />
+              <ConnectWallet />
+            </div>
           </div>
 
           {/* mobile menu */}

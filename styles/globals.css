@@ -1,9 +1,48 @@
-body{
-  background-color: #000;
-  color: #fff;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+:root{
+  /* Primary Colors*/
+  --black: #000;
+  --white: #ffffff;
+  --dark-cyan:rgba(0, 255, 206, 1);
 }
+
+body.wn-body{
+  font-family: 'Roboto', sans-serif;
+  box-sizing: border-box;
+  background-color: var(--black);
+  color: var(--white);
+  padding: 0;
+  margin: 0;
+}
+
+.wn-body h1,.wn-body h2,.wn-body h3,.wn-body h4{
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: bolder;
+  color: var(--dark-cyan);
+}
+
+.wn-body .btn{
+  font-size: 18px;
+  transition: .2s;
+}
+.wn-body a{
+  transition: .2s;
+  text-decoration: none;
+}
+
+
+
+
+/* ======Header====== */
+
 .wn-body .navbar {
   background-color: #000 !important;
+  margin: 20px 0;
+}
+ul.navbar-nav.header-menu{
+  gap: 36px;
 }
 .foot-links ul {
   display: flex;
@@ -14,10 +53,59 @@ body{
 }
 .wn-body .navbar .nav-link {
   color: #fff;
+  padding: 0px;
+  font-size: 20px;
+  display: inline-block;
+  position: relative;
 }
+
+.wn-body .navbar .nav-link span{
+  content : "";
+  position : absolute;
+  width : 0%;
+  height : 2px;
+  background-color:var(--dark-cyan);
+  bottom: -2px;
+  /* left: auto;
+  right:auto; */
+  margin: auto;
+  display: block;
+
+}
+.wn-body .navbar .nav-link:hover span{
+    transform: scale(1.1);
+    transition: .2s;
+    width: 88%;
+    left:0px;
+    right:0px;
+    bottom:-2px;
+}
+
 .foot-btm {
   text-align: center;
 }
+
+.header-butns{
+  display: flex;
+  flex-direction: row;
+  gap: 36px;
+}
+.header-butns .btn{
+  color: var(--dark-cyan);
+  min-width: 150px;
+  border: 1px solid var(--dark-cyan);
+  border-radius: 25px;
+  background-color: unset;
+}
+.header-butns .btn:hover{
+  color: var(--black);
+  background-color: var(--dark-cyan);
+}
+
+
+
+
+
 
 /* mobile menu */
 .mobile-menu {
@@ -125,4 +213,11 @@ body{
 }
 .wn-body .faq.mobile-menu .accordion-item .mm-link{
   color: white;
+}
+
+
+@media (min-width: 1400px){
+.container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
+    max-width: 1368px;
+}
 }
