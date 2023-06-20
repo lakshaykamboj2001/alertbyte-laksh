@@ -1,0 +1,126 @@
+body{
+  background-color: #000;
+  color: #fff;
+}
+.wn-body .navbar {
+  background-color: #000 !important;
+}
+.foot-links ul {
+  display: flex;
+  list-style: none;
+  gap: 60px;
+  justify-content: center;
+  margin: 40px 0;
+}
+.wn-body .navbar .nav-link {
+  color: #fff;
+}
+
+
+/* mobile menu */
+.mobile-menu {
+  position: fixed;
+  top: 10px;
+  right: 0;
+  width: calc(100% - 20px);
+  background: linear-gradient(180deg,#044,#499e96);
+  color: var(--white);
+  transition: .3s;
+  z-index: 9;
+  overflow: auto;
+  border-radius: 20px 0 0 20px;
+  transform: translateX(100%);
+  max-height: 100%;
+  min-height: 600px;
+}
+.wn-body .mobile-menu .nav-link {
+  color: var(--white);
+  font-weight: 500;
+}
+.mobile-menu-close svg {
+  width: 40px;
+  height: 40px;
+}
+.logo-close {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+}
+.wn-body .mobile-menu .navbar-nav .nav-link{
+  font-size: 20px;
+  font-weight: bold;
+  padding: 18px 15px !important; 
+  position: relative;
+}
+.wn-body .mobile-menu .btn-div .btn{
+  min-width: 180px;
+}
+.mobile-menu .navbar-nav .accordion-item .nav-item{
+  list-style: none;
+  padding-left: unset;
+}
+.mobile-menu .navbar-nav .accordion-item .nav-link{
+  padding: 30px 0 0 0 !important;
+}
+.mobile-menu .navbar-nav .nav-link::after {
+  content: "";
+  width: 86%;
+  height: 2px;
+  background-color: #ffffff50;
+  left: 15px;
+  top: 100%;
+  position: absolute;
+}
+.mobile-menu .navbar-nav .accordion-item .nav-link::after{
+  content: none;
+}
+.wn-body .faq.mobile-menu .accordion-item {
+  border: none;
+  border-radius: unset;
+  background-color: transparent;
+  box-shadow: unset;
+  margin-bottom: 0px;
+  color: #fff;
+}
+.wn-body .faq.mobile-menu .accordion-button .acc-icn {
+  width: 20px;
+  height: 20px;
+  transform: translateY(-100%);
+  right: 10px;
+  top: 0;
+}
+.wn-body .faq.mobile-menu .accordion-button {
+  color: var(--white);
+  font-size: 20px;
+  padding: unset;
+}
+.wn-body .faq.mobile-menu .accordion-body{
+  padding: 0;
+
+}
+.mobile-menu .navbar-nav .accordion-body ul{
+  padding-left: unset;
+  list-style: none;
+}
+.mobile-menu .navbar-nav .accordion-body ul .nav-item .nav-link{
+  color: var(--white);
+  font-size: 20px;  
+  padding: unset;
+}
+.mob-hv-tab-cont {
+  display: flex;
+  gap: 50px;
+  padding-left: 20px;
+  padding-bottom: 40px;
+}
+.mob-hv-tab-cont > .nav-link:first-child {
+  flex: 0 0 130px;
+}
+.mobile-menu .btn-div {
+  padding: 25px 0;
+  justify-content: center;
+}
+.wn-body .faq.mobile-menu .accordion-item .mm-link{
+  color: white;
+}
