@@ -123,10 +123,10 @@ ul.navbar-nav.header-menu{
   /* min-height: 850px; */
 
 }
-.modal-content{
+.wn-body .modal-content{
   background-color: unset;
 }
-.ram-close {
+.wn-body .ram-close {
   position: absolute;
   background-color: transparent;
   border: 2px solid var(--neon);
@@ -259,7 +259,7 @@ ul.navbar-nav.header-menu{
 .submaildiv input[type=email] {
   background-color: #232631;
   border-radius: 10px;
-  min-width: 437px;
+  width: 100%;
   padding: 23px 30px;
   color: var(--white);
   border: none;
@@ -277,6 +277,7 @@ ul.navbar-nav.header-menu{
 
 }
 .foot-subscribe form.btn-div.subs-form {
+  width: 100%;
   display: flex;
   gap: 15px;
   align-items: center;
@@ -284,6 +285,7 @@ ul.navbar-nav.header-menu{
 }
 .submaildiv{
   position: relative;
+  width: 100%;
 }
 .mailalert-txt {
   position: absolute;
