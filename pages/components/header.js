@@ -286,7 +286,7 @@ function BsNavDropdown() {
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
         <div className="container-fluid">
           <a className="navbar-brand" href="/">
-            <img src="/images/alertbytes-icon.svg" alt="" />
+            <img src="/global/alert-byte-logo.png" alt="" />
           </a>
           <button
             className="navbar-toggler"

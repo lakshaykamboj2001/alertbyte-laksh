@@ -34,21 +34,23 @@ export default function Footer() {
     <>
     <footer className="footer">
       <div className="container">
-        <div className="clr-bg ib-proof foot-subscribe">
+        <div className="foot-subscribe">
           <div className="row">
             <div className="col-lg-6">
-              <div className="img-div">
-                <img src="/images/footer-icn/newsletter.svg" alt="" />
-              </div>
-              <div className="row-text">
-                <h3 className='sub-head'>Subscribe To Our Newsletter</h3>
-                <p>Don’t fall behind. Stay current with the latest updates and developments from our experienced professional team on all the topics within the Web3 space. Pace ahead and bid farewell to all the fears of losing your funds to hackers with our services.</p>
-              </div>
+                <div className="subs-cont">
+                  <div className="img-div">
+                    <img src="/global/home-subs.png" alt="" />
+                  </div>
+                  <div className="row-text">
+                    <h3 className='nsub-head'>Subscribe To Our Newsletter</h3>
+                    <p className='nsubs-txt'>Lorem ipsum dolor, sit amet consectetur adipisicing elit Tenetur a quia labore. Dolorem fugit voluptas dolor soluta </p>
+                  </div>
+                </div>
             </div>
             <div className="col-lg-6">
               <form className="btn-div subs-form">
                   <div className="submaildiv">
-                  <input type="email" name="subs-email" value={mail} onChange={(e)=>{setmail(e.target.value)}}  id="subs-email" placeholder='E-mail' isInvalid={emailError}/> 
+                  <input type="email" name="subs-email" value={mail} onChange={(e)=>{setmail(e.target.value)}}  id="subs-email" placeholder='Enter Email Adress' isInvalid={emailError}/> 
                   {emailError && ( <div className="mailalert-txt">Please enter a valid email!</div>)}
                   </div>
                  
@@ -58,6 +60,9 @@ export default function Footer() {
           </div>
         </div>
         <div className="main-foot">
+          <div className="img-div">
+          <img src="/global/footer-logo.png" alt="" />
+          </div>
           <div className="foot-links">
             <ul>
               <li>Blogs</li>
@@ -65,8 +70,17 @@ export default function Footer() {
               <li>Pricing</li>
               <li>Support</li>
               <li>Privacy Policy</li>
+              <li>T&C</li>
               <li>Disclaimer</li>
             </ul>
+            <div className="foot-social">
+            <h5 className="fs-title">Join Us:</h5>
+                <Link href="/" className="img-div"><img src="/global/foot-icn-1.png" alt="" /></Link>
+                <Link href="/" className="img-div"><img src="/global/foot-icn-2.png" alt="" /></Link>
+                <Link href="/" className="img-div"><img src="/global/foot-icn-3.png" alt="" /></Link>
+                <Link href="/" className="img-div"><img src="/global/foot-icn-4.png" alt="" /></Link>
+              </div>
+
           </div>
           <div className="foot-btm">
             &copy;2023 alertbytes. All Rights Reserved.
