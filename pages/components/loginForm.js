@@ -6,14 +6,9 @@ const LoginForm = () => {
 
   return (
    <div className="md-cnt">
-      <p className="intr-p">New to AlertBytes?<span>Sign Up</span></p>
-      <div className="img-div">
-        <Image
-          src="/userimg.png"
-          width={145}
-          height={145}
-          alt=""  
-        />
+      <p className="intr-p">New to AlertBytes?<span> Sign Up</span></p>
+      <div className="img-div id-icon">
+        <Image src="/global/user-icn.png" width={145} height={145} alt="" />
       </div>
       <h2 className="mdl-title">Login</h2>
       <p>Get a magic link sent to your email that'll sign you in instantly</p>

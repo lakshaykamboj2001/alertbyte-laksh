@@ -39,6 +39,19 @@ body.wn-body{
   border-radius: 20px;
   overflow: hidden;
 }
+.img-div.id-icon {
+  width: 148px;
+  height: 148px;
+  background-color: #000;
+  border-radius: 50%;
+}
+
+.login-mdl-butns {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 20px 0;
+}
 
 /* ======Header====== */
 .wn-body .navbar {
@@ -59,8 +72,7 @@ ul.navbar-nav.header-menu{
   content: "";
   position: absolute;
   top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
   width: 0;
   height: 2px;
   background-color: var(--neon);

@@ -2,7 +2,6 @@ import { FaBars, FaTimes, FaMinus } from 'react-icons/fa';
 import Link from 'next/link';
 import React, { useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
-import ContactForm from './contact-form';
 // import MegaMenu from './megamenu'
 import Accordion from 'react-bootstrap/Accordion';
 import { useRouter } from 'next/router';
@@ -38,7 +37,7 @@ const ConnectWallet = () => {
       <Modal show={show} onHide={handleClose} centered className="req-audit-modal">
         <Button className="ram-close" onClick={handleClose}> <FaTimes /> </Button>
         <Modal.Body>
-          <ContactForm />
+          {/* <ContactForm /> */}
         </Modal.Body>
       </Modal>
     </>
@@ -58,7 +57,7 @@ const MobLoginModal = () => {
       <Modal show={show} onHide={handleClose} centered className="req-audit-modal">
         <Button className="ram-close" onClick={handleClose}> <FaTimes /> </Button>
         <Modal.Body>
-          <ContactForm />
+          {/* <ContactForm /> */}
         </Modal.Body>
       </Modal>
     </>
