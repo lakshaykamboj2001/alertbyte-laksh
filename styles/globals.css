@@ -15,7 +15,9 @@ body{
 .wn-body .navbar .nav-link {
   color: #fff;
 }
-
+.foot-btm {
+  text-align: center;
+}
 
 /* mobile menu */
 .mobile-menu {
