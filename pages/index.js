@@ -24,7 +24,7 @@ export default function Home() {
 
   return (
     <>
-    <main className="main-services main-home">
+    <main className=" main-home">
     <Header mdata={mdata}/>
     {/* <HomeBanner bannerheading="Smart Contract Audits"  />
     <HomeServices />
