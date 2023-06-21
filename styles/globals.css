@@ -177,16 +177,16 @@ ul.navbar-nav.header-menu{
   margin: 40px 0;
   align-items: center;
 }
-.mdl-butns .btn.btn-fill{
+.wn-body .mdl-butns .btn.btn-fill{
   min-width: 260px;
   padding: 11px 0;
   font-size: 20px;
 }
-.mdl-butns .btn:active{
+.wn-body .mdl-butns .btn:active{
   background-color: var(--neon);
   color: var(--black);
 }
-.mdl-butns span{
+.wn-body .mdl-butns span{
   color: var(--neon);
   font-weight: 300;
 }
