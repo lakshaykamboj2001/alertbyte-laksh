@@ -2,7 +2,7 @@ import { FaBars, FaTimes, FaMinus } from 'react-icons/fa';
 import Link from 'next/link';
 import React, { useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
-// import MegaMenu from './megamenu'
+import MegaMenu from './megamenu'
 import Accordion from 'react-bootstrap/Accordion';
 import { useRouter } from 'next/router';
 import Head from "next/head";
@@ -90,9 +90,9 @@ function BsNavDropdown() {
   }, []);
   return (
     <li className="nav-item dropdown">
-      <a className="nav-link dropdown-toggle" href="/services/" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" > Services </a>
+      <a className="nav-link" href="/" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" > Services<span></span> </a>
       <div className="dropdown-menu mega-dropdown" aria-labelledby="navbarDropdown">
-        {/* <MegaMenu /> */}
+        <MegaMenu />
       </div>
     </li>
   );
@@ -302,7 +302,8 @@ function BsNavDropdown() {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav ms-auto me-4 mb-2 mb-lg-0 header-menu">
               <li className="nav-item"> <Link className="nav-link" aria-current="page" href="/"> Home<span></span></Link> </li>
-              <li className="nav-item"> <Link className="nav-link" href="/blockchain-tools/"> Services<span></span>  </Link> </li>
+              {/* <li className="nav-item"> <Link className="nav-link" href="/blockchain-tools/"> Services<span></span>  </Link> </li> */}
+              <BsNavDropdown />
               <li className="nav-item"> <Link className="nav-link" href="/contact-us/"> Contact Us<span></span> </Link> </li>
               <li className="nav-item"> <Link className="nav-link" href="/portfolio/"> Resources<span></span> </Link> </li>
             </ul>
