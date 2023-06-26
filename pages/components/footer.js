@@ -9,7 +9,7 @@ export default function Footer() {
   const GetData = async () => {
     if (validateEmail(mail)) {
       setEmailError(false); // Reset the emailError state to false
-      let result = await fetch('/mailersend/subscribe.php', {
+      let result = await fetch('api_link', {
         method: "POST",
         body: JSON.stringify(mail),
         headers: {
@@ -80,7 +80,6 @@ export default function Footer() {
                 <Link href="/" className="img-div"><img src="/global/foot-icn-3.png" alt="" /></Link>
                 <Link href="/" className="img-div"><img src="/global/foot-icn-4.png" alt="" /></Link>
               </div>
-
           </div>
           <div className="foot-btm">
             &copy;2023 alertbytes. All Rights Reserved.

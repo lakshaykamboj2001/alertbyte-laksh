@@ -1,13 +1,15 @@
 import React from 'react'
 import Header from './components/header'
-// import HomeBanner from './components/home/home-banner'
-// import HomeServices from './components/home/home-services'
-// import IndustryPartner from './components/industry-partner'
-// import HomeLeagueProjects from './components/home/home-league-projects'
-// import HomeFeaturedAudits from './components/home/home-featured-audits'
-// import Testimonials from './components/testimonials'
-// import RecentBlogs from './components/recent-blogs'
-// import HomeFaq from './components/homefaq'
+import HomeBanner from './components/home/homebanner'
+import HomeServices from './components/home/homeservices'
+import Bugs from './components/home/bug'
+import Choose from './components/home/choose'
+import Twiter from './components/home/twiter'
+import Blog from './components/home/blog'
+
+
+
+
 
 export default function Home() {
   
@@ -26,14 +28,12 @@ export default function Home() {
     <>
     <main className=" main-home">
     <Header mdata={mdata}/>
-    {/* <HomeBanner bannerheading="Smart Contract Audits"  />
+    <HomeBanner/>
     <HomeServices />
-    <IndustryPartner />
-    <HomeLeagueProjects />
-    <HomeFeaturedAudits />
-    <Testimonials />
-    <RecentBlogs />
-    <HomeFaq /> */}
+    <Bugs/>
+    <Choose/>
+    <Twiter/>
+    <Blog/>
     </main>
     </>
   )

@@ -16,8 +16,8 @@ const LoginModal = () => {
   const handleShow = () => setShow(true);
   return (
     <>
-      <Button className="btn btn-fill" onClick={handleShow}>Login <span></span></Button>
-      <Modal show={show} onHide={handleClose} centered className="req-audit-modal">
+      <Button className="btn btn-emp" onClick={handleShow}>Login <span></span></Button>
+      <Modal show={show} onHide={handleClose} centered className="login-modal">
         <Button className="ram-close" onClick={handleClose}> <FaTimes /> </Button>
         <Modal.Body>
           <LoginForm />
@@ -33,7 +33,7 @@ const ConnectWallet = () => {
   const handleShow = () => setShow(true);
   return (
     <>
-      <Button className="btn btn-fill" onClick={handleShow}>Connect Wallet<span></span></Button>
+      <Button className="btn btn-emp" onClick={handleShow}>Connect Wallet<span></span></Button>
       <Modal show={show} onHide={handleClose} centered className="req-audit-modal">
         <Button className="ram-close" onClick={handleClose}> <FaTimes /> </Button>
         <Modal.Body>
@@ -300,7 +300,7 @@ function BsNavDropdown() {
             <FaBars className="navbar-toggler-icon"/>
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav ms-auto me-4 mb-2 mb-lg-0 header-menu">
+            <ul className="navbar-nav ms-auto mb-2 mb-lg-0 header-menu">
               <li className="nav-item"> <Link className="nav-link" aria-current="page" href="/"> Home<span></span></Link> </li>
               {/* <li className="nav-item"> <Link className="nav-link" href="/blockchain-tools/"> Services<span></span>  </Link> </li> */}
               <BsNavDropdown />
