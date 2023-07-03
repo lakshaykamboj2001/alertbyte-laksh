@@ -5,10 +5,8 @@ export default class MyDocument extends Document {
       <Html lang="en">
         <Head />
         <body className='wn-body'>
-          
           <Main />
           <NextScript />
-
         </body>
       </Html>
     );

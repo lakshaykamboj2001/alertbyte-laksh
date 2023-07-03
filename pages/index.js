@@ -6,7 +6,7 @@ import Bugs from './components/home/bug'
 import Choose from './components/home/choose'
 import Twiter from './components/home/twiter'
 import Blog from './components/home/blog'
-
+import Newsletter from './components/newsletter'
 
 
 
@@ -34,6 +34,7 @@ export default function Home() {
     <Choose/>
     <Twiter/>
     <Blog/>
+    <Newsletter/>
     </main>
     </>
   )

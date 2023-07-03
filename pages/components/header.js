@@ -1,4 +1,5 @@
 import { FaBars, FaTimes, FaMinus } from 'react-icons/fa';
+import { LiaTimesSolid } from 'react-icons/lia';
 import Link from 'next/link';
 import React, { useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
@@ -7,6 +8,7 @@ import { useRouter } from 'next/router';
 import LoginForm from './loginForm';
 import { useMoralis, useMoralisCloudFunction  } from "react-moralis";
 import Image from 'next/image';
+import Accordion from 'react-bootstrap/Accordion';
 
 
 async function addPolygonTestnetNetwork() {
@@ -45,6 +47,26 @@ async function addPolygonTestnetNetwork() {
   }
 }
 
+  const MobAuditModal = () => {
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+    return (
+      <>
+      <div className="btn-div">
+        <Button className="btn btn-fill btn-outline ex-port-lg" onClick={handleShow}> Request Audit </Button>
+      </div>
+        <Modal show={show} onHide={handleClose} centered className="req-audit-modal">
+          <Button className="ram-close" onClick={handleClose}> <FaTimes /> </Button>
+          <Modal.Body>
+            <ContactForm />
+          </Modal.Body>
+        </Modal>
+      </>
+    );
+  };
+
 
 function BsNavDropdown() {
   useEffect(() => {
@@ -65,9 +87,9 @@ function BsNavDropdown() {
       dropdownToggle.addEventListener('click', () => {
         mobileMenu.style.transform='translateX(0)';
       });
-      // mmClose.addEventListener('click', () => {
-      //   mobileMenu.style.transform='translateX(100%)';
-      // });
+      mmClose.addEventListener('click', () => {
+        mobileMenu.style.transform='translateX(100%)';
+      });
     }
   }, []);
   return (
@@ -186,6 +208,24 @@ const handleLogout = async () => {
   // router.reload(window.location.pathname);
 };
 
+// useEffect(() => {
+//   const handleAccountsChanged = (accounts) => {
+//     if (accounts.length === 0) {
+//       alert('User canceled the request');
+//       // Perform additional actions or handle the cancellation as needed
+//     } else {
+//       // User approved the request, handle the returned accounts
+//       console.log(accounts);
+//     }
+//   };
+
+//   ethereum.on('accountsChanged', handleAccountsChanged);
+
+//   return () => {
+//     ethereum.off('accountsChanged', handleAccountsChanged);
+//   };
+// }, []);
+
 // ===============================================================================================================
 
 
@@ -211,7 +251,6 @@ const handleLogout = async () => {
     <>
     <header className="container">
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
-        <div className="container-fluid">
           <a className="navbar-brand" href="/">
             <img src="/global/alert-byte-logo.png" alt="" />
           </a>
@@ -233,6 +272,8 @@ const handleLogout = async () => {
               <li className="nav-item"> <Link className="nav-link" href="/contact-us/"> Contact Us<span></span> </Link> </li>
               <li className="nav-item"> <Link className="nav-link" href="/portfolio/"> Resources<span></span> </Link> </li>
             </ul>
+
+            
             {isAuthenticated && user ? (
               <>
               <div className="ln-user">
@@ -250,9 +291,9 @@ const handleLogout = async () => {
                     </div>
                   </div>
                   <ul className='profile-ul'>
-                    <li>My Alerts</li>
-                    <li>Settings</li>
-                    <li onClick={() => handleLogout()}>Logout</li>
+                    <li><Link href='/'>My Alerts</Link></li>
+                    <li><Link href='/settings'>Settings</Link></li>
+                    <li><Link href='/' onClick={() => handleLogout()}>Logout</Link></li>
                   </ul>
                 </div>
               </div>
@@ -286,11 +327,42 @@ const handleLogout = async () => {
               <Button className="btn btn-emp" onClick={() => metamaskLogin()} >Connect Wallet</Button>
             </div>
             )}
-
-            
-
           </div>
-        </div>
+
+           {/* ==========mobile========== */}
+          <div className="faq mobile-menu ">
+            <div className="logo-close">
+              <a className="navbar-brand" href="/"> <img src="/global/alert-byte-logo.png" alt="" /> </a>
+              <div className="mobile-menu-close"> <LiaTimesSolid/></div>
+            </div>
+            <ul className="navbar-nav">
+                <li className="nav-item mm-link"> <Link className="nav-link" href="/" > Home </Link> </li>
+                <li className="nav-item ">
+                  <Accordion flush className="nav-link"  activeKey={activeKey} onSelect={(key) => setActiveKey(key)} > 
+                      <Accordion.Item eventKey="1">
+                      <Link className='mm-link' href="/services/"  >Services</Link>
+                      <Accordion.Header><div className='acc-icn' ><FaMinus className='faq-mns'/><FaMinus /></div></Accordion.Header>
+                      <Accordion.Body>
+                        <ul>
+                          <li className="nav-item mm-link"><Link className="nav-link" href="/">Personal Monitor</Link></li>
+                          <li className="nav-item mm-link"><Link className="nav-link" href="/"> Community Monitor </Link></li>
+                          <li className="nav-item mm-link"><Link className="nav-link" href="/">Search Crypto </Link></li>
+                          <li className="nav-item mm-link"><Link className="nav-link" href="/">Wallet Check</Link></li>
+                          <li className="nav-item mm-link"><Link className="nav-link" href="/">NFT Checker</Link></li>
+                          <li className="nav-item mm-link"><Link className="nav-link" href="/">NFT Details</Link></li>
+                        </ul>
+                      </Accordion.Body>
+                      </Accordion.Item>
+                    </Accordion>
+                </li>
+                <li className="nav-item mm-link"> <Link className="nav-link" href="/contact-us/"> Contact Us </Link> </li>
+                <li className="nav-item mm-link"> <Link className="nav-link" href="/contact-us/"> Resources </Link> </li>
+
+              </ul>
+              <div className="btn-div">
+                <button className="btn btn-fill " type="button">Login</button>
+              </div>
+          </div>
       </nav>
     </header>
     </>
