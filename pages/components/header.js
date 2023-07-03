@@ -120,15 +120,20 @@ const {
 const [authwithemail, setauthwithemail] = useState(false);
 const [usermainId, setusermainId] = useState("");
 const [mail,setmail]=useState("")
+const [name,setname]=useState("")
+
 const [emailError, setEmailError] = useState(false);
 const router = useRouter();
 
 const [show, setShow] = useState(false);  
 
-const handleClose = () => setShow(false);
+const handleClose = () => {
+  setShow(false);
+};
 const handleShow = () => setShow(true);
 
-
+const [showInput, setShowInput] = useState(false);
+const [lnCnt , setLnCnt] = useState(false);
 
 const metamaskLogin = async () => {
   await addPolygonTestnetNetwork();
@@ -204,9 +209,13 @@ useEffect(() => {
 const handleLogout = async () => {
   // if (router.pathname !== "/") router.push("/", undefined, { shallow: true });
   await logout();
-  if (router.pathname !== "/") router.push("/", undefined, { shallow: true });
+  // if (router.pathname !== "/") router.push("/", undefined, { shallow: true });
   // router.reload(window.location.pathname);
+  router.push('/')
 };
+
+
+
 
 // useEffect(() => {
 //   const handleAccountsChanged = (accounts) => {
@@ -226,7 +235,8 @@ const handleLogout = async () => {
 //   };
 // }, []);
 
-// ===============================================================================================================
+
+//===============================================================================================================
 
 
   // Listen for page navigation events and close the Accordion
@@ -245,7 +255,10 @@ const handleLogout = async () => {
   }, [router]);
   
 
-
+  const toggleInput = () => {
+    setShowInput(true);
+    // setEmailError(false);
+  };
 
   return (
     <>
@@ -302,28 +315,107 @@ const handleLogout = async () => {
             ) :(
               <div className="header-butns">
               <Button className="btn btn-emp" onClick={handleShow}>Login <span></span></Button>
+
               {/* modal start */}
                 <Modal show={show} onHide={handleClose} centered className="login-modal">
                   <Button className="ram-close" onClick={handleClose}> <FaTimes /> </Button>
                   <Modal.Body>
                     <div className="md-cnt">
-                      <p className="intr-p">New to AlertBytes?<span> Sign Up</span></p>
+                      {lnCnt ? (
+                        <p onClick={()=>{setLnCnt(false)}} className="intr-p">Already Have An Account?<span> Login</span></p>
+                        ) :(
+                          <p onClick={()=>{setLnCnt(true)}} className="intr-p">New to AlertBytes?<span> Sign Up</span></p>
+                        )
+                      }
+                      
                       <div className="img-div id-icon">
                         <Image src="/global/user-icn.png" width={145} height={145} alt="" />
                       </div>
-                      <h2 className="mdl-title">Login</h2>
-                      <p className="sub-txt">Get a magic link sent to your email that'll sign you in instantly</p>
-                      <input type="email" name="login-email" value={mail} onChange={(e)=>{setmail(e.target.value)}}  id="login-email" placeholder='Enter Email' isInvalid={emailError}></input>
-                      <div className="mdl-butns">
-                      <Button className="btn btn-fill" onClick={emaillogin}>Send Magic Link</Button>
-                        <span>OR</span>
-                      <Button className="btn btn-fill" onClick={() => metamaskLogin()}>Connect Wallet</Button>
+                      {lnCnt ? (
+                        <h2 className="mdl-title">Sign Up</h2>
+                        ) :(
+                          <h2 className="mdl-title">Login</h2>
+                        )
+                      }
+
+                      { lnCnt ? (
+                        <>
+                          <div className="sign-up-ip">
+                            <input
+                              type="text" name="login-name" value={name} onChange={(e) => setname(e.target.value)} id="login-name" placeholder="Enter Name"  />
+                            <input
+                              type="email" placeholder="Enter Email" isInvalid={emailError}
+                            />
+                          </div>
+                        </>
+                      ):(
+                        <>
+                          <p className="sub-txt">Get a magic link sent to your email that'll sign you in instantly</p>
+                        </>
+                      )}
+
+                      <div>
+
+                        {lnCnt ? (
+                          <>
+                            <div className="mdl-butns">
+                            <Button className="btn btn-fill" onClick={()=>{console.log(name)}}>
+                              Submit
+                            </Button>
+                            <span>OR</span>
+                            <Button className="btn btn-fill" onClick={metamaskLogin}>
+                              Connect Wallet
+                            </Button>
+                            </div>
+                          </>
+                          ) :(
+                            <>
+                              {showInput ? (
+                                <input
+                                  type="email"
+                                  name="login-email"
+                                  value={mail}
+                                  onChange={(e) => setmail(e.target.value)}
+                                  id="login-email"
+                                  placeholder="Enter Email"
+                                  isInvalid={emailError}
+                                />
+                              ) : (
+                                <div className="mdl-butns">
+                                  <Button className="btn btn-fill" onClick={toggleInput}>
+                                    Send Magic Link
+                                  </Button>
+                                  <span>OR</span>
+                                  <Button className="btn btn-fill" onClick={metamaskLogin}>
+                                    Connect Wallet
+                                  </Button>
+                                </div>
+                              )}
+                              {showInput && (
+                                <div className="mdl-butns">
+                                  <Button className="btn btn-fill" onClick={emaillogin}>
+                                    Send Magic Link
+                                  </Button>
+                                  <span>OR</span>
+                                  <Button className="btn btn-fill" onClick={metamaskLogin}>
+                                    Connect Wallet
+                                  </Button>
+                                </div>
+                              )}
+                            </>
+                          )
+                        }
+                        
+
+
                       </div>
+                      
                       <p className="tos-txt">By continuing, you agree to AlertBytes<span>Terms of Service, Privacy Policy</span></p>
                     </div>
                   </Modal.Body>
                 </Modal>
                 {/* modal end */}
+
               <Button className="btn btn-emp" onClick={() => metamaskLogin()} >Connect Wallet</Button>
             </div>
             )}

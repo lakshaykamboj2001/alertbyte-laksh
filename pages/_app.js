@@ -7,8 +7,8 @@ import { MoralisProvider } from "react-moralis";
 import StatusContext from '../store/status-context';
 
 export default function App({ Component, pageProps }) {
-  const MORALIS_APP_ID = "nq6WDIQNEJh41oin0DQGUiOa2u4iR23xRMcJMPWN";
-  const MORALIS_SERVER_URL = "https://wjyaponarwtp.grandmoralis.com:2053/server";
+  const MORALIS_APP_ID = "IQYq9tbIpBBRcnh0bNnMoDUeXTgd20POBtbvmnb9";
+  const MORALIS_SERVER_URL = "https://qivfsortzjjk.grandmoralis.com:2053/server";
   const [error, setError] = useState({
     title: "",
     message: "",
@@ -26,7 +26,7 @@ export default function App({ Component, pageProps }) {
      <Component {...pageProps} />
      <Footer /> 
      </StatusContext.Provider>
-     </MoralisProvider>
+     </MoralisProvider>API
      {/* <Layout/> */}
     </>
   )

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from 'next/image';
 import { useMoralis, useMoralisCloudFunction  } from "react-moralis";
 import { useRouter } from "next/router";
@@ -19,7 +19,7 @@ const LoginForm = () => {
   const [authwithemail, setauthwithemail] = useState(false);
   const [usermainId, setusermainId] = useState("");
 
-
+  
   const router = useRouter();
 
   const [emailError, setEmailError] = useState(false);
@@ -60,7 +60,7 @@ const LoginForm = () => {
       }
     }
   }
-  
+
   const metamaskLogin = async () => {
     await addPolygonTestnetNetwork();
     await authenticate({ signingMessage: "AlertBytes Authentication" })

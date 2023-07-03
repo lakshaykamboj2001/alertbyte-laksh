@@ -254,16 +254,15 @@ ul.navbar-nav.header-menu.logged-in {
   width: 0;
   height: 55%;
 }
-/* ==modal=== */
+/* ======modal======= */
 .wn-body .modal-body{
-  
   border: 1px solid var(--neon);
   background: #201E21 0% 0% no-repeat padding-box;;
   border: 1px solid var(--neon);
   border-radius: 11px;
   text-align: center;
   padding: 30px;
-  /* min-height: 850px; */
+  min-height: 850px;
   box-shadow: var(--neon) 0px 0px 10px 0px;
 
 }
@@ -303,6 +302,7 @@ ul.navbar-nav.header-menu.logged-in {
 .intr-p{
   font-size: 18px;
   font-weight: 300;
+  cursor: pointer;
 }
 .intr-p span{
   font-weight: bold;
@@ -350,7 +350,8 @@ ul.navbar-nav.header-menu.logged-in {
   display: block;
   font-weight: bold;
 }
-.md-cnt input[type=email]{
+.md-cnt input[type=email],
+.md-cnt input[type=text]{
   background-color: var(--black);
   border-radius: 50px;
   min-width: 370px;
@@ -360,7 +361,15 @@ ul.navbar-nav.header-menu.logged-in {
   border: none;
   
 }
-.md-cnt input[type=email]:focus-visible {
+
+.sign-up-ip input[type=email],
+.sign-up-ip input[type=text]{
+  margin-top: 10px;
+}
+
+
+.md-cnt input[type=email]:focus-visible,
+.md-cnt input[type=text]:focus-visible {
   outline: none;
 }
 
