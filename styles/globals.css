@@ -59,8 +59,8 @@ gap: 50px;
   justify-content: center;
   align-items: center;
 }
-.wn-body .btn-emp:hover,
-.wn-body .btn-emp:active
+.wn-body .btn.btn-emp:hover,
+.wn-body .btn.btn-emp:active
 {
   color: var(--black);
   background-color: var(--neon);
