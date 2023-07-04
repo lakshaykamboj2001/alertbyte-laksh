@@ -12,17 +12,18 @@ export default function Footer() {
         
         <div className="main-foot">
           <div className="img-div">
-          <img src="/global/footer-logo.png" alt="" />
+          <Link href='/'><img src="/global/footer-logo.png" alt="" /></Link>
           </div>
           <div className="foot-links">
             <ul>
-              <li>Blogs</li>
-              <li>Docs</li>
-              <li>Pricing</li>
-              <li>Support</li>
-              <li>Privacy Policy</li>
-              <li>T&C</li>
-              <li>Disclaimer</li>
+             
+              <li><Link href='/'>Blogs </Link></li>
+              <li><Link href='/'>Docs </Link></li>
+              <li><Link href='/'>Pricing </Link></li>
+              <li><Link href='/'>Support </Link></li>
+              <li><Link href='/'>Privacy Policy </Link></li>
+              <li><Link href='/'>T&C </Link></li>
+              <li><Link href='/'>Disclaimer </Link></li>
             </ul>
             <div className="foot-social">
             <h5 className="fs-title">Join Us:</h5>

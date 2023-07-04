@@ -7,6 +7,7 @@ import Choose from './components/home/choose'
 import Twiter from './components/home/twiter'
 import Blog from './components/home/blog'
 import Newsletter from './components/newsletter'
+import Footer from './components/footer'
 
 
 
@@ -35,6 +36,7 @@ export default function Home() {
     <Twiter/>
     <Blog/>
     <Newsletter/>
+    <Footer /> 
     </main>
     </>
   )

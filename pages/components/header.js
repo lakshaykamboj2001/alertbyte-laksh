@@ -47,25 +47,25 @@ async function addPolygonTestnetNetwork() {
   }
 }
 
-  const MobAuditModal = () => {
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+  // const MobAuditModal = () => {
+  //   const [show, setShow] = useState(false);
+  //   const handleClose = () => setShow(false);
+  //   const handleShow = () => setShow(true);
 
-    return (
-      <>
-      <div className="btn-div">
-        <Button className="btn btn-fill btn-outline ex-port-lg" onClick={handleShow}> Request Audit </Button>
-      </div>
-        <Modal show={show} onHide={handleClose} centered className="req-audit-modal">
-          <Button className="ram-close" onClick={handleClose}> <FaTimes /> </Button>
-          <Modal.Body>
-            <ContactForm />
-          </Modal.Body>
-        </Modal>
-      </>
-    );
-  };
+  //   return (
+  //     <>
+  //     <div className="btn-div">
+  //       <Button className="btn btn-fill btn-outline ex-port-lg" onClick={handleShow}> Request Audit </Button>
+  //     </div>
+  //       <Modal show={show} onHide={handleClose} centered className="req-audit-modal">
+  //         <Button className="ram-close" onClick={handleClose}> <FaTimes /> </Button>
+  //         <Modal.Body>
+  //           <ContactForm />
+  //         </Modal.Body>
+  //       </Modal>
+  //     </>
+  //   );
+  // };
 
 
 function BsNavDropdown() {
@@ -105,146 +105,19 @@ function BsNavDropdown() {
  function Header() {
   
   const [activeKey, setActiveKey] = useState('');
-  const [activeKeytwo, setActiveKeytwo] = useState('');
-  const [activeKeythree, setActiveKeythree] = useState('');
-// ===============================================================================================================
-const {
-  isAuthenticated,
-  authenticate,
-  logout,
-  user,
-  setUserData,
-  refetchUserData,
-} = useMoralis();
 
-const [authwithemail, setauthwithemail] = useState(false);
-const [usermainId, setusermainId] = useState("");
-const [mail,setmail]=useState("")
-const [name,setname]=useState("")
-
-const [emailError, setEmailError] = useState(false);
-const router = useRouter();
-
-const [show, setShow] = useState(false);  
-
-const handleClose = () => {
-  setShow(false);
-};
-const handleShow = () => setShow(true);
-
-const [showInput, setShowInput] = useState(false);
-const [lnCnt , setLnCnt] = useState(false);
-
-const metamaskLogin = async () => {
-  await addPolygonTestnetNetwork();
-  await authenticate({ signingMessage: "AlertBytes Authentication" })
-    .then(function (user) {
-      // Do something if user is logged in
-    })
-    .catch(function (error) {
-      console.log("Metamask authentication error:", error);
-    });
-};  
-
-
-const emaillogin = async () => {
-  if (validateEmail(mail)) {
-    setEmailError(false); 
-
-    await authenticate({
-      provider: "magicLink",
-      email: mail,
-      apiKey: "pk_live_B0A4A365CE0E89A5",
-      network: "mainnet",
-    })
-      .then(function (user) {
-        console.log(isAuthenticated, "auth or not");
-        setauthwithemail(true);
-        setusermainId(user.id); 
-        console.log(user)
-        
-      })
-      .catch(function (error) {
-        console.log("Metamask authentication error:", error);
-      });
-  } else {
-    setEmailError(true);
-  }
-}
-const validateEmail = (email) => {                        
-  const re = /\S+@\S+\.\S+/;
-  return re.test(email);
-};
-
-
-
-
-
-const { fetch: verifyusermail } = useMoralisCloudFunction(
-  "verifyusermail",
-  { mainid: usermainId },
-  {
-    autoFetch: false,
-  }
-);
-
-useEffect(() => {
-  if (authwithemail) {
-    setUserData({
-      email: mail,
-    });
-    refetchUserData();
-    verifyusermail({
-      onSuccess: async (object) => {
-        console.log("Email Verified");
-      },
-      onError: (error) => {
-        console.log("Email verification Error:", error);
-      },
-    });
-    console.log("done with the new state set");
-  }
-}, [isAuthenticated]);
-
-const handleLogout = async () => {
-  // if (router.pathname !== "/") router.push("/", undefined, { shallow: true });
-  await logout();
-  // if (router.pathname !== "/") router.push("/", undefined, { shallow: true });
-  // router.reload(window.location.pathname);
-  router.push('/')
-};
-
-
-
-
-// useEffect(() => {
-//   const handleAccountsChanged = (accounts) => {
-//     if (accounts.length === 0) {
-//       alert('User canceled the request');
-//       // Perform additional actions or handle the cancellation as needed
-//     } else {
-//       // User approved the request, handle the returned accounts
-//       console.log(accounts);
-//     }
-//   };
-
-//   ethereum.on('accountsChanged', handleAccountsChanged);
-
-//   return () => {
-//     ethereum.off('accountsChanged', handleAccountsChanged);
-//   };
-// }, []);
-
-
-//===============================================================================================================
-
+  const router = useRouter();
+  // const [show, setShow] = useState(false); 
+  // const handleClose = () => {
+  //   setShow(false);
+  // };
+  
+  // const handleShow = () => setShow(true);
 
   // Listen for page navigation events and close the Accordion
   useEffect(() => {
     const handleRouteChange = () => { 
       setActiveKey('');
-      setActiveKeytwo('');
-      setActiveKeythree('');
     };
     
     router.events.on('routeChangeStart', handleRouteChange);
@@ -255,10 +128,7 @@ const handleLogout = async () => {
   }, [router]);
   
 
-  const toggleInput = () => {
-    setShowInput(true);
-    // setEmailError(false);
-  };
+  
 
   return (
     <>
@@ -279,15 +149,24 @@ const handleLogout = async () => {
             <FaBars className="navbar-toggler-icon"/>
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className={`navbar-nav ms-auto mb-2 mb-lg-0 header-menu ${isAuthenticated && user ? ' logged-in' : ''}`}>
+            {(router.pathname == "/") && 
+            <>
+             <ul className="navbar-nav ms-auto mb-2 mb-lg-0 header-menu">
               <li className="nav-item"> <Link className="nav-link" aria-current="page" href="/"> Home<span></span></Link> </li>
               <BsNavDropdown />
               <li className="nav-item"> <Link className="nav-link" href="/contact-us/"> Contact Us<span></span> </Link> </li>
               <li className="nav-item"> <Link className="nav-link" href="/portfolio/"> Resources<span></span> </Link> </li>
-            </ul>
+             </ul>
+             <div className="header-butns">
+              <Link className="btn btn-emp" target="_blank"  href='/signup'>SignUp <span></span></Link>
+             </div>  
+            </>
+            }
+           
 
-            
-            {isAuthenticated && user ? (
+
+          
+            {/* {isAuthenticated && user ? (
               <>
               <div className="ln-user">
                 <div className="img-div "> 
@@ -314,118 +193,19 @@ const handleLogout = async () => {
               </>
             ) :(
               <div className="header-butns">
-              <Button className="btn btn-emp" onClick={handleShow}>Login <span></span></Button>
-
-              {/* modal start */}
-                <Modal show={show} onHide={handleClose} centered className="login-modal">
-                  <Button className="ram-close" onClick={handleClose}> <FaTimes /> </Button>
-                  <Modal.Body>
-                    <div className="md-cnt">
-                      {lnCnt ? (
-                        <p onClick={()=>{setLnCnt(false)}} className="intr-p">Already Have An Account?<span> Login</span></p>
-                        ) :(
-                          <p onClick={()=>{setLnCnt(true)}} className="intr-p">New to AlertBytes?<span> Sign Up</span></p>
-                        )
-                      }
-                      
-                      <div className="img-div id-icon">
-                        <Image src="/global/user-icn.png" width={145} height={145} alt="" />
-                      </div>
-                      {lnCnt ? (
-                        <h2 className="mdl-title">Sign Up</h2>
-                        ) :(
-                          <h2 className="mdl-title">Login</h2>
-                        )
-                      }
-
-                      { lnCnt ? (
-                        <>
-                          <div className="sign-up-ip">
-                            <input
-                              type="text" name="login-name" value={name} onChange={(e) => setname(e.target.value)} id="login-name" placeholder="Enter Name"  />
-                            <input
-                              type="email" placeholder="Enter Email" isInvalid={emailError}
-                            />
-                          </div>
-                        </>
-                      ):(
-                        <>
-                          <p className="sub-txt">Get a magic link sent to your email that'll sign you in instantly</p>
-                        </>
-                      )}
-
-                      <div>
-
-                        {lnCnt ? (
-                          <>
-                            <div className="mdl-butns">
-                            <Button className="btn btn-fill" onClick={()=>{console.log(name)}}>
-                              Submit
-                            </Button>
-                            <span>OR</span>
-                            <Button className="btn btn-fill" onClick={metamaskLogin}>
-                              Connect Wallet
-                            </Button>
-                            </div>
-                          </>
-                          ) :(
-                            <>
-                              {showInput ? (
-                                <input
-                                  type="email"
-                                  name="login-email"
-                                  value={mail}
-                                  onChange={(e) => setmail(e.target.value)}
-                                  id="login-email"
-                                  placeholder="Enter Email"
-                                  isInvalid={emailError}
-                                />
-                              ) : (
-                                <div className="mdl-butns">
-                                  <Button className="btn btn-fill" onClick={toggleInput}>
-                                    Send Magic Link
-                                  </Button>
-                                  <span>OR</span>
-                                  <Button className="btn btn-fill" onClick={metamaskLogin}>
-                                    Connect Wallet
-                                  </Button>
-                                </div>
-                              )}
-                              {showInput && (
-                                <div className="mdl-butns">
-                                  <Button className="btn btn-fill" onClick={emaillogin}>
-                                    Send Magic Link
-                                  </Button>
-                                  <span>OR</span>
-                                  <Button className="btn btn-fill" onClick={metamaskLogin}>
-                                    Connect Wallet
-                                  </Button>
-                                </div>
-                              )}
-                            </>
-                          )
-                        }
-                        
+               <Link className="btn btn-emp" onClick={handleShow} href='/signup'>SignUp <span></span></Link>
+              </div>
+            )} */}
 
 
-                      </div>
-                      
-                      <p className="tos-txt">By continuing, you agree to AlertBytes<span>Terms of Service, Privacy Policy</span></p>
-                    </div>
-                  </Modal.Body>
-                </Modal>
-                {/* modal end */}
-
-              <Button className="btn btn-emp" onClick={() => metamaskLogin()} >Connect Wallet</Button>
-            </div>
-            )}
+             
           </div>
 
-           {/* ==========mobile========== */}
+         {/*============================mobile======================== */}
           <div className="faq mobile-menu ">
             <div className="logo-close">
               <a className="navbar-brand" href="/"> <img src="/global/alert-byte-logo.png" alt="" /> </a>
-              <div className="mobile-menu-close"> <LiaTimesSolid/></div>
+              <div className="mobile-menu-close" > <LiaTimesSolid/></div>
             </div>
             <ul className="navbar-nav">
                 <li className="nav-item mm-link"> <Link className="nav-link" href="/" > Home </Link> </li>
