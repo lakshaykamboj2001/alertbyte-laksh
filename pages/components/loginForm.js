@@ -103,7 +103,7 @@ const LoginForm = () => {
   };
 
   return (
-   <div className="md-cnt">
+   <div className="md-cnt t-center">
       <p className="intr-p">New to AlertBytes?<span> Sign Up</span></p>
       <div className="img-div id-icon">
         <Image src="/global/user-icn.png" width={145} height={145} alt="" />
@@ -111,7 +111,7 @@ const LoginForm = () => {
       <h2 className="mdl-title">Login</h2>
       <p className="sub-txt">Get a magic link sent to your email that'll sign you in instantly</p>
       <input type="email" name="login-email" value={mail} onChange={(e)=>{setmail(e.target.value)}}  id="login-email" placeholder='Enter Email' isInvalid={emailError}></input>
-      <div className="mdl-butns">
+      <div className="mdl-butns lg-butns">
        <Button className="btn btn-fill" onClick={GetData}>Send Magic Link</Button>
         <span>OR</span>
        <Button className="btn btn-fill" onClick={() => metamaskLogin()}>Connect Wallet</Button>

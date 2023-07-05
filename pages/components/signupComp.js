@@ -75,7 +75,7 @@ const metamaskLogin = async () => {
   await addPolygonTestnetNetwork();
   await authenticate({ signingMessage: "AlertBytes Authentication" })
     .then(function (user) {
-      router.push("/thank-you")
+      router.push("/more-details")
     })
     .catch(function (error) {
       console.log("Metamask authentication error:", error);
@@ -127,9 +127,9 @@ const emaillogin = async () => {
       router.push('/settings');
     } catch (error) {
       console.log('Email verification errorrr:', error);
-      // console.log(Moralis.User.requestEmailVerification())
+      // console.log(Moralis.User.requestEmailVerification)
     }
-  } else {
+  } else {  
     setEmailError(true);
   }
 };
@@ -189,7 +189,7 @@ const handleLogout = async () => {
     <>
       <div className="container">
  
-      <div className="md-cnt">
+      <div className="md-cnt t-center">
         {lnCnt ? (
           <p onClick={()=>{setLnCnt(false)}} className="intr-p">Already Have An Account?<span> Login</span></p>
           ) :(
@@ -222,7 +222,7 @@ const handleLogout = async () => {
         <div>
           {lnCnt ? (
             <>
-              <div className="mdl-butns">
+              <div className="mdl-butns lg-butns">
               <Button className="btn btn-fill" onClick={()=>{console.log("jo")}}>
                 Submit
               </Button>
@@ -244,7 +244,7 @@ const handleLogout = async () => {
                   isInvalid={emailError}
                 />
             
-                <div className="mdl-butns">
+                <div className="mdl-butns lg-butns">
                   <Button className="btn btn-fill" onClick={emaillogin}>
                     Send Magic Link
                   </Button>

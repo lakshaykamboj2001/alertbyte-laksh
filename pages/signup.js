@@ -11,7 +11,7 @@ export default function Home() {
  
   return (
     <>
-    <main className=" main-home">
+    <main className="main-signup">
      <Header />
      <SignUp/>
     </main>
