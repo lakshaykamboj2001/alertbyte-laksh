@@ -612,9 +612,11 @@ align-items: flex-start;
 .more-details .md-cnt input[type=text]{
  min-width: 440px;
  border: 2px solid var(--neon);
- margin: 80px 0 0 0;
+ 
 }
-
+.main-emailflow-div  input[type=text]{
+  margin: 80px 0 0 0;
+}
 
 
 .tele-email {
@@ -670,6 +672,86 @@ margin-top: 50px;
   display: flex;
   flex-direction: column;
   gap: 45px;
+}
+/* ===========telegram flow========== */
+
+.main-step-div {
+  width: 100%;
+  max-width: 757px;
+  margin: 0 auto;
+}
+.line {
+  display: flex;
+  align-items: center;
+  margin: 55px 8px 3px 12px;
+}
+.line span {
+  border-bottom: 1px solid gray;
+  width: calc(50% - 20px);
+}
+
+.point {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex: 0 0 10px;
+  background-color: pink;
+  transition: background-color 0.3s ease;
+}
+
+.completed {
+  background-color:var(--neon);
+}
+
+.step-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.wn-body .step-text {
+  font-size: 14px;
+  color: pink;
+  transition: color 0.3s ease;
+}
+
+.step-text.completed {
+  color:var(--neon);
+  background: transparent;
+}
+
+.step-color{
+  color: none;
+}
+.wn-body .teleflow-fs {
+  font-size: 25px;
+}
+.link-text {
+  color: #0d6efd;
+}
+.wn-body .text-underline{
+  text-decoration: underline;
+  cursor:pointer
+}
+.resend-div
+{
+  font-size: 18px;
+  margin-top: 35px;
+}
+
+.code-input-div > input {
+  min-width: unset !important;
+  width: 55px;
+  height: 55px;
+  border-radius: 10px !important;
+  flex: 0 0 40px;
+  padding: 0 0 0 21px !important;
+  border: 2px solid #0b8e7a !important;
+}
+.code-input-div {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
 }
 
 
@@ -930,8 +1012,5 @@ margin-top: 50px;
   max-width: 1388px;
   }
 }
-
-
-
 
 

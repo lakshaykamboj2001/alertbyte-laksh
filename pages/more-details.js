@@ -1,14 +1,21 @@
 import React, { useState } from 'react';
 import Header from './components/header';
 import EmailFlow from './components/more-details/email-flow';
+import TeleFlow from './components/more-details/tele-flow';
+
 
 export default function Home() {
   const [name, setName] = useState('');
   const [showtelemail, setShowtelemail] = useState(true);
   const [showEmailFlow, setShowEmailFlow] = useState(false);
+  const [showteleFlow, setShowteleFlow] = useState(false);
+
   const[hidetitle ,sethidetitle] = useState(true)
 
-
+  const teleFlow = () => {
+    setShowteleFlow(true);
+    setShowtelemail(false);
+  };
   const emailFlow = () => {
     setShowEmailFlow(true);
     setShowtelemail(false);
@@ -35,8 +42,6 @@ export default function Home() {
               <p className="md-sub-head">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam quis convallis nulla.</p>
              </>
             }
-
-
             {showtelemail && (
               <>
                 <input
@@ -52,7 +57,7 @@ export default function Home() {
                     How Can We Talk?<span>*</span>
                   </p>
                   <div className="tele-email">
-                    <div className="opts">
+                    <div className="opts" onClick={teleFlow}>
                       <span></span>Telegram
                     </div>
                     <div className="opts" onClick={emailFlow}>
@@ -62,7 +67,7 @@ export default function Home() {
                 </div>
               </>
             )}
-
+            {showteleFlow && <TeleFlow />}
             {showEmailFlow && <EmailFlow onGoBack={handleGoBack} onhidetitle = {handlehidetitle}/>}
           </div>
         </div>

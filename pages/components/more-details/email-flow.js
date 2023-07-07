@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
+import Moralis from 'moralis';
 
 const EmailFlow = ({ onGoBack,onhidetitle }) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [mail, setMail] = useState('');
   const [emailError, setEmailError] = useState(false);
 
-  const handleNext = () => {
-    setCurrentStep(currentStep + 1);
-  };
+ 
   const handlePrevious = () => {
     setCurrentStep(currentStep - 1);
   };
@@ -24,21 +23,21 @@ const emaillogin = async () => {
    
     setCurrentStep(currentStep + 1);
    
-    // try {
-    //   // Send magic link to the user's email
-    //   const magicLink = await Moralis.User.requestEmailVerification(mail);
-    //   console.log('Magic link sent:', magicLink);
+  //   try {
+  //     // Send magic link to the user's email
+  //     const magicLink = await Moralis.User.requestEmailVerification(mail);
+  //     console.log('Magic link sent:', magicLink);
 
-    //   // Authenticate the user with Moralis
-    //   const user = await Moralis.User.logInWithMagicLink(mail);
-    //   console.log('User authenticated:', user);
+  //     // Authenticate the user with Moralis
+  //     const user = await Moralis.User.logInWithMagicLink(mail);
+  //     console.log('User authenticated:', user);
 
-    //   // Perform necessary actions after successful verification
-    //   setCurrentStep(currentStep + 1);
-    // } catch (error) {
-    //   console.log('Email verification errorrr:', error);
-    //   // console.log(Moralis.User.requestEmailVerification)
-    // }
+  //     // Perform necessary actions after successful verification
+  //     setCurrentStep(currentStep + 1);
+  //   } catch (error) {
+  //     console.log('Email verification errorrr:', error);
+  //     // console.log(Moralis.User.requestEmailVerification)
+  //   }
   } else {  
     setEmailError(true);
   }
@@ -47,6 +46,7 @@ const emaillogin = async () => {
 const emailloginwithhide = async () => {
   if (validateEmail(mail)) {
     setEmailError(false);
+    console.log("first rend")
     onhidetitle()
     setCurrentStep(currentStep + 1);
    
@@ -76,7 +76,7 @@ const validateEmail = (email) => {
   return re.test(email);
 };
 
-
+  
   const flow = () => {
     switch (currentStep) {
       case 1:
@@ -126,7 +126,7 @@ const validateEmail = (email) => {
                 <h2 className="mdl-title">Go Check Your Email!</h2>
               </div>
               <div className="btn-div lg-butns align-lg-butns">
-                <button className='btn btn-fill' onClick={emailloginwithhide}>Resend Verification Email</button>
+                <button className='btn btn-fill' onClick={()=>{console.log("clicked")}}>Resend Verification Email</button>
                 <button className='btn btn-emp' onClick={handlePrevious}>Go Back</button>
               </div>
             </div>
@@ -139,7 +139,9 @@ const validateEmail = (email) => {
 
   return (
     <>
+    <div className="main-emailflow-div">
       {flow()}
+    </div>
     </>
   );
 };
