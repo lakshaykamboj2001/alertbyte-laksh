@@ -26,7 +26,6 @@ export default async function handler(req, res) {
       const chatId = data.result.id;
       console.log(`Chat ID for ${username}: ${chatId}`);
 
-      // Send the verification code to the user's Telegram chat
       const verificationCode = generateVerificationCode();
 
       await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {

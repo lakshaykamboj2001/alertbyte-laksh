@@ -60,6 +60,8 @@ const signupComp = () => {
 const [authwithemail, setauthwithemail] = useState(false);
 const [usermainId, setusermainId] = useState("");
 const [mail,setmail]=useState("")
+const [signupmail,setsignupmail]=useState("")
+
 
 
 const [emailError, setEmailError] = useState(false);
@@ -108,26 +110,65 @@ const metamaskLogin = async () => {
 //   }
 // }
 
-const emaillogin = async () => {
-  if (validateEmail(mail)) {
+
+
+
+// const emaillogin = async () => {
+//   if (validateEmail(mail)) {
+//     setEmailError(false);
+
+//     try {
+//       // Create a new user object
+//       const user = new Moralis.User();
+//       user.setUsername(mail); // Set the email as the username
+//       user.setEmail(mail);
+//       user.setPassword('xs'); // Set a temporary password
+
+//       await user.signUp();
+
+//       // Send verification email
+//       await Moralis.User.requestEmailVerification(mail);
+//       console.log('Verification email sent.');
+
+//       // Perform necessary actions after successful verification
+//       setauthwithemail(true);
+//       setusermainId(user.id);
+//       router.push('/settings');
+//     } catch (error) {
+//       console.log('Email verification error:', error);
+//     }
+//   } else {  
+//     setEmailError(true);
+//   }
+// };
+
+const emailsign = async () => {
+  if (validateSEmail(signupmail)) {
     setEmailError(false);
 
     try {
-      // Send magic link to the user's email
-      const magicLink = await Moralis.User.requestEmailVerification(mail);
-      console.log('Magic link sent:', magicLink);
+      // Generate a random password
+      const password = '1234';
 
-      // Authenticate the user with Moralis
-      const user = await Moralis.User.logInWithMagicLink(mail);
-      console.log('User authenticated:', user);
+      // Create a new user object
+      const user = new Moralis.User();
+      user.setUsername(signupmail); // Set the email as the username
+      user.setEmail(signupmail);
+      user.setPassword(password); // Set the random password
 
-      // Perform necessary actions after successful verification
+      await user.signUp();
+
+      // Send verification email
+      await Moralis.User.requestEmailVerification(signupmail, { setEmailVerified: true });
+      console.log('Verification email sent.');
+
+      // Perform necessary actions after successful verification  
       setauthwithemail(true);
       setusermainId(user.id);
-      router.push('/settings');
+      // Redirect the user to a page with instructions to check their email
+      router.push('/check-email');
     } catch (error) {
-      console.log('Email verification errorrr:', error);
-      // console.log(Moralis.User.requestEmailVerification)
+      console.log('Email verification error:', error);
     }
   } else {  
     setEmailError(true);
@@ -140,6 +181,35 @@ const validateEmail = (email) => {
   const re = /\S+@\S+\.\S+/;
   return re.test(email);
 };
+const validateSEmail = (signupemail) => {                        
+  const re = /\S+@\S+\.\S+/;
+  return re.test(signupemail);
+};
+
+// login
+
+const loginWithEmail = async (email) => {
+  try {
+    // Log in with empty username and password
+    await Moralis.User.logIn('', '', { email });
+
+    // Send verification email
+    await Moralis.User.requestEmailVerification(email);
+    console.log('Verification email sent.');
+
+    // Redirect the user to a page with instructions to check their email
+    router.push('/check-email');
+  } catch (error) {
+    if (error.code === Moralis.Error.OBJECT_NOT_FOUND) {
+      console.log('No user found with the specified email.');
+      // Handle the case when no user is found with the specified email
+    } else {
+      console.log('Error sending verification email:', error);
+      // Handle other errors appropriately
+    }
+  }
+};
+
 
 
 
@@ -181,7 +251,28 @@ const handleLogout = async () => {
 
 };
 
-
+// delete
+const deleteUser = async () => {
+  const currentUser = Moralis.User.current();
+  
+  if (currentUser) {
+    try {
+      // Delete the user
+      await currentUser.destroy();
+      console.log('User deleted successfully.');
+      
+      // Perform any necessary actions after user deletion
+      // For example, redirect to a login page or display a success message
+      
+    } catch (error) {
+      console.log('Error deleting user:', error);
+      // Handle the error appropriately
+    }
+  } else {
+    console.log('No user is currently logged in.');
+    // Handle the case when no user is logged in
+  }
+};
 
 //===============================================================================================================
 
@@ -210,7 +301,15 @@ const handleLogout = async () => {
         { lnCnt ? (
           <>
             <div className="sign-up-ip">
-              <input type="email" placeholder="Enter Email" isInvalid={emailError} />
+            <input
+                  type="email"
+                  name="signup-email"
+                  value={signupmail}
+                  onChange={(e) => setsignupmail(e.target.value)}
+                  id="signup-email"
+                  placeholder="Enter Email"
+                  isInvalid={emailError}
+                />
             </div>
           </>
         ):(
@@ -223,7 +322,7 @@ const handleLogout = async () => {
           {lnCnt ? (
             <>
               <div className="mdl-butns lg-butns">
-              <Button className="btn btn-fill" onClick={()=>{console.log("jo")}}>
+              <Button className="btn btn-fill" onClick={emailsign}>
                 Submit
               </Button>
               <span>OR</span>
@@ -245,7 +344,7 @@ const handleLogout = async () => {
                 />
             
                 <div className="mdl-butns lg-butns">
-                  <Button className="btn btn-fill" onClick={emaillogin}>
+                  <Button className="btn btn-fill" onClick={loginWithEmail}>
                     Send Magic Link
                   </Button>
                   <span>OR</span>

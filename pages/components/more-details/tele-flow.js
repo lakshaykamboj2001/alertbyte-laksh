@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import React, { useState } from 'react';
-import axios from 'axios';
 
 const TeleFlow = () => {
   const [currentStep, setCurrentStep] = useState(1);
