@@ -1,11 +1,19 @@
 import Link from 'next/link';
-import React, { useState } from 'react';
+import { useState, useEffect, useContext, useRef, useCallback } from "react";
+import StatusContext from '/home/webninjaz-developer/Desktop/new/store/status-context';
+import Moralis from "moralis";
+import { useMoralis, useMoralisCloudFunction  } from "react-moralis";
+import { Router } from 'next/router';
 
 const TeleFlow = () => {
+  const [error, success, setSuccess, setError] = useContext(StatusContext);
+  const { user, setUserData, Moralis, refetchUserData } = useMoralis();
   const [currentStep, setCurrentStep] = useState(1);
   const [telegram, setTelegram] = useState("");
   const [code, setCode] = useState(['', '', '', '', '', '']);
+  const ipcode = code.join('');
 
+  const router = useRouter();
   const handleCodeChange = (index, event) => {
     const value = event.target.value;
     const updatedCode = [...code];
@@ -14,50 +22,230 @@ const TeleFlow = () => {
   };
 
 // =========================
+const randomString = () => Math.random().toString(36).substr(2, 9);
 
-const CodeSent = async () => {
-  
-  try {
-    await fetch('/api/telegramVerification', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify( telegram ),
-    });
-    // Success, handle the next steps (e.g., show a verification code input field)
-    console.log("code sent to this username",telegram)
-  } catch (error) {
-    console.error('Error submitting form:', error);
-    if (error.response) {
-      console.log('Telegram API error:', error.response.data);
+const useStateWithCallbackLazy = (initialValue) => {
+  const callbackRef = useRef(null);
+  const [state, setState] = useState({
+    value: initialValue,
+    revision: randomString(),
+  });
+
+  /**
+   *  useEffect() hook is not called when setState() method is invoked with same value(as the current one)
+   *  Hence as a workaround, another state variable is used to manually retrigger the callback
+   *  Note: This is useful when your callback is resolving a promise or something and you have to call it after the state update(even if UI stays the same)
+   */
+  useEffect(() => {
+    if (callbackRef.current) {
+      callbackRef.current(state.value);
+
+      callbackRef.current = null;
     }
-    // Handle the error accordingly
+  }, [state.revision, state.value]);
+
+  const setValueWithCallback = useCallback((newValue, callback) => {
+    callbackRef.current = callback;
+
+    return setState({
+      value: newValue,
+      // Note: even if newValue is same as the previous value, this random string will re-trigger useEffect()
+      // This is intentional
+      revision: randomString(),
+    });
+  }, []);
+
+  return [state.value, setValueWithCallback];
+};
+
+const [OTP, setOTP] = useState("");
+const [tempchatid, settempchatid] = useStateWithCallbackLazy(0);
+const [EnteredOTP, setEnteredOTP] = useState(null);
+const generateOTP = (length) => {
+  const characters =
+    "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const characterCount = characters.length;
+  let OTPvalue = "";
+  for (let i = 0; i < length; i++) {
+    OTPvalue += characters[Math.floor(Math.random() * characterCount)];
   }
-  
-  
+  setOTP(OTPvalue);
+  return OTPvalue;
 };
 
 
 
 
+const Verifytelegram = async () => {
+  await fetch(
+    "https://api.telegram.org/bot5364673291:AAG-0SnlHvx4ozL5d2APGvTYpQ9-gi-3W-I/getUpdates"
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data.result);
+      // handleSave();
+
+      let telegramiddata = data.result.filter(
+        (messageBlock) =>
+          // if (messageBlock.message.chat.username) {
+          messageBlock.message.chat.username === telegram
+        // }
+      );
+      console.log(JSON.stringify(telegramiddata), "tele");
+
+      if (telegramiddata.length === 0) {
+        alert("Your Telegram Username is Not verified");
+      } else {
+        settempchatid(telegramiddata[0].message.chat.id, () => {
+          VerifyTeleOTP(telegramiddata[0].message.chat.id);
+        });
+      }
+      setCurrentStep(currentStep + 1);
+
+    })
+    .catch((error) => {
+      // Show the error message somewhere
+      alert("Error: " + error.code + " " + error.message);
+    });
+};
+
+
+const VerifyTeleOTP = async (_chat_id_) => {
+  const telegram_bot_id = "5364673291:AAG-0SnlHvx4ozL5d2APGvTYpQ9-gi-3W-I";
+  let message =
+    "Note: " +
+    "This Message is for your Telegram Verification with AlertBytes." +
+    "\n\n" +
+    generateOTP(6) +
+    "\n\n" +
+    "Please Don't share your OTP with anyone for security purposes !";
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "cache-control": "no-cache",
+    },
+    body: JSON.stringify({ chat_id: _chat_id_ * 1, text: message }),
+  };
+  fetch(
+    "https://api.telegram.org/bot" + telegram_bot_id + "/sendMessage",
+    requestOptions
+  )
+    .then((data) => {
+      console.log(_chat_id_ + "and" + OTP);
+
+      // setshowOTPInput(true);
+
+      setSuccess((prevState) => ({
+        ...prevState,
+        title: "Verification OTP sent",
+        message:
+          "An OTP is sent to your registered Telegram . Please verify your username.",
+        showSuccessBox: true,
+      }));
+    })
+    .catch((error) => {
+      alert("Error: " + error.code + " " + error.message);
+    });
+};
+
+
+
+
+const handleSave = async (needid) => {  
+  // setshowOTPInput(false);
+
+  // setEnteredOTP();
+
+  setCode(['', '', '', '', '', '']);
+  let chatid = needid.toString();
+
+
+  setUserData({
+    telegram: telegram === "" ? undefined : telegram,
+    chat_id: chatid === "" ? undefined : chatid,
+  });
+  setSuccess((prevState) => ({
+    ...prevState,
+    title: "Profile updated",
+    message: "Your profile was updated successfully!",
+    showSuccessBox: true,
+  }));
+
+
+  // if (email === user.attributes.email) {
+  //   console.log("telegram:", telegram === "");
+  //   setUserData({ 
+  //     telegram: telegram,
+  //     chat_id: chatid,
+  //   });
+  //   setSuccess((prevState) => ({
+  //     ...prevState,
+  //     title: "Profile updated",
+  //     message: "Your Telegram username was updated successfully!",
+  //     showSuccessBox: true,
+  //   }));
+  //   return;
+  // } else {
+  //   setUserData({
+  //     email: email === "" ? undefined : email,
+  //     telegram: telegram === "" ? undefined : telegram,
+  //     chat_id: chatid === "" ? undefined : chatid,
+  //   });
+  //   setSuccess((prevState) => ({
+  //     ...prevState,
+  //     title: "Profile updated",
+  //     message: "Your profile was updated successfully!",
+  //     showSuccessBox: true,
+  //   }));
+  // }
+
+  await refetchUserData();
+};
+
+
+const televerifiedsuccess = async (_chat_id_) => {
+  const telegram_bot_id = "5364673291:AAG-0SnlHvx4ozL5d2APGvTYpQ9-gi-3W-I";
+  let successmessage =
+    "Note: " +
+    "Your Telegram Verification with AlertBytes is Successfully complted and you are logged in !" +
+    "\n\n" +
+    "From Now on you will be able to recieve updates about your wallet on that same Bot !";
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "cache-control": "no-cache",
+    },
+    body: JSON.stringify({ chat_id: _chat_id_ * 1, text: successmessage }),
+  };
+  fetch(
+    "https://api.telegram.org/bot" + telegram_bot_id + "/sendMessage",
+    requestOptions
+  )
+    .then((data) => {
+      console.log("telegram verified sent !");
+    })
+    .catch((error) => {
+      alert("Error: " + error.code + " " + error.message);
+    });
+};
+
+
+
+const OTPCHECKS = () => {
+  if (ipcode === OTP) {
+    handleSave(tempchatid);
+    televerifiedsuccess(tempchatid);
+    router.push('/thank-you'); 
+  } else {
+    alert("Error: OTP NOT VERIFIED");
+  }
+};
+
+
 // =========================
 
-
-
-
-
-  const handleVerify = () => {
-    const verificationCode = code.join('');
-    console.log('Verification code:', verificationCode);
-    // Perform verification logic with the code
-  };
-
-
-
-  const handlePrevious = () => {
-    setCurrentStep(currentStep - 1);
-  };
 
   const handleNext = () => {
     setCurrentStep(currentStep + 1);
@@ -100,7 +288,7 @@ const CodeSent = async () => {
           <div className="">
             <input type="text" value={telegram} placeholder="Enter Username" onChange={(e)=>{setTelegram(e.target.value)}}/>
             <div className="btn-div lg-butns align-lg-butns">
-             <button className='btn btn-fill' onClick={CodeSent}>Next</button>
+             <button className='btn btn-fill' onClick={Verifytelegram}>Next</button>
             </div>
             {/* <button onClick={handlePrevious}>previous</button> */}
           </div>
@@ -120,10 +308,10 @@ const CodeSent = async () => {
              ))}
            </div>
            <div className="btn-div lg-butns align-lg-butns">
-             <button className='btn btn-fill' onClick={handleVerify}>Verify</button>
+             <button className='btn btn-fill' onClick={OTPCHECKS}>Verify</button>
            </div>
            <div className="resend-div">
-             <span>Didn't Receive The Code?</span>
+             <span onClick={()=>{console.log("clicked")}}>Didn't Receive The Code?</span>
              <span className='link-text text-underline d-block'>Resend code</span>
            </div>
            {/* <button onClick={handlePrevious}>previous</button> */}

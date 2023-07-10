@@ -20,8 +20,9 @@ const EmailFlow = ({ onGoBack,onhidetitle }) => {
 const emaillogin = async () => {
   if (validateEmail(mail)) {
     setEmailError(false);
-   
+    
     setCurrentStep(currentStep + 1);
+    
    
   //   try {
   //     // Send magic link to the user's email
@@ -90,6 +91,7 @@ const validateEmail = (email) => {
             </div>
           </div>
           </>
+
         );
       case 2:
         return (

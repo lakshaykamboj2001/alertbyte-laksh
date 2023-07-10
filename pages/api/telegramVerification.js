@@ -14,11 +14,11 @@ function generateVerificationCode() {
 }
 
 export default async function handler(req, res) {
-  const { username } = req.body;
+  const username  = req.body;
   const botToken = '5364673291:AAG-0SnlHvx4ozL5d2APGvTYpQ9-gi-3W-I';
-
+  console.log(username)
   try {
-    const response = await fetch(`https://api.telegram.org/bot${botToken}/getChat?chat_id=@${username}`);
+    const response = await fetch('https://api.telegram.org/bot5364673291:AAG-0SnlHvx4ozL5d2APGvTYpQ9-gi-3W-I/getUpdates');
     const data = await response.json();
     console.log('Telegram API Response:', data);
 

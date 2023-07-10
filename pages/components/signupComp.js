@@ -72,43 +72,56 @@ const router = useRouter();
 
 
 const [lnCnt , setLnCnt] = useState(true);
-
 const metamaskLogin = async () => {
   await addPolygonTestnetNetwork();
-  await authenticate({ signingMessage: "AlertBytes Authentication" })
-    .then(function (user) {
-      router.push("/more-details")
-    })
-    .catch(function (error) {
+  try {
+    const user = await authenticate({ signingMessage: "AlertBytes Authentication" });
+    if (user) {
+      router.push("/more-details");
+    } else {
+      console.log("User denied message signature");
+      // Redirect to an error page or show an error message
+      // router.push("/login-error");
+    }
+  } catch (error) {
+    if (error.code === -32603 && error.message.includes("User denied message signature")) {
+      // User denied the message signature
+      console.log("User denied the message signature");
+      // Redirect to a different page or show an error message
+      // router.push("/signature-denied");
+    } else {
       console.log("Metamask authentication error:", error);
-    });
-};  
+    }
+  }
+};
 
 
-// const emaillogin = async () => {
-//   if (validateEmail(mail)) {
-//     setEmailError(false); 
 
-//     await authenticate({
-//       provider: "magicLink",
-//       email: mail,
-//       apiKey: "pk_live_B0A4A365CE0E89A5",
-//       network: "mainnet",
-//     })
-//       .then(function (user) {
-//         console.log(isAuthenticated, "auth or not");
-//         setauthwithemail(true);
-//         setusermainId(user.id); 
-//         router.push("/settings")
+
+const emaillogin = async () => {
+  if (validateEmail(mail)) {
+    setEmailError(false); 
+
+    await authenticate({
+      provider: "magicLink",
+      email: mail,
+      apiKey: "pk_live_B0A4A365CE0E89A5",
+      network: "mainnet",
+    })
+      .then(function (user) {
+        console.log(isAuthenticated, "auth or not");
+        setauthwithemail(true);
+        setusermainId(user.id); 
+        router.push("/settings")
         
-//       })
-//       .catch(function (error) {
-//         console.log("Metamask authentication error:", error);
-//       });
-//   } else {
-//     setEmailError(true);
-//   }
-// }
+      })
+      .catch(function (error) {
+        console.log("Metamask authentication error:", error);
+      });
+  } else {
+    setEmailError(true);
+  }
+}
 
 
 
@@ -142,38 +155,40 @@ const metamaskLogin = async () => {
 //   }
 // };
 
-const emailsign = async () => {
-  if (validateSEmail(signupmail)) {
-    setEmailError(false);
 
-    try {
-      // Generate a random password
-      const password = '1234';
 
-      // Create a new user object
-      const user = new Moralis.User();
-      user.setUsername(signupmail); // Set the email as the username
-      user.setEmail(signupmail);
-      user.setPassword(password); // Set the random password
+// const emailsign = async () => {
+//   if (validateSEmail(signupmail)) {
+//     setEmailError(false);
 
-      await user.signUp();
+//     try {
+//       // // Generate a random password
+//       // const password = '1234';
 
-      // Send verification email
-      await Moralis.User.requestEmailVerification(signupmail, { setEmailVerified: true });
-      console.log('Verification email sent.');
+//       // // Create a new user object
+//       const user = new Moralis.User();
+//       // user.setUsername(signupmail); // Set the email as the username
+//       user.setEmail(signupmail);
+//       // user.setPassword(password); // Set the random password
 
-      // Perform necessary actions after successful verification  
-      setauthwithemail(true);
-      setusermainId(user.id);
-      // Redirect the user to a page with instructions to check their email
-      router.push('/check-email');
-    } catch (error) {
-      console.log('Email verification error:', error);
-    }
-  } else {  
-    setEmailError(true);
-  }
-};
+//       // await user.signUp();
+
+//       // Send verification email
+//       await Moralis.User.requestEmailVerification(signupmail);
+//       console.log('Verification email sent.');
+
+//       // Perform necessary actions after successful verification  
+//       setauthwithemail(true);
+//       setusermainId(user.id);
+//       // Redirect the user to a page with instructions to check their email
+//       router.push('/check-email');
+//     } catch (error) {
+//       console.log('Email verification error:', error);
+//     }
+//   } else {  
+//     setEmailError(true);
+//   }
+// };
 
 
 
@@ -188,13 +203,13 @@ const validateSEmail = (signupemail) => {
 
 // login
 
-const loginWithEmail = async (email) => {
+const loginWithEmail = async () => {
   try {
     // Log in with empty username and password
-    await Moralis.User.logIn('', '', { email });
+    await Moralis.User.logIn(`${mail}`, '', { mail });
 
     // Send verification email
-    await Moralis.User.requestEmailVerification(email);
+    await Moralis.User.requestEmailVerification(mail);
     console.log('Verification email sent.');
 
     // Redirect the user to a page with instructions to check their email
@@ -322,7 +337,7 @@ const deleteUser = async () => {
           {lnCnt ? (
             <>
               <div className="mdl-butns lg-butns">
-              <Button className="btn btn-fill" onClick={emailsign}>
+              <Button className="btn btn-fill" onClick={emaillogin}>
                 Submit
               </Button>
               <span>OR</span>
@@ -344,7 +359,7 @@ const deleteUser = async () => {
                 />
             
                 <div className="mdl-butns lg-butns">
-                  <Button className="btn btn-fill" onClick={loginWithEmail}>
+                  <Button className="btn btn-fill" onClick={emaillogin}>
                     Send Magic Link
                   </Button>
                   <span>OR</span>
