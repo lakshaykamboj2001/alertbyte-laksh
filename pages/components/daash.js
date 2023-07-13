@@ -1,12 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { Form, Button } from "react-bootstrap";
+import { useRouter } from 'next/router';
+import { useMoralis, useMoralisCloudFunction  } from "react-moralis";
+
 
 const VerticalTabs = () => {
-  const [activeTab, setActiveTab] = useState(1);
+  const {
+    logout,
+    user,
+    setUserData,
+    refetchUserData,
+  } = useMoralis();
+  const [activeTab, setActiveTab] = useState(4); 
+  const [emailError, setEmailError] = useState(false);
+  const[name,setName] = useState("")
+  const[mail,setMail] = useState("")
+  const[telegram,setTelegram] = useState("")
+  const router = useRouter();
 
+  const validateEmail = (email) => {
+    const re = /\S+@\S+\.\S+/;
+    return re.test(email);
+  };
+
+
+  const handleLogout = async () => {
+    // if (router.pathname !== "/") router.push("/", undefined, { shallow: true });
+    await logout();
+    if (router.pathname !== "/") router.push("/", undefined, { shallow: true });
+    // router.reload(window.location.pathname);
+  };
   const handleTabClick = (tabNumber) => {
     setActiveTab(tabNumber);
   };
-
   const Tab1 = () => {
     return <>
         <h2>this is tab1</h2>
@@ -26,13 +52,40 @@ const VerticalTabs = () => {
   };
   const Tab4 = () => {
     return <>
-        <h2>this is tab4</h2>
-   
+      <div className="cu-form profile-form">
+          <div className="ipfield-main">
+            <span className="d-block prof-ip-label">Name</span>
+            <div className="prof-ip-butn">
+              <input placeholder="" type="text" value={name}  onChange={(e)=>{setName(e.target.value)}}/>
+              <div className="">
+                <button className="btn-fill" onClick={()=>{console.log(name)}}>save</button>
+              </div>
+            </div>
+          </div>
+          <div className="ipfield-main">
+            <span className="d-block prof-ip-label">Email</span>
+            <div className="prof-ip-butn">
+              <input placeholder="" type="email" />
+              <div className="">
+                <button className="btn-fill" onClick={()=>{console.log("clicked")}}>save</button>
+              </div>
+            </div>
+          </div>
+          <div className="ipfield-main">
+            <span className="d-block prof-ip-label">Telegram Id</span>
+            <div className="prof-ip-butn">
+              <input placeholder="" type="text"  />
+              <div className="">
+                <button className="btn-fill" onClick={()=>{console.log("clicked")}}>verify now</button>
+              </div>
+            </div>
+          </div>
+      </div>
     </>;
   };
   const Tab5 = () => {
     return <>
-        <h2>this is tab5</h2>
+        <h2 onClick={()=>{}}>this is tab5</h2>
     </>;
   };
 
@@ -40,7 +93,7 @@ const VerticalTabs = () => {
     <>
     <div className="container">
         <div className="main-tab-div">
-            <div className="row g-4">
+            <div className="row">
                 <div className="col-lg-2">
                     <div className="tabs-butns">
                         <div className={`vertical-tab ${activeTab === 1 ? 'active' : ''}`} onClick={() => handleTabClick(1)}>
@@ -50,13 +103,16 @@ const VerticalTabs = () => {
                             <button className="main-btn" type="button">Notification</button>
                         </div>
                         <div className={`vertical-tab ${activeTab === 3 ? 'active' : ''}`} onClick={() => handleTabClick(3)}>
-                            <button className="main-btn" type="button">Other Tools</button>
+                            <button className="main-btn" type="button">wallet Content</button>
                         </div>
                         <div className={`vertical-tab ${activeTab === 4 ? 'active' : ''}`} onClick={() => handleTabClick(4)}>
                             <button className="main-btn" type="button">Profile</button>
                         </div>
                         <div className={`vertical-tab ${activeTab === 5 ? 'active' : ''}`} onClick={() => handleTabClick(5)}>
                             <button className="main-btn" type="button">Learn</button>
+                        </div>
+                        <div className={`vertical-tab dash-logout`}>
+                            <button className="main-btn" type="button" onClick={handleLogout} >Logout</button>
                         </div>
                     </div>
                 </div>

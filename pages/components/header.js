@@ -93,8 +93,6 @@ function BsNavDropdown() {
   }, [router]);
   
 
-  
-
   return (
     <>
     <header className="container">

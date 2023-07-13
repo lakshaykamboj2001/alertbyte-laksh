@@ -52,7 +52,6 @@ const signupComp = () => {
     setUserData,
     refetchUserData,
   } = useMoralis();
-
 // ===============================================================================================================
 
 const [authwithemail, setauthwithemail] = useState(false);
@@ -61,8 +60,6 @@ const [mail,setmail]=useState("")
 const [emailError, setEmailError] = useState(false);
 const router = useRouter();
 const [error, success, setSuccess, setError] = useContext(StatusContext);
-
-
 const [lnCnt , setLnCnt] = useState(true);
 
 const metamaskLogin = async () => {
@@ -110,11 +107,6 @@ const validateEmail = (email) => {
   return re.test(email);
 };
 
-
-
-
-
-
 const { fetch: verifyusermail } = useMoralisCloudFunction(
   "verifyusermail",
   { mainid: usermainId },
@@ -150,24 +142,6 @@ const handleLogout = async () => {
   await logout();
   if (router.pathname !== "/") router.push("/", undefined, { shallow: true });
   router.reload(window.location.pathname);
-};
-
-// delete
-const deleteUser = async () => {
-  const currentUser = Moralis.User.current();
-  
-  if (currentUser) {
-    try {
-      await currentUser.destroy();
-      console.log('User deleted successfully.');
-      // Perform any necessary actions after user deletion
-    } catch (error) {
-      console.log('Error deleting user:', error);
-    }
-  } else {
-    console.log('No user is currently logged in.');
-    // Handle the case when no user is logged in
-  }
 };
 
 
@@ -261,5 +235,4 @@ const deleteUser = async () => {
     </>
   )
 }
-
 export default signupComp

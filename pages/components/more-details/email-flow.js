@@ -25,12 +25,15 @@ const EmailFlow = ({ onGoBack,onhidetitle }) => {
 
   useEffect(() => {
    const gotodash= () => {
-    refetchUserData();
-    if(currentStep === 2 && user.attributes.emailVerified){
-      router.push('/dashboard')
-    }
-    if(currentStep === 3 && user.attributes.emailVerified){
-      router.push('/dashboard')
+    if(user){
+
+      refetchUserData();
+      if(currentStep === 2 && user.attributes.emailVerified){
+        router.push('/dashboard')
+      }
+      if(currentStep === 3 && user.attributes.emailVerified){
+        router.push('/dashboard')
+      }
     }
    }
     gotodash();
@@ -101,9 +104,6 @@ const emailadd = async () => {
   }
 };
 
-
-
-
 // delete
 const deleteUser = async () => {
   const currentUser = Moralis.User.current();
@@ -154,7 +154,7 @@ const validateEmail = (email) => {
             <input type="text" value={mail} placeholder="Enter Email" isInvalid={emailError} onChange={(e) => { setMail(e.target.value); }}></input>
             <div className="btn-div lg-butns align-lg-butns">
               <button className='btn btn-fill' onClick={emailadd}>Verify Now</button>
-              <button className='btn btn-emp' onClick={async ()=>{ await refetchUserData();}}>Go Back</button>
+              <button className='btn btn-emp' onClick={handlePreviousMod}>Go Back</button>
             </div>
           </div>
           </>
@@ -174,7 +174,7 @@ const validateEmail = (email) => {
               </div>
               <div className="btn-div lg-butns align-lg-butns">
                 <button className='btn btn-fill' onClick={emailloginwithhide}>Resend Verification Email</button>
-                <button className='btn btn-emp' onClick={async ()=>{ await refetchUserData();}}>Go Back</button>
+                <button className='btn btn-emp' onClick={async ()=>{handlePrevious}}>Go Back</button>
               </div>
             </div>
           </>

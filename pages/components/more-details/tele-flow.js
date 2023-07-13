@@ -31,11 +31,7 @@ const useStateWithCallbackLazy = (initialValue) => {
     revision: randomString(),
   });
 
-  /**
-   *  useEffect() hook is not called when setState() method is invoked with same value(as the current one)
-   *  Hence as a workaround, another state variable is used to manually retrigger the callback
-   *  Note: This is useful when your callback is resolving a promise or something and you have to call it after the state update(even if UI stays the same)
-   */
+  
   useEffect(() => {
     if (callbackRef.current) {
       callbackRef.current(state.value);
@@ -61,6 +57,7 @@ const useStateWithCallbackLazy = (initialValue) => {
 const [OTP, setOTP] = useState("");
 const [tempchatid, settempchatid] = useStateWithCallbackLazy(0);
 const [EnteredOTP, setEnteredOTP] = useState(null);
+
 const generateOTP = (length) => {
   const characters =
     "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -72,8 +69,6 @@ const generateOTP = (length) => {
   setOTP(OTPvalue);
   return OTPvalue;
 };
-
-
 
 
 const Verifytelegram = async () => {
@@ -100,7 +95,10 @@ const Verifytelegram = async () => {
           VerifyTeleOTP(telegramiddata[0].message.chat.id);
         });
       }
-      setCurrentStep(currentStep + 1);
+       // setCurrentStep(currentStep + 1);
+      if(currentStep === 2){
+       setCurrentStep(currentStep + 1);
+      }
 
     })
     .catch((error) => {
@@ -311,8 +309,8 @@ const OTPCHECKS = () => {
              <button className='btn btn-fill' onClick={OTPCHECKS}>Verify</button>
            </div>
            <div className="resend-div">
-             <span onClick={()=>{console.log("clicked")}}>Didn't Receive The Code?</span>
-             <span className='link-text text-underline d-block'>Resend code</span>
+             <span >Didn't Receive The Code?</span>
+             <span className='link-text text-underline d-block' onClick={()=>{console.log("clicked")}}>Resend code</span>
            </div>
            {/* <button onClick={handlePrevious}>previous</button> */}
          </div>
@@ -321,7 +319,6 @@ const OTPCHECKS = () => {
       </>
     );
   };
-
   return <>{tflow()}</>;
 };
 

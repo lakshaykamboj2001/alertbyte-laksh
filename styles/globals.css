@@ -929,7 +929,6 @@ margin-top: 50px;
 
 .cu-form {
   max-width: 835px;
-  padding: 50px;
   display: flex;
   flex-direction: column;
   color: var(--neon);
@@ -954,6 +953,7 @@ margin-top: 50px;
   padding: 0.9rem 0.75rem;
   color: whitesmoke;
   border-radius: 15px;
+  outline: none;
 }
 
 .cu-form .fl-name {
@@ -1015,17 +1015,25 @@ margin-top: 50px;
 
 
 /* =========================DASHBOARD====================================== */
-.main-tab-div{
+.main-tab-div {
   background-color: #201E21;
   border-radius: 20px;
   padding: 45px;
   overflow: hidden;
+  height: calc(100vh - 200px);
+}
+.main-tab-div > .row{
+  height: 100%;
 }
 .tabs-butns{
   display: flex;
   flex-direction: column;
   gap: 50px;
   position: relative;
+  height: 100%;
+}
+.dash-logout {
+  margin-top: 100%;
 }
 .vertical-tab button{
 background: transparent;
@@ -1046,4 +1054,38 @@ font-weight: 500;
   top: 0;
   right: 0px;
   border-radius: 10px;
+}
+
+.cu-form.profile-form {
+  max-width: unset;
+  flex-direction: column;
+  padding-left: 30px;
+}
+
+.ipfield-main{
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.prof-ip-butn {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.cu-form.profile-form input{
+  padding: 0.9rem 0.75rem;
+  min-width: 670px;
+}
+.ipfield-main {
+  color: white;
+  font-size: 20px;
+  font-weight: 500;
+}
+.wn-body .cu-form.profile-form .btn-fill {
+  border-radius: 25px;
+  padding: 5px 20px;
+  min-width: 115px;
+  font-weight: 500;
+  font-size: 14px;
 }
