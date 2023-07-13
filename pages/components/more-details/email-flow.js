@@ -23,27 +23,27 @@ const EmailFlow = ({ onGoBack,onhidetitle }) => {
     onGoBack(); // Invoke the callback function passed from the parent component to update the state
   };
 
-  // useEffect(() => {
-  //   if (user) {
-  //     refetchUserData();
-  //     console.log("fetched")
-  //   }
-  //   if (currentStep === 2 && user.attributes.emailVerified) {
-  //    router.push("/dashboard", undefined, { shallow: true })
-  //   }
-  //   if (currentStep === 3 && user.attributes.emailVerified) {
-  //    router.push("/dashboard", undefined, { shallow: true })
-  //   }
-  // }, [currentStep, user.attributes.emailVerified, router]);
-  
+  useEffect(() => {
+   const gotodash= () => {
+    refetchUserData();
+    if(currentStep === 2 && user.attributes.emailVerified){
+      router.push('/dashboard')
+    }
+    if(currentStep === 3 && user.attributes.emailVerified){
+      router.push('/dashboard')
+    }
+   }
+    gotodash();
+    const interval = setInterval(gotodash, 4000);
+    // Clean up the interval when the component unmounts
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
 
-
-  
   const VerificationEmail = async () => {
     await Moralis.User.requestEmailVerification(user.attributes.email)
-
-    
       .then((e) => {
         setCurrentStep(currentStep + 1);
         console.log(e);
@@ -86,13 +86,12 @@ const emailadd = async () => {
           }));
           setCurrentStep(currentStep + 1);
         } catch (error) {
-          // Show the error message somewhere
           alert("Error: " + error.code + " " + error.message);
         }
       } else {
         console.log('3')
         if (mail === user.attributes.email && user.attributes.emailVerified) {
-          alert("Email Already Exist" );
+            alert("Email Already Exist");
         }
       }
     }
@@ -102,20 +101,9 @@ const emailadd = async () => {
   }
 };
 
-useEffect(() => {
-  const handleUserDataChange = async () => {
-    await refetchUserData();
 
-    // Perform the desired action or call the function
-    // based on the updated user data
-    // For example:
-    if (user.attributes.emailVerified) {
-      console.log('Email has been verified!');
-    }
-  };
 
-  handleUserDataChange();
-}, [user]);
+
 // delete
 const deleteUser = async () => {
   const currentUser = Moralis.User.current();

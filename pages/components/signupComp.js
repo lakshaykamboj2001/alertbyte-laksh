@@ -109,10 +109,6 @@ const validateEmail = (email) => {
   const re = /\S+@\S+\.\S+/;
   return re.test(email);
 };
-const validateSEmail = (signupemail) => {                        
-  const re = /\S+@\S+\.\S+/;
-  return re.test(signupemail);
-};
 
 
 
@@ -154,7 +150,6 @@ const handleLogout = async () => {
   await logout();
   if (router.pathname !== "/") router.push("/", undefined, { shallow: true });
   router.reload(window.location.pathname);
-
 };
 
 // delete
@@ -163,16 +158,11 @@ const deleteUser = async () => {
   
   if (currentUser) {
     try {
-      // Delete the user
       await currentUser.destroy();
       console.log('User deleted successfully.');
-      
       // Perform any necessary actions after user deletion
-      // For example, redirect to a login page or display a success message
-      
     } catch (error) {
       console.log('Error deleting user:', error);
-      // Handle the error appropriately
     }
   } else {
     console.log('No user is currently logged in.');
@@ -180,30 +170,13 @@ const deleteUser = async () => {
   }
 };
 
-const resendVerificationEmail = async () => {
-  await Moralis.User.requestEmailVerification(user.attributes.email)
-    .then((e) => {
-      console.log(e);
-      setSuccess((prevState) => ({
-        ...prevState,
-        title: "Verification email sent",
-        message:
-          "An email is sent to your registered email address. Please verify your email.",
-        showSuccessBox: true,
-      }));
-    })
-    .catch((error) => {
-      // Show the error message somewhere
-      alert("Error: " + error.code + " " + error.message);
-    });
-};
+
 
 //===============================================================================================================
 
   return (
     <>
       <div className="container">
- 
       <div className="md-cnt t-center">
         {lnCnt ? (
           <p onClick={()=>{setLnCnt(false); setmail("")}} className="intr-p">Already Have An Account?<span> Login</span></p>
@@ -246,7 +219,7 @@ const resendVerificationEmail = async () => {
           {lnCnt ? (
             <>
               <div className="mdl-butns lg-butns">
-              <Button className="btn btn-fill" onClick={resendVerificationEmail}>
+              <Button className="btn btn-fill" onClick={emaillogin}>
                 Submit
               </Button>
               <span>OR</span>
