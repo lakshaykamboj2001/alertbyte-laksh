@@ -1,11 +1,11 @@
 import Link from 'next/link';
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { useRouter } from 'next/router';
 import { useMoralis, useMoralisCloudFunction  } from "react-moralis";
 import Image from 'next/image';
-
 import Moralis from 'moralis';
+import StatusContext from '/home/webninjaz-developer/Desktop/new/store/status-context';
 
 async function addPolygonTestnetNetwork() {
   const { ethereum } = window;
@@ -55,44 +55,25 @@ const signupComp = () => {
 
 // ===============================================================================================================
 
-
-
 const [authwithemail, setauthwithemail] = useState(false);
 const [usermainId, setusermainId] = useState("");
 const [mail,setmail]=useState("")
-const [signupmail,setsignupmail]=useState("")
-
-
-
 const [emailError, setEmailError] = useState(false);
 const router = useRouter();
-
- 
-
+const [error, success, setSuccess, setError] = useContext(StatusContext);
 
 
 const [lnCnt , setLnCnt] = useState(true);
+
 const metamaskLogin = async () => {
   await addPolygonTestnetNetwork();
-  try {
-    const user = await authenticate({ signingMessage: "AlertBytes Authentication" });
-    if (user) {
+  await authenticate({ signingMessage: "AlertBytes Authentication" })
+    .then(function (user) {
       router.push("/more-details");
-    } else {
-      console.log("User denied message signature");
-      // Redirect to an error page or show an error message
-      // router.push("/login-error");
-    }
-  } catch (error) {
-    if (error.code === -32603 && error.message.includes("User denied message signature")) {
-      // User denied the message signature
-      console.log("User denied the message signature");
-      // Redirect to a different page or show an error message
-      // router.push("/signature-denied");
-    } else {
+    })
+    .catch(function (error) {
       console.log("Metamask authentication error:", error);
-    }
-  }
+    });
 };
 
 
@@ -112,7 +93,7 @@ const emaillogin = async () => {
         console.log(isAuthenticated, "auth or not");
         setauthwithemail(true);
         setusermainId(user.id); 
-        router.push("/settings")
+        router.push('/dashboard'); 
         
       })
       .catch(function (error) {
@@ -124,74 +105,6 @@ const emaillogin = async () => {
 }
 
 
-
-
-// const emaillogin = async () => {
-//   if (validateEmail(mail)) {
-//     setEmailError(false);
-
-//     try {
-//       // Create a new user object
-//       const user = new Moralis.User();
-//       user.setUsername(mail); // Set the email as the username
-//       user.setEmail(mail);
-//       user.setPassword('xs'); // Set a temporary password
-
-//       await user.signUp();
-
-//       // Send verification email
-//       await Moralis.User.requestEmailVerification(mail);
-//       console.log('Verification email sent.');
-
-//       // Perform necessary actions after successful verification
-//       setauthwithemail(true);
-//       setusermainId(user.id);
-//       router.push('/settings');
-//     } catch (error) {
-//       console.log('Email verification error:', error);
-//     }
-//   } else {  
-//     setEmailError(true);
-//   }
-// };
-
-
-
-// const emailsign = async () => {
-//   if (validateSEmail(signupmail)) {
-//     setEmailError(false);
-
-//     try {
-//       // // Generate a random password
-//       // const password = '1234';
-
-//       // // Create a new user object
-//       const user = new Moralis.User();
-//       // user.setUsername(signupmail); // Set the email as the username
-//       user.setEmail(signupmail);
-//       // user.setPassword(password); // Set the random password
-
-//       // await user.signUp();
-
-//       // Send verification email
-//       await Moralis.User.requestEmailVerification(signupmail);
-//       console.log('Verification email sent.');
-
-//       // Perform necessary actions after successful verification  
-//       setauthwithemail(true);
-//       setusermainId(user.id);
-//       // Redirect the user to a page with instructions to check their email
-//       router.push('/check-email');
-//     } catch (error) {
-//       console.log('Email verification error:', error);
-//     }
-//   } else {  
-//     setEmailError(true);
-//   }
-// };
-
-
-
 const validateEmail = (email) => {                        
   const re = /\S+@\S+\.\S+/;
   return re.test(email);
@@ -201,29 +114,7 @@ const validateSEmail = (signupemail) => {
   return re.test(signupemail);
 };
 
-// login
 
-const loginWithEmail = async () => {
-  try {
-    // Log in with empty username and password
-    await Moralis.User.logIn(`${mail}`, '', { mail });
-
-    // Send verification email
-    await Moralis.User.requestEmailVerification(mail);
-    console.log('Verification email sent.');
-
-    // Redirect the user to a page with instructions to check their email
-    router.push('/check-email');
-  } catch (error) {
-    if (error.code === Moralis.Error.OBJECT_NOT_FOUND) {
-      console.log('No user found with the specified email.');
-      // Handle the case when no user is found with the specified email
-    } else {
-      console.log('Error sending verification email:', error);
-      // Handle other errors appropriately
-    }
-  }
-};
 
 
 
@@ -289,6 +180,24 @@ const deleteUser = async () => {
   }
 };
 
+const resendVerificationEmail = async () => {
+  await Moralis.User.requestEmailVerification(user.attributes.email)
+    .then((e) => {
+      console.log(e);
+      setSuccess((prevState) => ({
+        ...prevState,
+        title: "Verification email sent",
+        message:
+          "An email is sent to your registered email address. Please verify your email.",
+        showSuccessBox: true,
+      }));
+    })
+    .catch((error) => {
+      // Show the error message somewhere
+      alert("Error: " + error.code + " " + error.message);
+    });
+};
+
 //===============================================================================================================
 
   return (
@@ -297,9 +206,9 @@ const deleteUser = async () => {
  
       <div className="md-cnt t-center">
         {lnCnt ? (
-          <p onClick={()=>{setLnCnt(false)}} className="intr-p">Already Have An Account?<span> Login</span></p>
+          <p onClick={()=>{setLnCnt(false); setmail("")}} className="intr-p">Already Have An Account?<span> Login</span></p>
           ) :(
-            <p onClick={()=>{setLnCnt(true)}} className="intr-p">New to AlertBytes?<span> Sign Up</span></p>
+            <p onClick={()=>{setLnCnt(true); setmail("")}} className="intr-p">New to AlertBytes?<span> Sign Up</span></p>
           )
         }
         
@@ -318,10 +227,10 @@ const deleteUser = async () => {
             <div className="sign-up-ip">
             <input
                   type="email"
-                  name="signup-email"
-                  value={signupmail}
-                  onChange={(e) => setsignupmail(e.target.value)}
-                  id="signup-email"
+                  name="login-email"
+                  value={mail}
+                  onChange={(e) => setmail(e.target.value)}
+                  id="login-email"
                   placeholder="Enter Email"
                   isInvalid={emailError}
                 />
@@ -337,7 +246,7 @@ const deleteUser = async () => {
           {lnCnt ? (
             <>
               <div className="mdl-butns lg-butns">
-              <Button className="btn btn-fill" onClick={emaillogin}>
+              <Button className="btn btn-fill" onClick={resendVerificationEmail}>
                 Submit
               </Button>
               <span>OR</span>

@@ -3,7 +3,7 @@ import { useState, useEffect, useContext, useRef, useCallback } from "react";
 import StatusContext from '/home/webninjaz-developer/Desktop/new/store/status-context';
 import Moralis from "moralis";
 import { useMoralis, useMoralisCloudFunction  } from "react-moralis";
-import { Router } from 'next/router';
+import { useRouter } from 'next/router';
 
 const TeleFlow = () => {
   const [error, success, setSuccess, setError] = useContext(StatusContext);
@@ -200,7 +200,7 @@ const handleSave = async (needid) => {
   //   }));
   // }
 
-  await refetchUserData();
+  await refetchUserData(); 
 };
 
 
@@ -237,7 +237,7 @@ const OTPCHECKS = () => {
   if (ipcode === OTP) {
     handleSave(tempchatid);
     televerifiedsuccess(tempchatid);
-    router.push('/thank-you'); 
+    router.push('/dashboard'); 
   } else {
     alert("Error: OTP NOT VERIFIED");
   }

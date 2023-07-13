@@ -11,41 +11,6 @@ import Image from 'next/image';
 import Accordion from 'react-bootstrap/Accordion';
 
 
-async function addPolygonTestnetNetwork() {
-  const { ethereum } = window;
-  try {
-    await ethereum.request({
-      method: "wallet_switchEthereumChain",
-      params: [{ chainId: "0x1" }], // Hexadecimal version of 80001, prefixed with 0x
-    });
-  } catch (error) {
-    if (error.code === 4902) {
-      try {
-        await ethereum.request({
-          method: "wallet_addEthereumChain",
-          params: [
-            {
-              chainId: "0x1", // Hexadecimal version of 80001, prefixed with 0x
-              chainName: "ETH",
-              nativeCurrency: {
-                name: "ETHEREUM",
-                symbol: "ETH",
-                decimals: 18,
-              },
-              rpcUrls: [
-                "https://mainnet.infura.io/v3/155b30e35b1d4a5cb4f2288e57dd7a62",
-              ],
-              blockExplorerUrls: ["https://etherscan.io/"],
-              iconUrls: [""],
-            },
-          ],
-        });
-      } catch (addError) {
-        console.log("Did not add network");
-      }
-    }
-  }
-}
 
   // const MobAuditModal = () => {
   //   const [show, setShow] = useState(false);
