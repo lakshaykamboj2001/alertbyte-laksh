@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from './components/header';
 import EmailFlow from './components/more-details/email-flow';
 import TeleFlow from './components/more-details/tele-flow';
-
+import { useRouter } from 'next/router';
 
 export default function Home() {
   const [name, setName] = useState('');
   const [showtelemail, setShowtelemail] = useState(true);
   const [showEmailFlow, setShowEmailFlow] = useState(false);
   const [showteleFlow, setShowteleFlow] = useState(false);
-
+  
   const[hidetitle ,sethidetitle] = useState(true)
-
+  const router = useRouter();
   const teleFlow = () => {
     setShowteleFlow(true);
     setShowtelemail(false);
@@ -20,6 +20,17 @@ export default function Home() {
     setShowEmailFlow(true);
     setShowtelemail(false);
   };
+
+
+useEffect(()=>{
+  // when user come from dashboard for telegram verification teleflow() will automatic execute
+  if (router.query.fromDash === 'true') {
+    teleFlow();
+  }
+  if (router.query.fromDashmail === 'true') {
+    emailFlow();
+  }
+},[])
 
   const handleGoBack = () => {
     setShowEmailFlow(false);
@@ -61,7 +72,7 @@ export default function Home() {
                       <span></span>Telegram
                     </div>
                     <div className="opts" onClick={emailFlow}>
-                      <span></span>Email
+                      <span> </span>Email
                     </div>
                   </div>
                 </div>

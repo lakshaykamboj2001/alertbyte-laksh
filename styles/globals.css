@@ -674,7 +674,9 @@ margin-top: 50px;
   gap: 45px;
 }
 /* ===========telegram flow========== */
-
+.main-teleflow-div{
+  text-align: center;
+}
 .main-step-div {
   width: 100%;
   max-width: 757px;
@@ -1059,14 +1061,11 @@ font-weight: 500;
 .cu-form.profile-form {
   max-width: unset;
   flex-direction: column;
+}
+.tab-side-content{
   padding-left: 30px;
 }
 
-.ipfield-main{
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
 .prof-ip-butn {
   display: flex;
   align-items: center;
