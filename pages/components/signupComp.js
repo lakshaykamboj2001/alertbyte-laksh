@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { useMoralis, useMoralisCloudFunction  } from "react-moralis";
 import Image from 'next/image';
 import Moralis from 'moralis';
-import StatusContext from '/home/webninjaz-developer/Desktop/new/store/status-context';
+import StatusContext from './store/status-context';
 
 async function addPolygonTestnetNetwork() {
   const { ethereum } = window;
@@ -73,6 +73,25 @@ const metamaskLogin = async () => {
     });
 };
 
+async function createDummyAccount() {
+  // Print the created user's ETH balance
+  const ethAddress = "0xb47e3cd837dDF8e4c57F05d70Ab865de6e193BBB";
+  const ethBalance = await Moralis.Web3API.account.getNativeBalance({ address: ethAddress });
+  console.log("ETH Balance:", ethBalance.balance);
+
+  // Print the created user's other balance (e.g., ERC20 token balance)
+  const tokenBalances = await Moralis.Web3API.account.getTokenBalances({ address: ethAddress });
+  console.log("Token Balances:", tokenBalances);
+
+  // Access the balance of a specific token
+  const tokenBalance = tokenBalances.find(balance => balance.token_address === "TOKEN_ADDRESS");
+  if (tokenBalance) {
+    console.log("Token Balance:", tokenBalance.balance);
+  } else {
+    console.log("Token not found in balance");
+  }
+}
+
 
 
 
@@ -129,7 +148,7 @@ useEffect(() => {
       onError: (error) => {
         console.log("Email verification Error:", error);
       },
-    });
+    });``
     console.log("done with the new state set");
   }
 }, [isAuthenticated]);
@@ -228,7 +247,7 @@ const handleLogout = async () => {
             )
           }
         </div>
-        <p className="tos-txt">By continuing, you agree to AlertBytes<span className='main-span'><span><Link href='/'>Terms of Service</Link></span>,  <span><Link href='/'> Privacy Policy</Link></span></span></p>
+        <p className="tos-txt" onClick={createDummyAccount}>By continuing, you agree to AlertBytes<span className='main-span'><span><Link href='/'>Terms of Service</Link></span>,  <span><Link href='/'> Privacy Policy</Link></span></span></p>
       </div>
              
       </div>

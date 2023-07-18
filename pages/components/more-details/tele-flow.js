@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useState, useEffect, useContext, useRef, useCallback } from "react";
-import StatusContext from '/home/webninjaz-developer/Desktop/new/store/status-context';
+import StatusContext from '../store/status-context';
 import Moralis from "moralis";
 import { useMoralis, useMoralisCloudFunction  } from "react-moralis";
 import { useRouter } from 'next/router';
@@ -36,7 +36,7 @@ const useStateWithCallbackLazy = (initialValue) => {
     if (callbackRef.current) {
       callbackRef.current(state.value);
 
-      callbackRef.current = null;
+      callbackRef.current = null;   
     }
   }, [state.revision, state.value]);
 
@@ -79,7 +79,7 @@ const Verifytelegram = async () => {
     .then((data) => {
       console.log(data.result);
       // handleSave();
-
+       
       let telegramiddata = data.result.filter(
         (messageBlock) =>
           // if (messageBlock.message.chat.username) {

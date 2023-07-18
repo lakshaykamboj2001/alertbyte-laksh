@@ -1088,3 +1088,82 @@ font-weight: 500;
   font-weight: 500;
   font-size: 14px;
 }
+/* ===============NOTIFICATIONS=============== */
+.monitor-btn{
+  gap: 20px;
+  border: none;
+}
+.monitor-btn .nav-item button{
+  background-color: var(--black);
+  color: var(--white);  
+  font-size: 18px;
+  font-weight: 500;
+  min-width: 217px;
+  padding: 15px 10px;
+  border-radius: 10px;
+}
+
+
+.monitor-btn  .nav-link:hover, .monitor-btn .nav-link:focus,.monitor-btn .nav-link:target {
+  border: 1px solid var(--black);
+}
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link{
+  background: var(--black);
+  color: var(--neon);
+  border: 1px solid var(--black);
+  font-weight: 600;
+}
+.notification-table {
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  transition: .5s;
+  overflow: hidden;
+  margin-top: 40px;
+  padding: 20px;
+  border: 1px solid var(--neon);
+}
+.table{
+  border: none;
+}
+.table  th{
+  background: transparent;
+  border-bottom-width:0;
+  color: white;
+  font-size: 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ===============WALLET CONTENTS=============== */
+.cu-form.search-form{
+  gap: 30px;
+  max-width: 630px;
+}
+.cu-form.search-form input, 
+.cu-form.search-form select {
+  background: var(--black);
+  padding: 1.1rem 1.5rem;
+  border: 2px solid #07F6D1;
+  border-radius: 50px;
+}
+/* .wn-body .cu-form select{
+  background: url('/public/chevron-down.svg') no-repeat right center;
+} */
+.cu-form.search-form input::placeholder{
+  color: #afa9a9;
+}

@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import '../styles/globals.css';
 // import { GoogleAnalytics } from "nextjs-google-analytics";
 import { MoralisProvider } from "react-moralis";
-import StatusContext from '../store/status-context';
+import StatusContext from './components/store/status-context';
 import Moralis from "moralis";
 
 
