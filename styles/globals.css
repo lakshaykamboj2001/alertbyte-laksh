@@ -1113,31 +1113,116 @@ font-weight: 500;
   border: 1px solid var(--black);
   font-weight: 600;
 }
-.notification-table {
+.notification-tbl {
   border-radius: 15px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 10px;
+  gap: 40px;
   transition: .5s;
-  overflow: hidden;
+  overflow:hidden;
   margin-top: 40px;
-  padding: 20px;
+  padding: 20px 45px 15px 23px;
   border: 1px solid var(--neon);
 }
-.table{
+
+.tbl {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  margin-bottom: unset;
+  width: 100%;
+  gap: 20px;
+}
+.tbl > .tbl-row {
+  border-radius: 10px;
+  display: flex;
+}
+.tbl-row.tb-head{
+  padding: 0 20px;
+}
+.tbl-row.tb-body-r{
+  background-color: #37343775;
+  padding: 20px;
+}
+.tbl-cell {
+  flex: 1;
+  font-size: 20px;
+}
+
+.tb-head .tbl-cell{
+font-weight: 600;
+}
+.tbl-cell.blank {
+  max-width: 40px;
+  border: 1px solid white;
+  /* display: flex; */
+  /* align-items: center; */
+  transform: translate(-30px, 0px);
+  /* justify-content: center; */
+  background-color: #ffffff20;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+}
+.tb-head .blank {
+  visibility: hidden;
+}
+.tbl > :not(caption) > * > * {
+  padding:unset;
+  color:white;
+  background-color: unset;
+}
+
+
+
+/*.table{
   border: none;
 }
-.table  th{
+.table th{
   background: transparent;
   border-bottom-width:0;
   color: white;
   font-size: 20px;
 }
-
-
-
-
+ .table td{
+  font-size: 20px;
+  color: white;
+  padding: 20px;
+}
+.table td span{
+  background-color: unset;
+  color: white;
+  padding: unset;
+}
+.table-striped > tbody > tr> * {
+  --bs-table-color-type: unset;
+  --bs-table-bg-type: unset;
+}
+.table > :not(caption) > * > *{
+  background-color: unset;
+}
+.notification-table .table-striped>tbody>tr>td{
+  background-color:#37343775 !important;
+}
+.notification-table tr>:last-child {
+  border-radius: 0 10px 10px 0;
+}
+.notification-table tr>:first-child {
+  border-radius:  10px 0 0 10px ;
+}
+.notification-table .table>:not(caption)>*>* {
+  border-bottom: none;
+}
+.notification-table .table-striped > tbody > tr:nth-of-type(odd) > * {
+  --bs-table-color-type: unset;
+  --bs-table-bg-type: unset;
+}
+.notification-table tbody > tr {
+  margin-bottom: 5px;
+} */
 
 
 

@@ -14,12 +14,35 @@ const TeleFlow = () => {
   const ipcode = code.join('');
 
   const router = useRouter();
+  const inputRefs = useRef([]);
+
+  useEffect(() => {
+    if (inputRefs.current[0]) {
+      inputRefs.current[0].focus();
+    }
+  }, []);
   const handleCodeChange = (index, event) => {
     const value = event.target.value;
     const updatedCode = [...code];
     updatedCode[index] = value;
     setCode(updatedCode);
+    if (inputRefs.current[index + 1]) {
+      inputRefs.current[index + 1].focus();
+    }
   };
+  const handlePaste = (event) => {
+    const pasteData = event.clipboardData.getData('text/plain');
+    const pasteValues = pasteData.split('').slice(0, 6);
+    const updatedCode = [...code];
+    pasteValues.forEach((value, index) => {
+      if (inputRefs.current[index]) {
+        updatedCode[index] = value;
+      }
+    });
+    setCode(updatedCode);
+  };
+   
+
 
 // =========================
 const randomString = () => Math.random().toString(36).substr(2, 9);
@@ -66,8 +89,11 @@ const generateOTP = (length) => {
   for (let i = 0; i < length; i++) {
     OTPvalue += characters[Math.floor(Math.random() * characterCount)];
   }
-  setOTP(OTPvalue);
-  return OTPvalue;
+  if(OTP){
+
+    setOTP(OTPvalue.toUpperCase);
+  }
+  return OTPvalue.toUpperCase();
 };
 
 
@@ -116,7 +142,7 @@ const VerifyTeleOTP = async (_chat_id_) => {
     "\n\n" +
     generateOTP(6) +
     "\n\n" +
-    "Please Don't share your OTP with anyone for security purposes !";
+    "Please Don't share your OTP!";
   const requestOptions = {
     method: "POST",
     headers: {
@@ -302,6 +328,8 @@ const OTPCHECKS = () => {
                  maxLength={1}
                  value={value}
                  onChange={(event) => handleCodeChange(index, event)}
+                  onPaste={handlePaste}
+                  ref={(el) => (inputRefs.current[index] = el)}
                />
              ))}
            </div>

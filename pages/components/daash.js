@@ -5,7 +5,7 @@ import { useMoralis, useMoralisCloudFunction  } from "react-moralis";
 import Moralis from "moralis-v1";
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
-
+import Link from 'next/link';
 
 
 
@@ -16,7 +16,7 @@ const VerticalTabs =() => {
     setUserData,
     refetchUserData,
   } = useMoralis();
-  const [activeTab, setActiveTab] = useState(3); 
+  const [activeTab, setActiveTab] = useState(2); 
   const router = useRouter();
 
 
@@ -38,33 +38,71 @@ const VerticalTabs =() => {
   };
   
 
+  /*
+
+ <tr className='tbl-div'>
+                  <th scope="col">Date</th>
+                  <th scope="col">Ammount</th>
+                  <th scope="col">From</th>
+                  <th scope="col"></th>
+                  <th scope="col">To</th>
+                  <th scope="col">Alert</th>
+                  <th scope="col">Trx. Hash</th> 
+                  <th scope="col"></th>
+                </tr>
+<tr>
+                  <div className="tbl-cell">23-06-2022<span className="d-block">08:06:12</span></div>
+                  <div className="tbl-cell">0.0071ETH<span className="d-block">~$76.92</span></div>
+                  <div className="tbl-cell">0Xe9...<span className="d-block">...9876</span></div>
+                  <div className="tbl-cell">In</div>
+                  <div className="tbl-cell">0Xe9...</div>
+                  <div className="tbl-cell">My Alert</div>
+                  <div className="tbl-cell">jds</div>
+                  <div className="tbl-cell">In</div>
+                </tr>
+
+  */
  // ============NOTIFICATIONS=========== //
   const Tab2 = () => {
     return (
       <Tabs defaultActiveKey="first" className="monitor-btn">
         <Tab eventKey="first" title="Personal Monitor">
-          <div className="notification-table">
-            <table className="table table-striped">
-              <thead>
-                <tr className='table-div'>
-                  <th scope="col">Date</th>
-                  <th scope="col">Ammount</th>
-                  <th scope="col">From</th>
-                  <th scope="col">To</th>
-                  <th scope="col">Alert</th>
-                  <th scope="col">Trx. Hash</th> 
-                </tr>
-              </thead>
-              <tbody>
-                <td>wee</td>
-                <td>cdf</td>
-                <td>dfd</td>
-                <td>4545</td>
-                <td>dff4</td>
-                <td>dff4ds</td>
-
-              </tbody>
-            </table>
+          <div className="notification-tbl">
+          <div class="tbl">
+            <div class="tbl-row tb-head">
+              <div class="tbl-cell">Date</div>
+              <div class="tbl-cell">Amount</div>
+              <div class="tbl-cell">From</div>
+              <div class="tbl-cell blank"></div>
+              <div class="tbl-cell">To</div>
+              <div class="tbl-cell">Alert</div>
+              <div class="tbl-cell">Trx. Hash</div>
+              <div class="tbl-cell blank" ></div>
+            </div>
+            <div class="tbl-row tb-body-r">
+              <div className="tbl-cell">23-06-2022<span className="d-block">08:06:12</span></div>
+              <div className="tbl-cell">0.0071ETH<span className="d-block">~$76.92</span></div>
+              <div className="tbl-cell">0Xe9...<span className="d-block">...9876</span></div>
+              <div className="tbl-cell blank">In</div>
+              <div className="tbl-cell">0Xe9...</div>
+              <div className="tbl-cell">My Alert</div>
+              <div className="tbl-cell">jds</div>
+              <div className="tbl-cell blank">In</div>
+            </div>
+            <div class="tbl-row  tb-body-r">
+              <div className="tbl-cell">23-06-2022<span className="d-block">08:06:12</span></div>
+              <div className="tbl-cell">0.0071ETH<span className="d-block">~$76.92</span></div>
+              <div className="tbl-cell">0Xe9...<span className="d-block">...9876</span></div>
+              <div className="tbl-cell blank">In</div>
+              <div className="tbl-cell">0Xe9...</div>
+              <div className="tbl-cell">My Alert</div>
+              <div className="tbl-cell">jds</div>
+              <div className="tbl-cell blank">In</div>
+            </div>
+          </div>
+            <div className="">
+              <button>Load More</button>
+            </div>
           </div>
         </Tab>
         <Tab eventKey="second" title="Community Monitor">
