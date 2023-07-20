@@ -3,8 +3,9 @@ import React, { useState, useEffect, useContext } from "react";
 import { useMoralis, useMoralisCloudFunction  } from "react-moralis";
 import Image from 'next/image';
 import Moralis from 'moralis';
-import StatusContext from '../store/status-context';
+import StatusContext from '@/status-context';
 import { useRouter } from "next/router";
+
 
 const EmailFlow = ({ onGoBack,onhidetitle }) => {
   const { user, setUserData, Moralis, refetchUserData } = useMoralis();
@@ -62,7 +63,7 @@ const EmailFlow = ({ onGoBack,onhidetitle }) => {
         alert("Error: " + error.code + " " + error.message);
       });
   };
-
+  
 
 
 const emailadd = async () => {
@@ -73,7 +74,7 @@ const emailadd = async () => {
       setUserData({
         email: mail === "" ? undefined : mail,
       });
-      await refetchUserData();
+      refetchUserData();
       VerificationEmail();
       await refetchUserData();
     } else {

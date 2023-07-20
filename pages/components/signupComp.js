@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { useMoralis, useMoralisCloudFunction  } from "react-moralis";
 import Image from 'next/image';
 import Moralis from 'moralis';
-import StatusContext from './store/status-context';
+import StatusContext from '@/status-context';
 
 async function addPolygonTestnetNetwork() {
   const { ethereum } = window;
