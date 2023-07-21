@@ -12,7 +12,6 @@ export default function Home() {
   return (
     <>
     <main className="contact-us">
-    <Header/>
     <ContactForm/>
     <Newsletter/>
     </main>

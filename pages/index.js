@@ -27,8 +27,8 @@ export default function Home() {
 
   return (
     <>
-    <main className=" main-home">
     <Header mdata={mdata}/>
+    <main className=" main-home">
     <HomeBanner/>
     <HomeServices />
     <Bugs/>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Header from './components/header';
+import Header from './components/logo-header';
 import EmailFlow from './components/more-details/email-flow';
 import TeleFlow from './components/more-details/tele-flow';
 import { useRouter } from 'next/router';

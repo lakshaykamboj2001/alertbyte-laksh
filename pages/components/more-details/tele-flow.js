@@ -125,6 +125,15 @@ const Verifytelegram = async () => {
       if(currentStep === 2){
        setCurrentStep(currentStep + 1);
       }
+      if(currentStep === 3){
+        setSuccess((prevState) => ({
+          ...prevState,
+          title: "Verification OTP resent",
+          message:
+            "An OTP is resent to your registered Telegram . Please check your Telegram",
+          showSuccessBox: true,
+        }));
+      }
 
     })
     .catch((error) => {
@@ -338,7 +347,7 @@ const OTPCHECKS = () => {
            </div>
            <div className="resend-div">
              <span >Didn't Receive The Code?</span>
-             <span className='link-text text-underline d-block' onClick={()=>{console.log("clicked")}}>Resend code</span>
+             <span className='link-text text-underline d-block' onClick={Verifytelegram}>Resend code</span>
            </div>
            {/* <button onClick={handlePrevious}>previous</button> */}
          </div>

@@ -6,8 +6,9 @@ import Moralis from "moralis-v1";
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 import Link from 'next/link';
-
-
+import { IoMdArrowRoundUp} from 'react-icons/io';
+import {BsFillTriangleFill} from 'react-icons/bs';
+import {BsChevronDown} from 'react-icons/bs';
 
 const VerticalTabs =() => {
   const {
@@ -38,33 +39,11 @@ const VerticalTabs =() => {
   };
   
 
-  /*
-
- <tr className='tbl-div'>
-                  <th scope="col">Date</th>
-                  <th scope="col">Ammount</th>
-                  <th scope="col">From</th>
-                  <th scope="col"></th>
-                  <th scope="col">To</th>
-                  <th scope="col">Alert</th>
-                  <th scope="col">Trx. Hash</th> 
-                  <th scope="col"></th>
-                </tr>
-<tr>
-                  <div className="tbl-cell">23-06-2022<span className="d-block">08:06:12</span></div>
-                  <div className="tbl-cell">0.0071ETH<span className="d-block">~$76.92</span></div>
-                  <div className="tbl-cell">0Xe9...<span className="d-block">...9876</span></div>
-                  <div className="tbl-cell">In</div>
-                  <div className="tbl-cell">0Xe9...</div>
-                  <div className="tbl-cell">My Alert</div>
-                  <div className="tbl-cell">jds</div>
-                  <div className="tbl-cell">In</div>
-                </tr>
-
-  */
  // ============NOTIFICATIONS=========== //
   const Tab2 = () => {
+  const [showContent, setShowContent] = useState(false);
     return (
+      <>
       <Tabs defaultActiveKey="first" className="monitor-btn">
         <Tab eventKey="first" title="Personal Monitor">
           <div className="notification-tbl">
@@ -73,35 +52,95 @@ const VerticalTabs =() => {
               <div class="tbl-cell">Date</div>
               <div class="tbl-cell">Amount</div>
               <div class="tbl-cell">From</div>
-              <div class="tbl-cell blank"></div>
+              <div class="tbl-cell blank"></div> 
               <div class="tbl-cell">To</div>
               <div class="tbl-cell">Alert</div>
               <div class="tbl-cell">Trx. Hash</div>
-              <div class="tbl-cell blank" ></div>
+              <div class="tbl-cell blank"></div>
             </div>
-            <div class="tbl-row tb-body-r">
-              <div className="tbl-cell">23-06-2022<span className="d-block">08:06:12</span></div>
-              <div className="tbl-cell">0.0071ETH<span className="d-block">~$76.92</span></div>
-              <div className="tbl-cell">0Xe9...<span className="d-block">...9876</span></div>
-              <div className="tbl-cell blank">In</div>
-              <div className="tbl-cell">0Xe9...</div>
-              <div className="tbl-cell">My Alert</div>
-              <div className="tbl-cell">jds</div>
-              <div className="tbl-cell blank">In</div>
+
+            <div className="tmain-body">
+
+            <div class="tbl-row row-cnt" onClick={() => setShowContent(!showContent)}>
+              <div className="tb-body-r" >
+                <div className="tbl-cell">23-06-2022<span className="d-block">08:06:12</span></div>
+                <div className="tbl-cell">0.0071ETH<span className="d-block">~$76.92</span></div>
+                <div className="tbl-cell">0Xe9...<span className="d-block">...9876</span></div>
+                <div className="tbl-cell blank mod-bk">In</div>
+                <div className="tbl-cell">0Xe9...</div>
+                <div className="tbl-cell">My Alert</div>
+                <div className="tbl-cell hasharrow-icn "><IoMdArrowRoundUp></IoMdArrowRoundUp></div>
+                <div className="tbl-cell blank notice-arrow"><BsFillTriangleFill/></div>
+              </div>
+              <div className={`note-div ${showContent ? '' : 'd-none'}`}>
+                <p>Note:</p>
+                <p>Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Nullam Ipsum Eros, Mattis A Dui
+                Orem Viverra, At Commodo Lorem Porttitor.</p>
+              </div>
             </div>
-            <div class="tbl-row  tb-body-r">
-              <div className="tbl-cell">23-06-2022<span className="d-block">08:06:12</span></div>
-              <div className="tbl-cell">0.0071ETH<span className="d-block">~$76.92</span></div>
-              <div className="tbl-cell">0Xe9...<span className="d-block">...9876</span></div>
-              <div className="tbl-cell blank">In</div>
-              <div className="tbl-cell">0Xe9...</div>
-              <div className="tbl-cell">My Alert</div>
-              <div className="tbl-cell">jds</div>
-              <div className="tbl-cell blank">In</div>
+             <div class="tbl-row row-cnt" onClick={() => setShowContent(!showContent)}>
+              <div className="tb-body-r" >
+                <div className="tbl-cell">23-06-2022<span className="d-block">08:06:12</span></div>
+                <div className="tbl-cell">0.0071ETH<span className="d-block">~$76.92</span></div>
+                <div className="tbl-cell">0Xe9...<span className="d-block">...9876</span></div>
+                <div className="tbl-cell blank mod-bk">In</div>
+                <div className="tbl-cell">0Xe9...</div>
+                <div className="tbl-cell">My Alert</div>
+                <div className="tbl-cell hasharrow-icn "><IoMdArrowRoundUp></IoMdArrowRoundUp></div>
+                <div className="tbl-cell blank notice-arrow"><BsFillTriangleFill/></div>
+              </div>
+              <div className={`note-div ${showContent ? '' : 'd-none'}`}>
+                <p>Note:</p>
+                <p>Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Nullam Ipsum Eros, Mattis A Dui
+                Orem Viverra, At Commodo Lorem Porttitor.</p>
+              </div>
             </div>
+
+            <div class="tbl-row row-cnt" onClick={() => setShowContent(!showContent)}>
+              <div className="tb-body-r" >
+                <div className="tbl-cell">23-06-2022<span className="d-block">08:06:12</span></div>
+                <div className="tbl-cell">0.0071ETH<span className="d-block">~$76.92</span></div>
+                <div className="tbl-cell">0Xe9...<span className="d-block">...9876</span></div>
+                <div className="tbl-cell blank mod-bk">In</div>
+                <div className="tbl-cell">0Xe9...</div>
+                <div className="tbl-cell">My Alert</div>
+                <div className="tbl-cell hasharrow-icn "><IoMdArrowRoundUp></IoMdArrowRoundUp></div>
+                <div className="tbl-cell blank notice-arrow"><BsFillTriangleFill/></div>
+              </div>
+              <div className={`note-div ${showContent ? '' : 'd-none'}`}>
+                <p>Note:</p>
+                <p>Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Nullam Ipsum Eros, Mattis A Dui
+                Orem Viverra, At Commodo Lorem Porttitor.</p>
+              </div>
+            </div>
+
+
+             <div class="tbl-row row-cnt" onClick={() => setShowContent(!showContent)}>
+              <div className="tb-body-r" >
+                <div className="tbl-cell">23-06-2022<span className="d-block">08:06:12</span></div>
+                <div className="tbl-cell">0.0071ETH<span className="d-block">~$76.92</span></div>
+                <div className="tbl-cell">0Xe9...<span className="d-block">...9876</span></div>
+                <div className="tbl-cell blank mod-bk">In</div>
+                <div className="tbl-cell">0Xe9...</div>
+                <div className="tbl-cell">My Alert</div>
+                <div className="tbl-cell hasharrow-icn "><IoMdArrowRoundUp></IoMdArrowRoundUp></div>
+                <div className="tbl-cell blank notice-arrow"><BsFillTriangleFill/></div>
+              </div>
+              <div className={`note-div ${showContent ? '' : 'd-none'}`}>
+                <p>Note:</p>
+                <p>Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Nullam Ipsum Eros, Mattis A Dui
+                Orem Viverra, At Commodo Lorem Porttitor.</p>
+              </div>
+            </div>
+            </div>
+
+            
+
+          
+            
           </div>
-            <div className="">
-              <button>Load More</button>
+            <div className="lm-btn">
+              <button>Load More<BsChevronDown/></button>
             </div>
           </div>
         </Tab>
@@ -112,6 +151,7 @@ const VerticalTabs =() => {
           tab3
         </Tab>
       </Tabs>
+      </>
     );
   };
 
@@ -139,23 +179,6 @@ const VerticalTabs =() => {
 
 
 
-  // const handlesearch = async () => {
-  //   console.log(walletadress);
-
-  // // Get all NFT tokens associated with the wallet address
-  // const nfts = await Moralis.Web3API.account.getNFTs({ address: walletdress });
-  // console.log("Number of NFTs:", nfts.length);
-
-  // // Iterate over the NFTs and log relevant information
-  // nfts.forEach((nft) => {
-  //   console.log("Token ID:", nft.token_id);
-  //   console.log("Contract Address:", nft.token_address);
-  //   console.log("Token Name:", nft.name);
-  //   console.log("Token Symbol:", nft.symbol);
-  //   console.log("------------------------");
-  // });
-  // }
-  
 
     return (
     <>
@@ -193,6 +216,7 @@ const VerticalTabs =() => {
     const [username, setUsername] = useState("");
     const [mail, setMail] = useState("");
     const [telegram, setTelegram] = useState("");
+    const [ismailverified, setIsmailverified] = useState("")
 
     useEffect(() => {
       if (user) {
@@ -247,7 +271,7 @@ const VerticalTabs =() => {
           <div className="prof-ip-butn">
             <input placeholder="" type="email" value={mail} onChange={(e) => { setMail(e.target.value) }} />
             <div className="">
-              <button className="btn-fill" onClick={handlemail}>save</button>
+              <button className="btn-fill" onClick={handlemail}>{ mail ? 'save' : 'verify now'}</button>
             </div>
           </div>
         </div>
@@ -256,7 +280,7 @@ const VerticalTabs =() => {
           <div className="prof-ip-butn">
             <input placeholder="" type="text" value={telegram} onChange={(e) => { setTelegram(e.target.value) }} />
             <div className="">
-              <button className="btn-fill" onClick={handltele}>verify now</button>
+              <button className="btn-fill" onClick={handltele}>{ telegram ? 'save' : 'verify now'}</button>
             </div>
           </div>
         </div>

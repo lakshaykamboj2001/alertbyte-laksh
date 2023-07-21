@@ -95,8 +95,8 @@ function BsNavDropdown() {
 
   return (
     <>
-    <header className="container">
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
+    <div className="container">
           <a className="navbar-brand" href="/">
             <img src="/global/alert-byte-logo.png" alt="" />
           </a>
@@ -198,8 +198,8 @@ function BsNavDropdown() {
                 <button className="btn btn-fill " type="button">Login</button>
               </div>
           </div>
+    </div>
       </nav>
-    </header>
     </>
   )
 }

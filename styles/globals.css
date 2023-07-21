@@ -126,10 +126,17 @@ margin-left: 15px;
   border: 2px solid var(--neon);
   border-radius: 15px;
 }
+/*=====logoheader====== */
+.logo-header .navbar-brand img{
+  margin: 50px 0;
+}
 /* ======Header====== */
 .wn-body .navbar {
-  background-color: #000 !important;
-  margin-top: 20px;
+    background-color: #000 !important;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding-top: 20px;
 }
 ul.navbar-nav.header-menu{
   gap: 36px;
@@ -346,8 +353,8 @@ ul.navbar-nav.header-menu{
 .home-banner .sec-p{
   max-width: 58ch;
 }
-.home-banner{
-  margin-top: 50px;
+.wn-body section.home-banner{
+  margin-top: 250px;
 }
 
 /* === Home services=== */
@@ -1102,8 +1109,6 @@ font-weight: 500;
   padding: 15px 10px;
   border-radius: 10px;
 }
-
-
 .monitor-btn  .nav-link:hover, .monitor-btn .nav-link:focus,.monitor-btn .nav-link:target {
   border: 1px solid var(--black);
 }
@@ -1118,54 +1123,59 @@ font-weight: 500;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 40px;
+  align-items: center;
+  justify-content: center;
+  gap: 35px;
   transition: .5s;
   overflow:hidden;
-  margin-top: 40px;
-  padding: 20px 45px 15px 23px;
+  margin-top: 100px;
+  padding: 20px 45px 5px 23px;
   border: 1px solid var(--neon);
 }
-
 .tbl {
   display: flex;
   flex-direction: column;
   padding: 5px;
   margin-bottom: unset;
   width: 100%;
-  gap: 20px;
+  gap: 10px;
+}
+.tmain-body{
+ display: flex;
+ flex-direction: column;
+ gap: 20px;
+ height: 350px;
+ overflow-y: scroll;
+
 }
 .tbl > .tbl-row {
-  border-radius: 10px;
   display: flex;
 }
 .tbl-row.tb-head{
   padding: 0 20px;
 }
-.tbl-row.tb-body-r{
-  background-color: #37343775;
-  padding: 20px;
-}
+.tbl-row .tb-body-r{
+  display: flex;
+  width: 100%;}
 .tbl-cell {
   flex: 1;
   font-size: 20px;
 }
-
 .tb-head .tbl-cell{
 font-weight: 600;
 }
-.tbl-cell.blank {
+ .tbl-cell.blank {
   max-width: 40px;
-  border: 1px solid white;
-  /* display: flex; */
-  /* align-items: center; */
   transform: translate(-30px, 0px);
-  /* justify-content: center; */
-  background-color: #ffffff20;
   border-radius: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
   height: 40px;
+}
+.tbl-cell.blank.mod-bk{
+  background-color: #ffffff20;
+  border: 1px solid white;
 }
 .tb-head .blank {
   visibility: hidden;
@@ -1176,60 +1186,51 @@ font-weight: 600;
   background-color: unset;
 }
 
-
-
-/*.table{
-  border: none;
-}
-.table th{
-  background: transparent;
-  border-bottom-width:0;
-  color: white;
-  font-size: 20px;
-}
- .table td{
-  font-size: 20px;
-  color: white;
+.tbl-row.row-cnt{
+  background-color: #373437b8;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
   padding: 20px;
 }
-.table td span{
-  background-color: unset;
-  color: white;
-  padding: unset;
+.note-div{
+  display: flex;
+  gap: 20px;
+  font-size: 20px;
 }
-.table-striped > tbody > tr> * {
-  --bs-table-color-type: unset;
-  --bs-table-bg-type: unset;
+.wn-body .note-div p{
+  font-size: 20px;
 }
-.table > :not(caption) > * > *{
-  background-color: unset;
+.note-div >p:first-child{
+  font-weight: 600;
+} 
+.tbl-cell.hasharrow-icn {
+  font-size: 34px;
 }
-.notification-table .table-striped>tbody>tr>td{
-  background-color:#37343775 !important;
+.tbl-cell.hasharrow-icn svg {
+  rotate: 40deg;
+  transform: translate(3px, -20px);
 }
-.notification-table tr>:last-child {
-  border-radius: 0 10px 10px 0;
+.tbl-cell.notice-arrow svg {
+  color: var(--neon);
+  font-size: 22px;
+  transform: translate(-10px, 6px);
+  rotate: 180deg;
 }
-.notification-table tr>:first-child {
-  border-radius:  10px 0 0 10px ;
-}
-.notification-table .table>:not(caption)>*>* {
-  border-bottom: none;
-}
-.notification-table .table-striped > tbody > tr:nth-of-type(odd) > * {
-  --bs-table-color-type: unset;
-  --bs-table-bg-type: unset;
-}
-.notification-table tbody > tr {
-  margin-bottom: 5px;
-} */
 
+.lm-btn > button{
+  background: transparent;
+  color: var(--neon);
+  border: none;
+  font-size: 20px;
+  font-weight: 500;
+}
+.lm-btn > button svg{
+  margin-left: 5px;
+  font-size: 25px;
 
-
-
-
-
-
+}
 
 
 

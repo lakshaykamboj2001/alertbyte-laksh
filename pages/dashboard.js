@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import Header from './components/header'
+import LHeader from './components/logo-header'
 import DashBoard from './components/daash'
 
 const Dashboard = () => {
  return(
     <>
     <main className="main-dashboard">
-     <Header />
+     <LHeader />
      <DashBoard/>
     </main>
      
