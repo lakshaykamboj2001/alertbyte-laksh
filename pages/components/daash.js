@@ -9,6 +9,8 @@ import Link from 'next/link';
 import { IoMdArrowRoundUp} from 'react-icons/io';
 import {BsFillTriangleFill} from 'react-icons/bs';
 import {BsChevronDown} from 'react-icons/bs';
+import {FaChevronDown} from 'react-icons/fa';
+
 
 const VerticalTabs =() => {
   const {
@@ -44,6 +46,17 @@ const VerticalTabs =() => {
   const [showContent, setShowContent] = useState(false);
     return (
       <>
+      <div className="filter-main-div">
+        <div className="filter-sub-div inout-sec">
+         <span className="head">Filter<FaChevronDown/></span>
+         <div className="filter-exp">
+          xhcushcuh
+         </div>
+        </div>
+        <div className="filter-sub-div sort-sec">
+         <span className="head">Sort By:</span>
+        </div>
+      </div>
       <Tabs defaultActiveKey="first" className="monitor-btn">
         <Tab eventKey="first" title="Personal Monitor">
           <div className="notification-tbl">
@@ -133,19 +146,53 @@ const VerticalTabs =() => {
               </div>
             </div>
             </div>
-
-            
-
-          
-            
           </div>
             <div className="lm-btn">
               <button>Load More<BsChevronDown/></button>
             </div>
           </div>
         </Tab>
+        {/* =================================================================================================================== */}
+        {/* =============================================COMMUNITY MONITOR TAB================================================= */}
+        {/* =================================================================================================================== */}
         <Tab eventKey="second" title="Community Monitor">
-          tab2
+        <div className="notification-tbl">
+          <div class="tbl">
+            <div class="tbl-row tb-head">
+              <div class="tbl-cell">Date & Time</div>
+              <div class="tbl-cell">Violation</div>
+              <div class="tbl-cell">From</div>
+              <div class="tbl-cell">To</div>
+              <div class="tbl-cell">Trx. Hash</div>
+            </div>
+
+            <div className="tmain-body">
+              <div class="tbl-row row-cnt" >
+                <div className="tb-body-r" >
+                  <div className="tbl-cell">23-06-2022<span className="d-block">08:06:12</span></div>
+                  <div className="tbl-cell">0.0071ETH<span className="d-block">~$76.92</span></div>
+                  <div className="tbl-cell">0Xe9...<span className="d-block">...9876</span></div>
+                  <div className="tbl-cell">0Xf4...<span className="d-block">...1520</span></div>
+                  <div className="tbl-cell hasharrow-icn "><IoMdArrowRoundUp></IoMdArrowRoundUp></div>
+                </div>
+              </div>
+
+              <div class="tbl-row row-cnt" >
+                <div className="tb-body-r" >
+                  <div className="tbl-cell">23-06-2022<span className="d-block">08:06:12</span></div>
+                  <div className="tbl-cell">0.0071ETH<span className="d-block">~$76.92</span></div>
+                  <div className="tbl-cell">0Xe9...<span className="d-block">...9876</span></div>
+                  <div className="tbl-cell">0Xe9...</div>
+                  <div className="tbl-cell hasharrow-icn "><IoMdArrowRoundUp></IoMdArrowRoundUp></div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div className="lm-btn">
+            <button>Load More<BsChevronDown/></button>
+          </div>
+          </div>
         </Tab>
         <Tab eventKey="third" title="Price Alert">
           tab3

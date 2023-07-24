@@ -49,9 +49,7 @@ const HelpForm = () => {
       <div className="container">
         <div className="border-div">
           <Form className="cu-form" onSubmit={handleFormSubmit}>
-
           <h1 className="form-head">Contact Us</h1>
-
             <div className="fl-name">
               <Form.Group controlId="formBasicName">
                 <Form.Label>First Name</Form.Label>

@@ -132,11 +132,12 @@ margin-left: 15px;
 }
 /* ======Header====== */
 .wn-body .navbar {
-    background-color: #000 !important;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    padding-top: 20px;
+  background-color: #000 !important;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding-top: 20px;
+  z-index: 99;
 }
 ul.navbar-nav.header-menu{
   gap: 36px;
@@ -1071,6 +1072,7 @@ font-weight: 500;
 }
 .tab-side-content{
   padding-left: 30px;
+  position: relative;
 }
 
 .prof-ip-butn {
@@ -1232,6 +1234,39 @@ font-weight: 600;
 
 }
 
+.filter-main-div{
+  position: absolute;
+  top: 90px;
+  left: 30px;
+  z-index: 1;
+  width: 100%;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  gap: 25px;
+}
+.filter-sub-div{
+  min-width: 150px;
+  background-color: var(--black);
+  border-radius: 5px;
+  padding: 5px 10px;
+}
+.wn-body .filter-sub-div .head{
+ font-size: 14px;
+}
+.inout-sec .head {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.inout-sec .head svg{
+  color: var(--neon);
+}
+
+.filter-exp{
+  display: none;
+}
 
 
 
