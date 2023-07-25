@@ -14,6 +14,8 @@ const TeleFlow = () => {
   const ipcode = code.join('');
 
   const router = useRouter();
+
+  const codeLength = 6;
   const inputRefs = useRef([]);
 
   useEffect(() => {
@@ -23,11 +25,18 @@ const TeleFlow = () => {
   }, []);
   const handleCodeChange = (index, event) => {
     const value = event.target.value;
-    const updatedCode = [...code];
-    updatedCode[index] = value;
+    const updatedCode = [...Array(codeLength)].map((_, i) =>
+      i === index ? value : code[i] || ''
+    );
     setCode(updatedCode);
-    if (inputRefs.current[index + 1]) {
-      inputRefs.current[index + 1].focus();
+    if (value !== '') {
+      if (index < codeLength - 1 && inputRefs.current[index + 1]) {
+        inputRefs.current[index + 1].focus();
+      }
+    } else {
+      if (index > 0 && inputRefs.current[index - 1]) {
+        inputRefs.current[index - 1].focus();
+      }
     }
   };
   const handlePaste = (event) => {
@@ -89,11 +98,8 @@ const generateOTP = (length) => {
   for (let i = 0; i < length; i++) {
     OTPvalue += characters[Math.floor(Math.random() * characterCount)];
   }
-  if(OTP){
-
-    setOTP(OTPvalue.toUpperCase);
-  }
-  return OTPvalue.toUpperCase();
+  setOTP(OTPvalue);
+  return OTPvalue;
 };
 
 
@@ -125,16 +131,7 @@ const Verifytelegram = async () => {
       if(currentStep === 2){
        setCurrentStep(currentStep + 1);
       }
-      if(currentStep === 3){
-        setSuccess((prevState) => ({
-          ...prevState,
-          title: "Verification OTP resent",
-          message:
-            "An OTP is resent to your registered Telegram . Please check your Telegram",
-          showSuccessBox: true,
-        }));
-      }
-
+     
     })
     .catch((error) => {
       // Show the error message somewhere
@@ -168,14 +165,25 @@ const VerifyTeleOTP = async (_chat_id_) => {
       console.log(_chat_id_ + "and" + OTP);
 
       // setshowOTPInput(true);
+      if(currentStep === 3){
+        setSuccess((prevState) => ({
+          ...prevState,
+          title: "Verification OTP resent",
+          message:
+            "An OTP is resent to your registered Telegram . Please check your Telegram",
+          showSuccessBox: true,
+        }));
+      } else{
 
-      setSuccess((prevState) => ({
-        ...prevState,
-        title: "Verification OTP sent",
-        message:
-          "An OTP is sent to your registered Telegram . Please verify your username.",
-        showSuccessBox: true,
-      }));
+        setSuccess((prevState) => ({
+          ...prevState,
+          title: "Verification OTP sent",
+          message:
+            "An OTP is sent to your registered Telegram . Please verify your username.",
+          showSuccessBox: true,
+        }));
+      }
+
     })
     .catch((error) => {
       alert("Error: " + error.code + " " + error.message);
@@ -206,32 +214,6 @@ const handleSave = async (needid) => {
   }));
 
 
-  // if (email === user.attributes.email) {
-  //   console.log("telegram:", telegram === "");
-  //   setUserData({ 
-  //     telegram: telegram,
-  //     chat_id: chatid,
-  //   });
-  //   setSuccess((prevState) => ({
-  //     ...prevState,
-  //     title: "Profile updated",
-  //     message: "Your Telegram username was updated successfully!",
-  //     showSuccessBox: true,
-  //   }));
-  //   return;
-  // } else {
-  //   setUserData({
-  //     email: email === "" ? undefined : email,
-  //     telegram: telegram === "" ? undefined : telegram,
-  //     chat_id: chatid === "" ? undefined : chatid,
-  //   });
-  //   setSuccess((prevState) => ({
-  //     ...prevState,
-  //     title: "Profile updated",
-  //     message: "Your profile was updated successfully!",
-  //     showSuccessBox: true,
-  //   }));
-  // }
 
   await refetchUserData(); 
 };

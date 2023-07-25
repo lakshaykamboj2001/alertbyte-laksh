@@ -644,21 +644,32 @@ margin-top: 50px;
   margin-left: 5px;
 }
 
-.opts{
+.opts {
   display: flex;
   gap: 15px;
-  justify-content: center;
+  justify-content: space-between;
   font-size: 24px;
   align-items: center;
-
-}
-.opts span{
- padding: 0px 10px;
-  border: 2px solid var(--neon);
-  border-radius:5px;
-  height: 24px;
+  min-width: 115px;
 }
 
+.opts  svg{
+  color: var(--neon);
+}
+.opts .two-img-hvr{ position: relative; }
+.two-img-hvr  > span {
+  position: absolute;
+  transition: .2s;
+  top: 50%;
+  left: calc(50% + 18px);
+  transform: translate(-50%, -50%);
+  font-size: 30px;
+}
+.opts .two-img-hvr .svg-nor  { opacity: 1; }
+.opts .two-img-hvr .svg-hvr{ opacity: 0; }
+.opts .two-img-hvr:hover .svg-hvr{ opacity: 1; }
+.opts .two-img-hvr:hover .svg-nor{ opacity: 0; }
+  
 
 .align-lg-butns{
   justify-content:center;
@@ -1246,13 +1257,15 @@ font-weight: 600;
   gap: 25px;
 }
 .filter-sub-div{
-  min-width: 150px;
   background-color: var(--black);
   border-radius: 5px;
   padding: 5px 10px;
+  position: relative;
+  min-width: 150px;
+  line-height: 24px;
 }
-.wn-body .filter-sub-div .head{
- font-size: 14px;
+.wn-body .filter-sub-div span{
+ font-size: 15px;
 }
 .inout-sec .head {
   display: flex;
@@ -1263,11 +1276,23 @@ font-weight: 600;
 .inout-sec .head svg{
   color: var(--neon);
 }
-
-.filter-exp{
-  display: none;
+.filter-sub-div .filter-expand {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: var(--black);
+  padding: 5px 20px;
+  border-radius: 5px;
+  min-width: 315px;
+  min-height: 180px;
+  z-index: 1;
 }
 
+
+.radios{
+  display: flex;
+  flex-direction: column;
+}
 
 
 /* ===============WALLET CONTENTS=============== */

@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState,useEffect,useRef,useContext } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useRouter } from 'next/router';
 import { useMoralis, useMoralisCloudFunction  } from "react-moralis";
@@ -10,6 +10,7 @@ import { IoMdArrowRoundUp} from 'react-icons/io';
 import {BsFillTriangleFill} from 'react-icons/bs';
 import {BsChevronDown} from 'react-icons/bs';
 import {FaChevronDown} from 'react-icons/fa';
+import StatusContext from '@/status-context';
 
 
 const VerticalTabs =() => {
@@ -21,6 +22,7 @@ const VerticalTabs =() => {
   } = useMoralis();
   const [activeTab, setActiveTab] = useState(2); 
   const router = useRouter();
+  const [error, success, setSuccess, setError] = useContext(StatusContext);
 
 
   const handleLogout = async () => {
@@ -41,18 +43,77 @@ const VerticalTabs =() => {
   };
   
 
- // ============NOTIFICATIONS=========== //
+ // ===================NOTIFICATIONS============== //
   const Tab2 = () => {
+  const [radioValue, setRadioValue] = useState(''); 
   const [showContent, setShowContent] = useState(false);
+  const [showFilterExpand, setShowFilterExpand] = useState(false);
+  const filterRef = useRef(null);
+
+  const handleFilterButtonClick = () => {
+    setShowFilterExpand(!showFilterExpand);
+  };
+
+  const handleClickOutside = (event) => {
+    if (filterRef.current && !filterRef.current.contains(event.target)) {
+      setShowFilterExpand(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('click', handleClickOutside, true);
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside, true);
+    };
+  }, []);
+
+  const handleRadioChange = (event) => {
+    setRadioValue(event.target.value);
+  };
     return (
       <>
       <div className="filter-main-div">
-        <div className="filter-sub-div inout-sec">
-         <span className="head">Filter<FaChevronDown/></span>
-         <div className="filter-exp">
-          xhcushcuh
-         </div>
+        <div className="filter-sub-div inout-sec" ref={filterRef}>
+          <span className="head dropdowntoggle" onClick={handleFilterButtonClick}>Filter {!showFilterExpand && <FaChevronDown/>}</span>
+          {showFilterExpand && (
+        <div className="filter-expand">
+          <p className="clr-all">
+            <span>Filter</span>
+            <span>Clear All</span>
+          </p>
+          <div className="radios">
+            <span>Direction</span>
+            <div>
+              <input
+                type="radio"
+                id="in"
+                name="in-out"
+                value="in"
+                checked={radioValue === 'in'}
+                onChange={handleRadioChange}
+              />
+              <label htmlFor="in">IN</label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                id="out"
+                name="in-out"
+                value="out"
+                checked={radioValue === 'out'}
+                onChange={handleRadioChange}
+              />
+              <label htmlFor="out">OUT</label>
+            </div>
+          </div>
+          <div className="">
+            <span >Blockchain</span>
+          </div>
         </div>
+      )}
+        </div>
+
         <div className="filter-sub-div sort-sec">
          <span className="head">Sort By:</span>
         </div>
@@ -210,22 +271,37 @@ const VerticalTabs =() => {
    const[bchain,setBchain] = useState("");
    const [showdata,setShowdata] = useState(false)
 
-   const handlesearch = async () => {
-    console.log(walletadress)
-    // const ethBalance = await Moralis.Web3API.account.getNativeBalance({ address: walletadress });
-    // console.log("ETH Balance:", ethBalance.balance);
+  //  const handlesearch = async () => {
+  //   console.log(walletadress)
+  //   // const ethBalance = await Moralis.Web3API.account.getNativeBalance({ address: walletadress });
+  //   // console.log("ETH Balance:", ethBalance.balance);
     
-    // // Print the created user's other balance (e.g., ERC20 token balance)
-    // const tokenBalances = await Moralis.Web3API.account.getTokenBalances({ address: walletadress });
-    // console.log("Token Balances:", tokenBalances);
+  //   // Print the created user's other balance (e.g., ERC20 token balance)
+  //   // const tokenBalances = await Moralis.Web3API.account.getTokenBalances({ address: walletadress });
+  //   // console.log("Token Balances:", tokenBalances);
 
-    const nfts = await Moralis.Web3API.account.getNFTs({ address: walletadress });
-    console.log(nfts);
-    // // 0xb47e3cd837dDF8e4c57F05d70Ab865de6e193BBB
-   }
+  //   const nfts = await Moralis.Web3API.account.getNFTs({ address: walletadress });
+  //   console.log(nfts);
+  //    // 0xb47e3cd837dDF8e4c57F05d70Ab865de6e193BBB
+  //  }
 
 
-
+  const handlesearch = async () => {
+    console.log(walletadress)
+    const nfts = await Moralis.Web3API.account.getNFTs({ address: walletadress })
+    .then(()=>{
+      console.log(nfts);
+    }).catch((error) => {
+      setError((prevState) => ({
+        ...prevState,
+        title: "Fetching Error",
+        message: "please enter a valid wallet adress!",
+        showErrorBox: true,
+      }));
+      
+    });
+    
+  }
 
     return (
     <>

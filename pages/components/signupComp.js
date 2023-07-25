@@ -66,31 +66,14 @@ const metamaskLogin = async () => {
   await addPolygonTestnetNetwork();
   await authenticate({ signingMessage: "AlertBytes Authentication" })
     .then(function (user) {
-      router.push("/more-details");
+      if(user){
+        router.push("/more-details");
+      }
     })
     .catch(function (error) {
       console.log("Metamask authentication error:", error);
     });
 };
-
-async function createDummyAccount() {
-  // Print the created user's ETH balance
-  const ethAddress = "0xb47e3cd837dDF8e4c57F05d70Ab865de6e193BBB";
-  const ethBalance = await Moralis.Web3API.account.getNativeBalance({ address: ethAddress });
-  console.log("ETH Balance:", ethBalance.balance);
-
-  // Print the created user's other balance (e.g., ERC20 token balance)
-  const tokenBalances = await Moralis.Web3API.account.getTokenBalances({ address: ethAddress });
-  console.log("Token Balances:", tokenBalances);
-
-  // Access the balance of a specific token
-  const tokenBalance = tokenBalances.find(balance => balance.token_address === "TOKEN_ADDRESS");
-  if (tokenBalance) {
-    console.log("Token Balance:", tokenBalance.balance);
-  } else {
-    console.log("Token not found in balance");
-  }
-}
 
 
 
@@ -247,7 +230,7 @@ const handleLogout = async () => {
             )
           }
         </div>
-        <p className="tos-txt" onClick={createDummyAccount}>By continuing, you agree to AlertBytes<span className='main-span'><span><Link href='/'>Terms of Service</Link></span>,  <span><Link href='/'> Privacy Policy</Link></span></span></p>
+        <p className="tos-txt" >By continuing, you agree to AlertBytes<span className='main-span'><span><Link href='/'>Terms of Service</Link></span>,  <span><Link href='/'> Privacy Policy</Link></span></span></p>
       </div>
              
       </div>

@@ -3,6 +3,8 @@ import Header from './components/logo-header';
 import EmailFlow from './components/more-details/email-flow';
 import TeleFlow from './components/more-details/tele-flow';
 import { useRouter } from 'next/router';
+import {BsArrowRightCircleFill,BsArrowRightCircle} from 'react-icons/bs';
+
 
 export default function Home() {
   const [name, setName] = useState('');
@@ -69,10 +71,18 @@ useEffect(()=>{
                   </p>
                   <div className="tele-email">
                     <div className="opts" onClick={teleFlow}>
-                      <span></span>Telegram
+                      Telegram
+                      <div className="two-img-hvr">
+                        <span className="svg-nor"> <BsArrowRightCircle/> </span>
+                        <span className='svg-hvr'> <BsArrowRightCircleFill/> </span>
+                      </div>
                     </div>
                     <div className="opts" onClick={emailFlow}>
-                      <span> </span>Email
+                      Email
+                      <div className="two-img-hvr">
+                        <span className="svg-nor"> <BsArrowRightCircle/> </span>
+                        <span className='svg-hvr'> <BsArrowRightCircleFill/> </span>
+                      </div>
                     </div>
                   </div>
                 </div>
