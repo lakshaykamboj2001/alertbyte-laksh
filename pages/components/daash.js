@@ -20,7 +20,7 @@ const VerticalTabs =() => {
     setUserData,
     refetchUserData,
   } = useMoralis();
-  const [activeTab, setActiveTab] = useState(2); 
+  const [activeTab, setActiveTab] = useState(1); 
   const router = useRouter();
   const [error, success, setSuccess, setError] = useContext(StatusContext);
 
