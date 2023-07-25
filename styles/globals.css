@@ -1076,14 +1076,50 @@ font-weight: 500;
   right: 0px;
   border-radius: 10px;
 }
-
-.cu-form.profile-form {
-  max-width: unset;
-  flex-direction: column;
-}
 .tab-side-content{
   padding-left: 30px;
   position: relative;
+}
+/* ==================first dashboard================== */
+.title-btn-div .title{
+  font-size: 40px;
+  font-weight: 500;
+}
+.title-btn-div{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between ;
+  align-items: center   ;
+}
+.title-btn-div .btn-fill{
+  min-width: 175px;
+}
+.main-dash-tab .filter-main-div{
+  position: unset;
+}
+.main-dash-tab{
+  display: flex;
+  flex-direction: column;
+  gap: 52px;
+}
+.card-content-div{
+  border-radius: 15px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  color: var(--white);
+  background-color: var(--black);
+  border: 1px solid var(--neon);
+  overflow: hidden;
+}
+
+
+/* ====================profile================== */
+.cu-form.profile-form {
+  max-width: unset;
+  flex-direction: column;
 }
 
 .prof-ip-butn {
@@ -1301,7 +1337,9 @@ font-weight: 600;
   max-width: 630px;
 }
 .cu-form.search-form input, 
-.cu-form.search-form select {
+.cu-form.search-form select,
+.cu-form.search-form .dropdown button
+ {
   background: var(--black);
   padding: 1.1rem 1.5rem;
   border: 2px solid #07F6D1;
@@ -1312,4 +1350,63 @@ font-weight: 600;
 } */
 .cu-form.search-form input::placeholder{
   color: #afa9a9;
+}
+.cu-form.search-form .dropdown button{
+  width: 100%;
+  text-align: left;
+  margin: unset;
+  font-size: 17px !important;
+}
+.select-type2::before {
+  content: "";
+  background: url('../public/chevron-down.svg');
+  display: block;
+  width: 20px;
+  height: 20px;
+  right: 20px;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50% , -50%);
+}
+.select-type2::after{
+  display: none;
+}
+.dropdown-menu.show{
+  transform: translate(10px, 80px) !important;
+  width: 580px;
+  background: var(--black);
+  border-radius: 15px;
+}
+.dropdown-item{
+  color:var(--neon);
+}
+.main-search-content{
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  margin-top: 100px;
+  align-items: center;
+}
+.main-search-content .adress-title{
+  font-size: 24px;
+  font-weight: 300;
+  margin-bottom: unset;
+}
+.main-search-content .adress-title span{
+  font-weight: 500;
+  font-size: 30px;
+}
+.data-div{
+  width: 100%;
+  padding: 20px 15px;
+  border: 1px solid var(--neon);
+  border-radius: 15px;
+}
+.data-div .card-content-div{
+  border: none;
+  padding: 40px 20px;
+}
+.data-div .title{
+  font-size: 25px;
+  font-weight: 500;
 }

@@ -1,5 +1,5 @@
 import React, { useState,useEffect,useRef,useContext } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Dropdown } from "react-bootstrap";
 import { useRouter } from 'next/router';
 import { useMoralis, useMoralisCloudFunction  } from "react-moralis";
 import Moralis from "moralis-v1";
@@ -20,26 +20,110 @@ const VerticalTabs =() => {
     setUserData,
     refetchUserData,
   } = useMoralis();
-  const [activeTab, setActiveTab] = useState(1); 
+  const [activeTab, setActiveTab] = useState(3); 
   const router = useRouter();
   const [error, success, setSuccess, setError] = useContext(StatusContext);
 
 
   const handleLogout = async () => {
-    // if (router.pathname !== "/") router.push("/", undefined, { shallow: true });
     await logout();
     if (router.pathname !== "/") router.push("/", undefined, { shallow: true });
-    // router.reload(window.location.pathname);
   };
   const handleTabClick = (tabNumber) => {
     setActiveTab(tabNumber);
   };
 
-  // ============DASHBOARD=========== //
+  // =====================DASHBOARD================== //
   const Tab1 = () => {
-    return <>
-        <h2>this is tab1</h2>
-    </>;
+  const [showContent, setShowContent] = useState(false);
+  const [showFilterExpand, setShowFilterExpand] = useState(false);
+  const filterRef = useRef(null);
+
+  const handleFilterButtonClick = () => {
+    setShowFilterExpand(!showFilterExpand);
+  };
+
+  const handleClickOutside = (event) => {
+    if (filterRef.current && !filterRef.current.contains(event.target)) {
+      setShowFilterExpand(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('click', handleClickOutside, true);
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside, true);
+    };
+  }, []);
+
+  const handleRadioChange = (event) => {
+    setRadioValue(event.target.value);
+  };
+    
+    return (
+    <>
+     <div className="main-dash-tab">
+        <div className="title-btn-div"> 
+          <span className="title">All Alerts</span>
+          <div className="">
+            <button className="btn-fill">+ Add Alert</button>
+          </div>
+        </div>
+        <div className="filter-main-div">
+          <div className="filter-sub-div inout-sec" ref={filterRef}>
+            <span className="head dropdowntoggle" onClick={handleFilterButtonClick}>Filter {!showFilterExpand && <FaChevronDown/>}</span>
+            {showFilterExpand && (
+              <div className="filter-expand">
+                <p className="clr-all">
+                  <span>Filter</span>
+                  <span>Clear All</span>
+                </p>
+                <div className="radios">
+                  <span>Direction</span>
+                  <div>
+                    <input
+                      type="radio"
+                      id="in"
+                      name="in-out"
+                      value="in"
+                      
+                      onChange={handleRadioChange}
+                    />
+                    <label htmlFor="in">IN</label>
+                  </div>
+                  <div>
+                    <input
+                      type="radio"
+                      id="out"
+                      name="in-out"
+                      value="out"
+                    
+                      onChange={handleRadioChange}
+                    />
+                    <label htmlFor="out">OUT</label>
+                  </div>
+                </div>
+                <div className="">
+                  <span >Blockchain</span>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+        {/* filter-main-div end */}
+        <div className="main-cards-div">
+          <div className="row">
+            <div className="col-md-4">
+              <div className="card-content-div">
+
+              </div>
+            </div>
+          </div>
+        </div>
+     </div>
+    </>
+    );
   };
   
 
@@ -111,7 +195,7 @@ const VerticalTabs =() => {
             <span >Blockchain</span>
           </div>
         </div>
-      )}
+        )}
         </div>
 
         <div className="filter-sub-div sort-sec">
@@ -267,66 +351,104 @@ const VerticalTabs =() => {
   
   // ============WALLET CONTENTS=========== //
   const Tab3 = () => {  
-   const [walletadress, setWalletadress] = useState("");
-   const[bchain,setBchain] = useState("");
-   const [showdata,setShowdata] = useState(false)
-
-  //  const handlesearch = async () => {
-  //   console.log(walletadress)
-  //   // const ethBalance = await Moralis.Web3API.account.getNativeBalance({ address: walletadress });
-  //   // console.log("ETH Balance:", ethBalance.balance);
-    
-  //   // Print the created user's other balance (e.g., ERC20 token balance)
-  //   // const tokenBalances = await Moralis.Web3API.account.getTokenBalances({ address: walletadress });
-  //   // console.log("Token Balances:", tokenBalances);
-
-  //   const nfts = await Moralis.Web3API.account.getNFTs({ address: walletadress });
-  //   console.log(nfts);
-  //    // 0xb47e3cd837dDF8e4c57F05d70Ab865de6e193BBB
-  //  }
+    const [searchedvalue, setsearchedvalue] = useState();
+    const [chain, setChain] = useState("eth");
+   const [showdata,setShowdata] = useState(true)
 
 
+  const mainnets = {
+    chains: {
+      eth: "Ethereum Mainnet",
+      bsc: "BSC Mainnet",
+      matic: "Polygon (Matic) Mainnet",
+      avalanche: "Avalanche Mainnet",
+    },
+  };
+  const networks = mainnets;
+  function chainChanged(event) {
+    setChain(event);
+  }
   const handlesearch = async () => {
-    console.log(walletadress)
-    const nfts = await Moralis.Web3API.account.getNFTs({ address: walletadress })
+    console.log(searchedvalue)
+    const nfts = await Moralis.Web3API.account.getNFTs({ address: searchedvalue})
     .then(()=>{
-      console.log(nfts);
+       //======================================================== 
+       console.log(nfts);
+       //======================================================== 
     }).catch((error) => {
       setError((prevState) => ({
         ...prevState,
-        title: "Fetching Error",
-        message: "please enter a valid wallet adress!",
+        title: "Data Not Found",
+        message: "please enter a valid wallet adress !",
         showErrorBox: true,
       }));
-      
     });
-    
   }
+  
+
+
 
     return (
     <>
-    <Form className="cu-form search-form">
+    <Form className="cu-form search-form" onSubmit={(event) => { event.preventDefault(); handlesearch(); }}>
       <Form.Group >
-        <Form.Control as="select" placeholder="Select Blockchain"  value={bchain} onChange={(e)=>{setBchain(e.target.value)}} > 
-          <option value="">Please Select</option>
-          <option value="ethereum" >Ethereum</option> 
-          <option value="tether">Tether</option>
-          <option value="BNB" >BNB</option> 
-          <option value="USD">USD Coin</option>
-          <option value="XRP" >XRP</option> 
-          <option value="others">Others</option>
-         </Form.Control>
+        <Dropdown  id="blockchain" name="blockchain"  onSelect={(e) => chainChanged(e)} > 
+          <Dropdown.Toggle className="select-type2">
+            {networks.chains[chain] ? networks.chains[chain] : "Network"}
+          </Dropdown.Toggle>
+
+          <Dropdown.Menu>
+            {Object.keys(networks.chains).map((chain) => (
+              <Dropdown.Item eventKey={chain} data-chainlookupvalue={chain} key={chain} >
+                {networks.chains[chain]}
+              </Dropdown.Item>  
+            ))}
+          </Dropdown.Menu>
+         </Dropdown>
       </Form.Group>
       <Form.Group >
-        <Form.Control type="text" placeholder="Enter Wallet Address" value={walletadress} onChange={(e)=>{setWalletadress(e.target.value)}} />
+        <Form.Control type="text" placeholder="Enter Wallet Address"  onChange={(e) => setsearchedvalue(e.target.value)} />
       </Form.Group>
-      <Button className="btn btn-fill" type="button" onClick={handlesearch}>Search</Button>
+      <Button className="btn btn-fill" type="submit" >Search</Button>
     </Form>
-    {showdata && (
+    { showdata && (
       <>
-        
+       <div className="main-search-content">
+         <p className="adress-title"><span>Address: </span>0xb47e3cd837dDF8e4c57F05d70Ab865de6e193BBB</p>
+         <div className="data-div">
+          <p className="title">Summary</p>
+           <div className="row">
+            <div className="col-md-3">
+              <div className="card-content-div">
+                <span>Total Balance</span>
+                <h2>$7587</h2>
+              </div>
+            </div>
+            <div className="col-md-3">
+              <div className="card-content-div">
+                <span>ETH Balance</span>
+                <h2>0.2359 ETH</h2>
+              </div>
+            </div>
+            <div className="col-md-3">
+              <div className="card-content-div">
+                <span>Token Balance</span>
+                <h2>$75.87</h2>
+              </div>
+            </div>
+            <div className="col-md-3">
+              <div className="card-content-div">
+               <span>Number Of NFTs</span>
+                <h2>23</h2>
+              </div>
+            </div>
+           </div>
+         </div>
+       </div>
       </>
-    )}
+    )
+    }
+
 
     </>
     )

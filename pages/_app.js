@@ -76,7 +76,7 @@ export default function App({ Component, pageProps }) {
     <MoralisProvider appId={MORALIS_APP_ID} serverUrl={MORALIS_SERVER_URL}>
       <StatusContext.Provider value={[error, success, setSuccess, setError]}>
       <Layout setCurrentNetwork={setCurrentNetwork}>
-        <Component {...pageProps} />
+        <Component {...pageProps}  networks={networks} />
         </Layout>
       </StatusContext.Provider>
     </MoralisProvider>

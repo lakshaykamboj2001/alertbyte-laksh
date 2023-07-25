@@ -1,72 +1,31 @@
-import { useState } from 'react';
 
-export default function TestPage() {
-  const [username, setUsername] = useState('');
-  const [verificationCode, setVerificationCode] = useState('');
-  const [verificationMessage, setVerificationMessage] = useState('');
+  //  const handlesearch = async () => {
+  //   console.log(walletadress)
+  //   // const ethBalance = await Moralis.Web3API.account.getNativeBalance({ address: walletadress });
+  //   // console.log("ETH Balance:", ethBalance.balance);
+    
+  //   // Print the created user's other balance (e.g., ERC20 token balance)
+  //   // const tokenBalances = await Moralis.Web3API.account.getTokenBalances({ address: walletadress });
+  //   // console.log("Token Balances:", tokenBalances);
 
-  const handleGenerateCode = async () => {
-    try {
-      const response = await fetch('/api/teletest', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          action: 'generate',
-          username,
-        }),
-      });
+  //   const nfts = await Moralis.Web3API.account.getNFTs({ address: walletadress });
+  //   console.log(nfts);
+  //    // 0xb47e3cd837dDF8e4c57F05d70Ab865de6e193BBB
+  //  }
 
-      const data = await response.json();
-      setVerificationMessage(data.message);
-    } catch (error) {
-      console.error('Failed to generate verification code:', error);
-    }
-  };
-
-  const handleVerifyCode = async () => {
-    try {
-      const response = await fetch('/api/teletest', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          action: 'verify',
-          username,
-          code: verificationCode,
-        }),
-      });
-
-      const data = await response.json();
-      setVerificationMessage(data.message);
-    } catch (error) {
-      console.error('Failed to verify code:', error);
-    }
-  };
-
-  return (
-    <div>
-      <input
-        type="text"
-        placeholder="Enter Telegram username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <button onClick={handleGenerateCode}>Generate Code</button>
-
-      <div>
-        <input
-          type="text"
-          placeholder="Enter Verification Code"
-          value={verificationCode}
-          onChange={(e) => setVerificationCode(e.target.value)}
-        />
-        <button onClick={handleVerifyCode}>Verify</button>
-      </div>
-
-      {verificationMessage && <p>{verificationMessage}</p>}
-    </div>
-  );
-}
+  // const handlesearch = async () => {
+  //   console.log(walletadress)
+  //   const nfts = await Moralis.Web3API.account.getNFTs({ address: walletadress })
+  //   .then(()=>{
+  //      //======================================================== 
+  //      console.log(nfts);
+  //      //======================================================== 
+  //   }).catch((error) => {
+  //     setError((prevState) => ({
+  //       ...prevState,
+  //       title: "Data Not Found",
+  //       message: "please enter a valid wallet adress !",
+  //       showErrorBox: true,
+  //     }));
+  //   });
+  // }
