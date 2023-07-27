@@ -2,12 +2,12 @@ import React,{useState,useEffect} from 'react'
 import 'bootstrap/dist/css/bootstrap.css'
 import '../styles/globals.css';
 import { MoralisProvider } from "react-moralis";
-import StatusContext from '@/status-context';
+import StatusContext from '@/store/status-context';
 import Moralis from "moralis";
 import Layout from "./components/Layout/Layout";
 
 
-export default function App({ Component, pageProps }) {
+export default  function App({ Component, pageProps }) {
   const [account, setAccount] = useState("");
   const [currentNetwork, setCurrentNetwork] = useState("mainnets");
   const testnets = {
@@ -18,9 +18,7 @@ export default function App({ Component, pageProps }) {
       "avalanche testnet": "Avalanche Testnet",
     },
   };
-  // "rinkeby": "Rinkeby",
-  // "goerli": "Goerli",
-  // "kovan": "Kovan",
+
 
   const mainnets = {
     chains: {
@@ -34,9 +32,14 @@ export default function App({ Component, pageProps }) {
       ava_token: "Avalanche Token",
     },
   };
+  // "rinkeby": "Rinkeby",
+  // "goerli": "Goerli",
+  // "kovan": "Kovan",
 
   const networks = currentNetwork === "testnets" ? testnets : mainnets;
-
+  
+  const MORALIS_APP_ID = "IQYq9tbIpBBRcnh0bNnMoDUeXTgd20POBtbvmnb9";
+  const MORALIS_SERVER_URL = "https://qivfsortzjjk.grandmoralis.com:2053/server";
 
   const [error, setError] = useState({
     title: "",
@@ -49,34 +52,19 @@ export default function App({ Component, pageProps }) {
     showSuccessBox: false,
   });
 
-  useEffect(() => {
-    console.log("started");
-  }, []);
-
-
-  const MORALIS_APP_ID = "IQYq9tbIpBBRcnh0bNnMoDUeXTgd20POBtbvmnb9";
-  const MORALIS_SERVER_URL = "https://qivfsortzjjk.grandmoralis.com:2053/server";
-
-
-  useEffect(() => {
-  console.log("started");
+ if (!Moralis.Core.isStarted) {
   Moralis.start({
-    appId: MORALIS_APP_ID,
-    serverUrl: MORALIS_SERVER_URL,
-  }).then(() => {
-    console.log("Moralis server connected successfully"); //moralis cholche kina dekhar jonno
-  }).catch((error) => {
-    console.error("Moralis server connection failed:", error);
-  });
-}, []);
+      apiKey: "GomgxLzN3uLVh5BqJH1qR2yOaQip4EHYzzhnBmAf60G840xQWbGmgPhrjmVP1JQ8",
+    });
+  }
 
-
+  
   return (
     <>
-    <MoralisProvider appId={MORALIS_APP_ID} serverUrl={MORALIS_SERVER_URL}>
+    <MoralisProvider appId={MORALIS_APP_ID} serverUrl={MORALIS_SERVER_URL} >
       <StatusContext.Provider value={[error, success, setSuccess, setError]}>
       <Layout setCurrentNetwork={setCurrentNetwork}>
-        <Component {...pageProps}  networks={networks} />
+        <Component {...pageProps} account={account} networks={networks} setAccount={setAccount} />
         </Layout>
       </StatusContext.Provider>
     </MoralisProvider>

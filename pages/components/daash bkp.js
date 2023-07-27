@@ -12,10 +12,9 @@ import {BsChevronDown} from 'react-icons/bs';
 import {FaChevronDown} from 'react-icons/fa';
 import StatusContext from '@/store/status-context';
 
+
 const MainMoralis = require("moralis").default;
 const { EvmChain } = require("@moralisweb3/common-evm-utils");
-
-MainMoralis.start({ apiKey: "GomgxLzN3uLVh5BqJH1qR2yOaQip4EHYzzhnBmAf60G840xQWbGmgPhrjmVP1JQ8"}) 
 
 const VerticalTabs =() => {
   const {
@@ -27,7 +26,7 @@ const VerticalTabs =() => {
   const [activeTab, setActiveTab] = useState(3); 
   const router = useRouter();
   const [error, success, setSuccess, setError] = useContext(StatusContext);
-  const [loading, setloading] = useState(false);
+
 
   const handleLogout = async () => {
     await logout();
@@ -389,7 +388,7 @@ const VerticalTabs =() => {
 
       response
         .then(function (result) {
-          console.log(result.toJSON().usdPrice); // Returns a primitive
+          // console.log(result.toJSON().usdPrice); // Returns a primitive
 
           resolve(result.toJSON().usdPrice);
         })
@@ -406,127 +405,106 @@ const VerticalTabs =() => {
     }
   );
 
-  const runApp = async () => {
+const handlesearch = async () => {
+
+  Moralis.Cloud.run("gettokentrails").then(async () => {
+
+      const address = searchedvalue;
+
+      // const chain = EvmChain.ETHEREUM;
+
+      const evmchainvalue =
+        chain == "eth"
+          ? EvmChain.ETHEREUM
+          : chain == "bsc"
+          ? EvmChain.BSC
+          : chain == "matic"
+          ? EvmChain.POLYGON
+          : chain == "avalanche"
+          ? EvmChain.AVALANCHE
+          : EvmChain.ETHEREUM;
     
+      const chainforsend =
+        chain == "eth"
+          ? "0x1"
+          : chain == "bsc"
+          ? "0x38"
+          : chain == "matic"
+          ? "0x89"
+          : chain == "avalanche"
+          ? "0xa86a"
+          : "0x1";
 
-    Moralis.Cloud.run("gettokentrails").then(async (a) => {
-      if (a == false) {
-        window.alert(
-          "You've exceeded the limit (15 checks) on the free plan. Please upgrade to a paid plan to check more tokens."
-        );
-      
+      const headers = {
+        accept: "application/json",
+        "X-API-Key":
+          "GomgxLzN3uLVh5BqJH1qR2yOaQip4EHYzzhnBmAf60G840xQWbGmgPhrjmVP1JQ8",
+      };
 
-        return;
-      } else {
-        const address = searchedvalue;
+      fetch(
+        "https://deep-index.moralis.io/api/v2/" +
+          address +
+          "/balance?chain=" +
+          chainforsend,
+        { headers }
+      )
+        .then((response) => response.json())
 
-        // const chain = EvmChain.ETHEREUM;
+        .then(async (data) => {
+          setpriceamount((data.balance / 1e18).toFixed(2));
+          console.log("price total:",priceamo);
+        })
+        .catch((error) => {
+          window.alert(JSON.stringify("🚫 Error Occures 🚫", 0, 2));
+        });
 
-        const evmchainvalue =
-          chain == "eth"
-            ? EvmChain.ETHEREUM
-            : chain == "bsc"
-            ? EvmChain.BSC
-            : chain == "matic"
-            ? EvmChain.POLYGON
-            : chain == "avalanche"
-            ? EvmChain.AVALANCHE
-            : EvmChain.ETHEREUM;
+      const response = await MainMoralis.EvmApi.token.getWalletTokenBalances({
+        address,
+        chain: evmchainvalue,
+      });
 
-        const chainforsend =
-          chain == "eth"
-            ? "0x1"
-            : chain == "bsc"
-            ? "0x38"
-            : chain == "matic"
-            ? "0x89"
-            : chain == "avalanche"
-            ? "0xa86a"
-            : "0x1";
-
-        const headers = {
-          accept: "application/json",
-          "X-API-Key":
-            "GomgxLzN3uLVh5BqJH1qR2yOaQip4EHYzzhnBmAf60G840xQWbGmgPhrjmVP1JQ8",
-        };
-
-        fetch(
-          "https://deep-index.moralis.io/api/v2/" +
-            address +
-            "/balance?chain=" +
-            chainforsend,
-          { headers }
-        )
-          .then((response) => response.json())
-
-          .then(async (data) => {
-            setpriceamount((data.balance / 1e18).toFixed(2));
-            // + chain == "eth"
-            // ? "ETH"
-            // : chain == "bsc"
-            // ? "BNB"
-            // : chain == "matic"
-            // ? "MATIC"
-            // : chain == "avalanche"
-            // ? "AVAX"
-            // : ""
+      setalldataresult(
+        await Promise.all(
+          response.toJSON().map(async (a) => {
+            return {
+              balance: "6000000000",
+              decimals: 9,
+              name: a.name,
+              symbol: a.symbol,
+              quantity: Number(a.balance) / Math.pow(10, a.decimals),
+              token_address: a.token_address,
+              price: Number(await latestTime(a.token_address)).toFixed(3),
+              valueinusd:
+                "$" +
+                " " +
+                (
+                  (await latestTime(a.token_address)) *
+                  (Number(a.balance) / Math.pow(10, a.decimals))
+                ).toFixed(3),
+            };
           })
-          .catch((error) => {
-            window.alert(JSON.stringify("🚫 Error Occures 🚫", 0, 2));
-          });
+        )
+      );
+      console.log("weee:", alldataresult);
 
-        const response = await MainMoralis.EvmApi.token.getWalletTokenBalances({
-          address,
-          chain: evmchainvalue,
- 
-        });
+      tokencheckedinput({
+        onSuccess: async (object) => {
+          console.log("succedd");
+        },
+        onError: (error) => {
+          console.log("nftchecked Error:", error);
+        },
+      });
 
-        setalldataresult(
-          // console.log(
-          await Promise.all(
-            response.toJSON().map(async (a) => {
-              return {
-                balance: "6000000000",
-                decimals: 9,
-                name: a.name,
-                symbol: a.symbol,
-                quantity: Number(a.balance) / Math.pow(10, a.decimals),
-                token_address: a.token_address,
-                price: Number(await latestTime(a.token_address)).toFixed(3),
-                valueinusd:
-                  "$" +
-                  " " +
-                  (
-                    (await latestTime(a.token_address)) *
-                    (Number(a.balance) / Math.pow(10, a.decimals))
-                  ).toFixed(3),
-              };
-            })
-          )
-          // );
-        );
-
-        tokencheckedinput({
-          onSuccess: async (object) => {
-            console.log("succedd");
-          },
-          onError: (error) => {
-            console.log("nftchecked Error:", error);
-          },
-        });
-
-       
-      }
-    });
-  };
+    
+  });
+};
 
 
 
     return (
     <>
-   
-
-    <Form className="cu-form search-form" onSubmit={(event) => { event.preventDefault(); runApp(); }}>
+    <Form className="cu-form search-form" onSubmit={(event) => { event.preventDefault(); handlesearch(); }}>
       <Form.Group >
         <Dropdown  id="blockchain" name="blockchain"  onSelect={(e) => chainChanged(e)} > 
           <Dropdown.Toggle className="select-type2">

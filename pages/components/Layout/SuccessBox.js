@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import Toast from "react-bootstrap/Toast";
-import StatusContext from "@/status-context";
+import StatusContext from "@/store/status-context";
 import ToastContainer from "react-bootstrap/ToastContainer";
 
 const SuccessBox = () => {

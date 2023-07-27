@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useState, useEffect, useContext, useRef, useCallback } from "react";
-import StatusContext from '@/status-context';
+import StatusContext from '@/store/status-context';
 import Moralis from "moralis";
 import { useMoralis, useMoralisCloudFunction  } from "react-moralis";
 import { useRouter } from 'next/router';

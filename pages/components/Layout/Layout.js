@@ -1,6 +1,6 @@
 import { useEffect, useContext } from "react";
 import { useMoralis } from "react-moralis";
-import StatusContext from "@/status-context";
+import StatusContext from "@/store/status-context";
 import ErrorBox from "./ErrorBox";
 import SuccessBox from "./SuccessBox";
 

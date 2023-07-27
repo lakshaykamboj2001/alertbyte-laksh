@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { useMoralis, useMoralisCloudFunction  } from "react-moralis";
 import Image from 'next/image';
 import Moralis from 'moralis';
-import StatusContext from '@/status-context';
+import StatusContext from '@/store/status-context';
 import { useRouter } from "next/router";
 
 

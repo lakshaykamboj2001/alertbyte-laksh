@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import StatusContext from "@/status-context";
+import StatusContext from "@/store/status-context";
 import Toast from "react-bootstrap/Toast";
 import ToastContainer from "react-bootstrap/ToastContainer";
 
