@@ -1439,3 +1439,21 @@ font-weight: 600;
   font-weight: 400;
   margin-top: 3px;
 }
+/* erc table */
+.erc-tale{
+  margin-top: 25px;
+}
+
+.erc-tale .tbl-row.row-cnt{
+  background-color: unset;
+  gap: 20px;
+}
+.tmain-body .tbl-cell{
+  font-size: 18px;
+
+}
+.erc-tale .tbl-row{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}

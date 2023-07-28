@@ -32,9 +32,7 @@ export default  function App({ Component, pageProps }) {
       ava_token: "Avalanche Token",
     },
   };
-  // "rinkeby": "Rinkeby",
-  // "goerli": "Goerli",
-  // "kovan": "Kovan",
+
 
   const networks = currentNetwork === "testnets" ? testnets : mainnets;
   
@@ -52,11 +50,11 @@ export default  function App({ Component, pageProps }) {
     showSuccessBox: false,
   });
 
- if (!Moralis.Core.isStarted) {
-  Moralis.start({
-      apiKey: "GomgxLzN3uLVh5BqJH1qR2yOaQip4EHYzzhnBmAf60G840xQWbGmgPhrjmVP1JQ8",
-    });
-  }
+//  if (!Moralis.Core.isStarted) {
+//   Moralis.start({
+//       apiKey: "GomgxLzN3uLVh5BqJH1qR2yOaQip4EHYzzhnBmAf60G840xQWbGmgPhrjmVP1JQ8",
+//     });
+//   }
 
   
   return (

@@ -15,7 +15,9 @@ import StatusContext from '@/store/status-context';
 const MainMoralis = require("moralis").default;
 const { EvmChain } = require("@moralisweb3/common-evm-utils");
 
+if (!MainMoralis.Core.isStarted) {
 MainMoralis.start({ apiKey: "GomgxLzN3uLVh5BqJH1qR2yOaQip4EHYzzhnBmAf60G840xQWbGmgPhrjmVP1JQ8"}) 
+}
 
 const VerticalTabs =() => {
   const {
@@ -120,7 +122,7 @@ const VerticalTabs =() => {
           <div className="row">
             <div className="col-md-4">
               <div className="card-content-div">
-
+             
               </div>
             </div>
           </div>
@@ -389,8 +391,8 @@ const VerticalTabs =() => {
 
       response
         .then(function (result) {
-          console.log(result.toJSON().usdPrice); // Returns a primitive
-
+          // console.log(result.toJSON().usdPrice); // Returns a primitive
+          console.log(result.toJSON())
           resolve(result.toJSON().usdPrice);
         })
         .catch((e) => resolve(0));
@@ -419,9 +421,6 @@ const VerticalTabs =() => {
         return;
       } else {
         const address = searchedvalue;
-
-        // const chain = EvmChain.ETHEREUM;
-
         const evmchainvalue =
           chain == "eth"
             ? EvmChain.ETHEREUM
@@ -461,15 +460,7 @@ const VerticalTabs =() => {
 
           .then(async (data) => {
             setpriceamount((data.balance / 1e18).toFixed(2));
-            // + chain == "eth"
-            // ? "ETH"
-            // : chain == "bsc"
-            // ? "BNB"
-            // : chain == "matic"
-            // ? "MATIC"
-            // : chain == "avalanche"
-            // ? "AVAX"
-            // : ""
+        
           })
           .catch((error) => {
             window.alert(JSON.stringify("🚫 Error Occures 🚫", 0, 2));
@@ -482,7 +473,6 @@ const VerticalTabs =() => {
         });
 
         setalldataresult(
-          // console.log(
           await Promise.all(
             response.toJSON().map(async (a) => {
               return {
@@ -503,7 +493,6 @@ const VerticalTabs =() => {
               };
             })
           )
-          // );
         );
 
         tokencheckedinput({
@@ -524,15 +513,12 @@ const VerticalTabs =() => {
 
     return (
     <>
-   
-
     <Form className="cu-form search-form" onSubmit={(event) => { event.preventDefault(); runApp(); }}>
       <Form.Group >
         <Dropdown  id="blockchain" name="blockchain"  onSelect={(e) => chainChanged(e)} > 
           <Dropdown.Toggle className="select-type2">
             {networks.chains[chain] ? networks.chains[chain] : "Network"}
           </Dropdown.Toggle>
-
           <Dropdown.Menu>
             {Object.keys(networks.chains).map((chain) => (
               <Dropdown.Item eventKey={chain} data-chainlookupvalue={chain} key={chain} >
@@ -550,7 +536,7 @@ const VerticalTabs =() => {
     { alldataresult.length != 0 && (
       <>
        <div className="main-search-content">
-         <p className="adress-title"><span>Address: </span>0xb47e3cd837dDF8e4c57F05d70Ab865de6e193BBB</p>
+         <p className="adress-title"><span>Address: </span>{searchedvalue}</p>
          <div className="data-div">
             <p className="title">Summary</p>
             <div className="row">
@@ -563,7 +549,7 @@ const VerticalTabs =() => {
               <div className="col-md-3">
                 <div className="card-content-div">
                   <span className="c-title">ETH Balance</span>
-                  <h2>0.2359 ETH<span className="d-block">(1,867.67 USD)</span></h2>
+                  <h2>{priceamount} ETH<span className="d-block">( USD)</span></h2>
                 </div>
               </div>
               <div className="col-md-3">
@@ -575,7 +561,7 @@ const VerticalTabs =() => {
               <div className="col-md-3">
                 <div className="card-content-div">
                 <span className="c-title">Number Of NFTs</span>
-                  <h2>23</h2>
+                  <h2>{alldataresult.length}</h2>
                 </div>
               </div>
             </div>
@@ -598,7 +584,30 @@ const VerticalTabs =() => {
               </div>
             </div>
             <div className="erc-tale">
-
+              <div class="tbl">
+                <div class="tbl-row tb-head">
+                  <div class="tbl-cell">Name</div>
+                  <div class="tbl-cell">Ticker</div>
+                  <div class="tbl-cell">Balance</div>
+                  <div class="tbl-cell">Price Per Unit</div>
+                  <div class="tbl-cell">USD Value</div>
+               </div>
+                <div className="tmain-body">
+                  {alldataresult.map((data, index) => (
+                    <div class="tbl-row row-cnt" >
+                      <div className="tb-body-r" >
+                        <div className="tbl-row" key={index}>
+                          <div className="tbl-cell">{data.name}</div>
+                          <div className="tbl-cell">{data.symbol}</div>
+                          <div className="tbl-cell">{data.quantity}</div>
+                          <div className="tbl-cell">{data.price}</div>
+                          <div className="tbl-cell">{data.valueinusd}</div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                 </div>
+              </div>
             </div>
          </div>
        </div>
