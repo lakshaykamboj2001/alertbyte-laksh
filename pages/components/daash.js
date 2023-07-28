@@ -410,7 +410,6 @@ const VerticalTabs =() => {
 
   const runApp = async () => {
     
-
     Moralis.Cloud.run("gettokentrails").then(async (a) => {
       if (a == false) {
         window.alert(

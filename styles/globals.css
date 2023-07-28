@@ -1271,7 +1271,7 @@ font-weight: 600;
 .note-div >p:first-child{
   font-weight: 600;
 } 
-.tbl-cell.hasharrow-icn {
+.wn-body .tbl-cell.hasharrow-icn {
   font-size: 34px;
 }
 .tbl-cell.hasharrow-icn svg {
