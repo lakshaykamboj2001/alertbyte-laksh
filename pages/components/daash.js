@@ -445,55 +445,58 @@ const VerticalTabs =() => {
 
         const headers = {
           accept: "application/json",
-          "X-API-Key":
-            "GomgxLzN3uLVh5BqJH1qR2yOaQip4EHYzzhnBmAf60G840xQWbGmgPhrjmVP1JQ8",
+          "X-API-Key": "GomgxLzN3uLVh5BqJH1qR2yOaQip4EHYzzhnBmAf60G840xQWbGmgPhrjmVP1JQ8",
         };
 
         fetch(
-          "https://deep-index.moralis.io/api/v2/" +
-            address +
-            "/balance?chain=" +
-            chainforsend,
+          "https://deep-index.moralis.io/api/v2/" + address + "/balance?chain=" + chainforsend,
           { headers }
         )
-          .then((response) => response.json())
-
-          .then(async (data) => {
-            setpriceamount((data.balance / 1e18).toFixed(2));
-        
-          })
-          .catch((error) => {
-            window.alert(JSON.stringify("🚫 Error Occures 🚫", 0, 2));
-          });
-
-        const response = await MainMoralis.EvmApi.token.getWalletTokenBalances({
-          address,
-          chain: evmchainvalue,
- 
+        .then((response) => response.json())
+        .then(async (data) => {
+          setpriceamount((data.balance / 1e18).toFixed(2));
+        })
+        .catch((error) => {
+          window.alert(JSON.stringify("🚫 Error Occures 🚫", 0, 2));
         });
 
-        setalldataresult(
-          await Promise.all(
-            response.toJSON().map(async (a) => {
-              return {
-                balance: "6000000000",
-                decimals: 9,
-                name: a.name,
-                symbol: a.symbol,
-                quantity: Number(a.balance) / Math.pow(10, a.decimals),
-                token_address: a.token_address,
-                price: Number(await latestTime(a.token_address)).toFixed(3),
-                valueinusd:
-                  "$" +
-                  " " +
-                  (
-                    (await latestTime(a.token_address)) *
-                    (Number(a.balance) / Math.pow(10, a.decimals))
-                  ).toFixed(3),
-              };
-            })
-          )
-        );
+        try {
+          const response = await MainMoralis.EvmApi.token.getWalletTokenBalances({
+            address,
+            chain: evmchainvalue,
+          });
+
+          setalldataresult(
+            await Promise.all(
+              response.toJSON().map(async (a) => {
+                return {
+                  balance: "6000000000",
+                  decimals: 9,
+                  name: a.name,
+                  symbol: a.symbol,
+                  quantity: Number(a.balance) / Math.pow(10, a.decimals),
+                  token_address: a.token_address,
+                  price: Number(await latestTime(a.token_address)).toFixed(3),
+                  valueinusd:
+                    "$" +
+                    " " +
+                    (
+                      (await latestTime(a.token_address)) *
+                      (Number(a.balance) / Math.pow(10, a.decimals))
+                    ).toFixed(3),
+                };
+              })
+            )
+          );
+
+        } catch (error) {
+          setError((prevState) => ({
+            ...prevState,
+            title: "Data Not Found",
+            message: "please enter a valid wallet adress !",
+            showErrorBox: true,
+          }));
+        }
 
         tokencheckedinput({
           onSuccess: async (object) => {
