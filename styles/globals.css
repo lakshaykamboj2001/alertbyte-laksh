@@ -1134,6 +1134,128 @@ font-weight: 500;
   border: 1px solid var(--neon);
   overflow: hidden;
 }
+.addalert-btn-boxes .card-content-div{
+  padding: 45px 25px;
+}
+.addalert-btn-boxes .card-content-div .alert-title{
+  color: var(--neon);
+}
+.addalert-btn-boxes .title-btn-div{
+  margin-top: 10px;
+}
+
+.title-btn-div .title span{
+  font-weight: 400;
+}
+
+
+.monitor-form.card-content-div{
+  max-width: 365px;
+  padding: 25px 20px;
+}
+
+.monitor-form input{
+  background: transparent;
+  border-bottom: 1px solid grey;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  font-size: 15px;
+  outline: none;
+  min-width: 220px;
+  color: white;
+}
+.monitor-form input::placeholder,
+.monitor-form textarea::placeholder
+{
+  font-size: 13px;
+  color: #b6afaf;
+}
+.monitor-form .first-ip-div{
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 15px;
+}
+.monitor-form.card-content-div .second-ip-div{
+  background-color:#201E21 ;
+  border:none;
+  border-radius: 10px;
+  padding:10px 10px 30px 10px;
+  width: 100%;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+
+}
+.monitor-form .head{
+  font-size: 18px;
+  font-weight: 500;
+}
+.threshold-div{
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+
+}
+.threshold-div .head{
+  font-size: 13px;
+  font-weight: 300;
+  color: #b6afaf;
+}
+.threshold-div .price-ip-div{
+  border: 1px solid var(--neon ) ;
+  border-radius: 5px;
+  display: flex;
+}
+.price-ip-div > * {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.threshold-div .price-ip-div .t-value{
+  width: 50px;
+  font-size: 15px;
+}
+.threshold-div .price-ip-div .plus-btn{
+  border-left: 1px solid var(--neon);
+  border-right: 1px solid var(--neon);
+  width: 25px;
+}
+.threshold-div .price-ip-div .m-btn{
+  width: 25px;
+}
+
+.monitor-form.card-content-div .third-ip-div{
+  margin-top: 30px;
+  width: 100%;
+}
+.third-ip-div textarea{
+  width: 100%;
+  background: transparent;
+  border: 1px solid grey;
+  outline: none;
+  color: white;
+  padding: 8px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /* ====================profile================== */
@@ -1388,14 +1510,18 @@ font-weight: 600;
 .select-type2::after{
   display: none;
 }
-.dropdown-menu.show{
+.cu-form.search-form .dropdown-menu.show{
   transform: translate(10px, 80px) !important;
   width: 580px;
   background: var(--black);
   border-radius: 15px;
 }
-.dropdown-item{
+.cu-form.search-form .dropdown-item{
   color:var(--neon);
+}
+.cu-form.search-form .dropdown-item:hover{
+  background-color: transparent;
+  color: white;
 }
 .main-search-content{
   display: flex;

@@ -26,7 +26,7 @@ const VerticalTabs =() => {
     setUserData,
     refetchUserData,
   } = useMoralis();
-  const [activeTab, setActiveTab] = useState(3); 
+  const [activeTab, setActiveTab] = useState(1); 
   const router = useRouter();
   const [error, success, setSuccess, setError] = useContext(StatusContext);
   const [loading, setloading] = useState(false);
@@ -38,12 +38,20 @@ const VerticalTabs =() => {
   const handleTabClick = (tabNumber) => {
     setActiveTab(tabNumber);
   };
+  
+  
 
   // =====================DASHBOARD================== //
   const Tab1 = () => {
   const [showContent, setShowContent] = useState(false);
   const [showFilterExpand, setShowFilterExpand] = useState(false);
   const filterRef = useRef(null);
+  const [showcards,setShowcards] = useState(true);
+  const [showalertfor, setShowalertfor] = useState(false);
+  const [showpersonalform,setShowpersonalform] = useState(false);
+
+
+
 
   const handleFilterButtonClick = () => {
     setShowFilterExpand(!showFilterExpand);
@@ -66,14 +74,20 @@ const VerticalTabs =() => {
   const handleRadioChange = (event) => {
     setRadioValue(event.target.value);
   };
+  const resetstate = () => {
+    console.log("ko")
+  }
     
     return (
     <>
-     <div className="main-dash-tab">
+    <div className="main-dash-tab">
+      {/*  showcards*/}
+      {false && (
+        <>
         <div className="title-btn-div"> 
           <span className="title">All Alerts</span>
           <div className="">
-            <button className="btn-fill">+ Add Alert</button>
+            <button className="btn-fill" onClick={()=>{setShowalertfor(true); setShowcards(false)} }>+ Add Alert</button>
           </div>
         </div>
         <div className="filter-main-div">
@@ -116,18 +130,101 @@ const VerticalTabs =() => {
               </div>
             )}
           </div>
-        </div>
-        {/* filter-main-div end */}
+        </div> {/* filter-main-div end */}
         <div className="main-cards-div">
           <div className="row">
             <div className="col-md-4">
-              <div className="card-content-div">
-             
+              <div className="card-content-div cc-active">
+                <div className="status-div">
+                  <div className="status-circle"></div>
+                  <span className="status-txt">Active</span>
+                </div>
+                <h2 className="wallet-head">My_Wallet</h2>
+                <span className="wallet-sub-head">0X85...3445</span>
+                .can
               </div>
             </div>
           </div>
         </div>
-     </div>
+        </>
+      )}
+       {/* showalertfor */}
+      { false && (
+        <>
+        <div className="title-btn-div"> 
+          <span className="title">Add Alert For</span>
+        </div>
+        <div className="addalert-btn-boxes">
+          <div className="row g-5">
+            <div className="col-md-4">
+              <div className="card-content-div">
+                <h5 className="alert-title">Personal Monitor</h5>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent pellentesque ipsum purus.</p>
+                <div className="title-btn-div ">
+                  <button className="btn-fill" onClick={()=>{setShowpersonalform(true); setShowalertfor(false)}} >+ Add Alert</button>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-4">
+              <div className="card-content-div">
+                <h5 className="alert-title">Community Monitor</h5>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent pellentesque ipsum purus.</p>
+                <div className="title-btn-div ">
+                  <button className="btn-fill" >+ Add Alert</button>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-4">
+              <div className="card-content-div">
+                <h5 className="alert-title">Price Alert</h5>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent pellentesque ipsum purus.</p>
+                <div className="title-btn-div ">
+                  <button className="btn-fill" >+ Add Alert</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </>
+      )}
+      {/* showpersonalform */}
+      { true && (
+        <>     
+          <div className="title-btn-div"> 
+            <span className="title">Add Alert: <span>Personal Monitor</span></span>
+          </div>
+          <div className="card-content-div monitor-form">
+            <div className="first-ip-div">
+              <input placeholder="Name" /> 
+              <input placeholder="Blockchain" /> 
+              <input placeholder="Wallet Address" /> 
+            </div>
+
+            <div className="second-ip-div">
+              <div className="head">Triggers</div>
+              <div className="threshold-div">
+                <span className="head">Threshold Price ($)</span>
+                <div className="price-ip-div">
+                  <div className="t-value">0</div><div className="plus-btn">+</div><div className="m-btn">-</div>
+                </div>
+              </div>
+              <input placeholder="Directons" /> 
+            </div>
+
+            <div className="third-ip-div">
+             <textarea placeholder="Custom Note" rows={2} /> 
+            </div>
+            <div className="second-ip-div">
+             <div className="head">Alert Method</div>
+              
+              
+            </div>
+          </div>
+        </>
+      )}
+
+
+    </div>
     </>
     );
   };
@@ -188,7 +285,7 @@ const VerticalTabs =() => {
             <div>
               <input
                 type="radio"
-                
+               
                 name="in-out"
                 value="out"
                 checked={radioValue === 'out'}
@@ -517,7 +614,7 @@ const VerticalTabs =() => {
     <>
     <Form className="cu-form search-form" onSubmit={(event) => { event.preventDefault(); runApp(); }}>
       <Form.Group >
-        <Dropdown  id="blockchain" name="blockchain"  onSelect={(e) => chainChanged(e)} > 
+      <Dropdown  id="blockchain" name="blockchain"  onSelect={(e) => chainChanged(e)} > 
           <Dropdown.Toggle className="select-type2">
             {networks.chains[chain] ? networks.chains[chain] : "Network"}
           </Dropdown.Toggle>
