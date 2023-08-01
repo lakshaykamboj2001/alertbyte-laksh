@@ -1,6 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap'); */
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,100;1,300&display=swap');
 :root{
   /* Primary Colors*/
   --black: #000;
@@ -1148,9 +1148,10 @@ font-weight: 500;
   font-weight: 400;
 }
 
-
-.monitor-form.card-content-div{
+.monitor-form{
   max-width: 365px;
+}
+.monitor-form .card-content-div{
   padding: 25px 20px;
 }
 
@@ -1164,20 +1165,24 @@ font-weight: 500;
   outline: none;
   min-width: 220px;
   color: white;
+
 }
 .monitor-form input::placeholder,
 .monitor-form textarea::placeholder
 {
   font-size: 13px;
   color: #b6afaf;
+  font-style: italic;
+
 }
+
 .monitor-form .first-ip-div{
   display: flex;
   flex-direction: column;
   gap: 15px;
   margin-top: 15px;
 }
-.monitor-form.card-content-div .second-ip-div{
+.monitor-form .card-content-div .second-ip-div{
   background-color:#201E21 ;
   border:none;
   border-radius: 10px;
@@ -1204,6 +1209,7 @@ font-weight: 500;
   font-size: 13px;
   font-weight: 300;
   color: #b6afaf;
+  font-style: italic;
 }
 .threshold-div .price-ip-div{
   border: 1px solid var(--neon ) ;
@@ -1229,7 +1235,7 @@ font-weight: 500;
   width: 25px;
 }
 
-.monitor-form.card-content-div .third-ip-div{
+.monitor-form .card-content-div .third-ip-div{
   margin-top: 30px;
   width: 100%;
 }
@@ -1241,10 +1247,27 @@ font-weight: 500;
   color: white;
   padding: 8px;
 }
+.mainalert-div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.mainalert-div .alrt-cnt > span{
+  font-size: 13px;
+}
+.mainalert-div .verification-status .btn.btn-fill{
+  padding: 5px;
+  min-width: 113px;
+  font-size: 15px;
+}
 
-
-
-
+.monitor-form .preview-btn{
+  color: #0d6efd;
+  text-align: center;
+  font-size: 20px;
+  text-decoration: underline;
+  margin-top: 5px;
+}
 
 
 
@@ -1582,4 +1605,19 @@ font-weight: 600;
   display: flex;
   flex-direction: row;
   width: 100%;
+}
+/* ===============WALLET CONTENTS=============== */
+.main-learn-div{
+  display: flex;
+  flex-direction: column;
+  gap:25px;
+}
+.main-learn-div .learn-cnt{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.main-learn-div .learn-cnt .head{
+  font-size: 32px;
+  font-weight: 500;
 }

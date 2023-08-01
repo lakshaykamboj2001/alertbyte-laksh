@@ -82,7 +82,7 @@ const VerticalTabs =() => {
     <>
     <div className="main-dash-tab">
       {/*  showcards*/}
-      {false && (
+      {showcards && (
         <>
         <div className="title-btn-div"> 
           <span className="title">All Alerts</span>
@@ -149,7 +149,7 @@ const VerticalTabs =() => {
         </>
       )}
        {/* showalertfor */}
-      { false && (
+      { showalertfor && (
         <>
         <div className="title-btn-div"> 
           <span className="title">Add Alert For</span>
@@ -188,38 +188,62 @@ const VerticalTabs =() => {
         </>
       )}
       {/* showpersonalform */}
-      { true && (
+      { showpersonalform && (
         <>     
           <div className="title-btn-div"> 
             <span className="title">Add Alert: <span>Personal Monitor</span></span>
           </div>
-          <div className="card-content-div monitor-form">
-            <div className="first-ip-div">
-              <input placeholder="Name" /> 
-              <input placeholder="Blockchain" /> 
-              <input placeholder="Wallet Address" /> 
-            </div>
+          
+          <div className="monitor-form">
+            <div className="card-content-div ">
+              <div className="first-ip-div">
+                <input placeholder="Name" /> 
+                <input placeholder="Blockchain" /> 
+                <input placeholder="Wallet Address" /> 
+              </div>
 
-            <div className="second-ip-div">
-              <div className="head">Triggers</div>
-              <div className="threshold-div">
-                <span className="head">Threshold Price ($)</span>
-                <div className="price-ip-div">
-                  <div className="t-value">0</div><div className="plus-btn">+</div><div className="m-btn">-</div>
+              <div className="second-ip-div">
+                <div className="head">Triggers</div>
+                <div className="threshold-div">
+                  <span className="head">Threshold Price ($)</span>
+                  <div className="price-ip-div">
+                    <div className="t-value">0</div><div className="plus-btn">+</div><div className="m-btn">-</div>
+                  </div>
+                </div>
+                <input placeholder="Directons" /> 
+              </div>
+
+              <div className="third-ip-div">
+              <textarea placeholder="Custom Note" rows={2} /> 
+              </div>
+              <div className="second-ip-div">
+              <div className="head">Alert Method</div>
+                <div className="mainalert-div">
+                  <div className="alrt-cnt">
+                    <span className="d-block">Email</span>
+                    <span className="d-block">subhadip@webninjaz.com</span>
+                  </div>
+                  <div className="verification-status">
+                    <div className="btn btn-fill">verify now</div>
+                  </div>
+                </div>
+                <div className="mainalert-div">
+                  <div className="alrt-cnt">
+                    <span className="d-block">Telegram</span>
+                    <span className="d-block">SubhadipBisai</span>
+                  </div>
+                  <div className="verification-status">
+                    <div className="btn btn-fill">verify now</div>
+                  </div>
                 </div>
               </div>
-              <input placeholder="Directons" /> 
             </div>
-
-            <div className="third-ip-div">
-             <textarea placeholder="Custom Note" rows={2} /> 
+            <p className="preview-btn">Preview</p>
+            <div className="mdl-butns lg-butns">
+              <Button className="btn btn-fill" > Save Alert </Button>
+              <Button className="btn btn-emp" > Cancel </Button>
             </div>
-            <div className="second-ip-div">
-             <div className="head">Alert Method</div>
-              
-              
-            </div>
-          </div>
+          </div>{/* monitor-form end div */}
         </>
       )}
 
@@ -803,7 +827,49 @@ const VerticalTabs =() => {
   // ============LEARN=========== //
   const Tab5 = () => {
     return <>
-        <h2 onClick={()=>{}}>this is tab5</h2>
+      <div className="main-learn-div">
+
+        <div className="learn-cnt">
+          <h2 className="head">Alerts</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus diam urna, pulvinar sed nisl sit amet, vestibulum fermentun
+          leo. Aenean non efficitur quam. Proin ultrices metus lectus, eu mattis lectus sagittis quis. Suspendisse et interdum eros.
+          Maecenas efficitur enim eget mauris tempor mattis. Morbi blandit molestie felis ut faucibus. Praesent aliquam arcu ac nisl
+          finibus tempor. Nunc sed sapien id risus varius tempor. In lobortis sed velit sed auctor.</p>
+        </div>
+
+        <div className="learn-cnt">
+          <h2 className="head">Personal Monitor</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus diam urna, pulvinar sed nisl sit amet, vestibulum fermentun
+          leo. Aenean non efficitur quam. Proin ultrices metus lectus, eu mattis lectus sagittis quis. Suspendisse et interdum eros.
+          Maecenas efficitur enim eget mauris tempor mattis. Morbi blandit molestie felis ut faucibus. Praesent aliquam arcu ac nisl
+          finibus tempor. Nunc sed sapien id risus varius tempor. In lobortis sed velit sed auctor.</p>
+        </div>
+
+        <div className="learn-cnt">
+          <h2 className="head">Community Monitor</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus diam urna, pulvinar sed nisl sit amet, vestibulum fermentun
+          leo. Aenean non efficitur quam. Proin ultrices metus lectus, eu mattis lectus sagittis quis. Suspendisse et interdum eros.
+          Maecenas efficitur enim eget mauris tempor mattis. Morbi blandit molestie felis ut faucibus. Praesent aliquam arcu ac nisl
+          finibus tempor. Nunc sed sapien id risus varius tempor. In lobortis sed velit sed auctor.</p>
+        </div>
+
+        <div className="learn-cnt">
+          <h2 className="head">NFT Checker</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus diam urna, pulvinar sed nisl sit amet, vestibulum fermentun
+          leo. Aenean non efficitur quam. Proin ultrices metus lectus, eu mattis lectus sagittis quis. Suspendisse et interdum eros.
+          Maecenas efficitur enim eget mauris tempor mattis. Morbi blandit molestie felis ut faucibus. Praesent aliquam arcu ac nisl
+          finibus tempor. Nunc sed sapien id risus varius tempor. In lobortis sed velit sed auctor.</p>
+        </div>
+
+        <div className="learn-cnt">
+          <h2 className="head">Profile</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus diam urna, pulvinar sed nisl sit amet, vestibulum fermentun
+          leo. Aenean non efficitur quam. Proin ultrices metus lectus, eu mattis lectus sagittis quis. Suspendisse et interdum eros.
+          Maecenas efficitur enim eget mauris tempor mattis. Morbi blandit molestie felis ut faucibus. Praesent aliquam arcu ac nisl
+          finibus tempor. Nunc sed sapien id risus varius tempor. In lobortis sed velit sed auctor.</p>
+        </div>
+
+      </div>
     </>;
   };
 

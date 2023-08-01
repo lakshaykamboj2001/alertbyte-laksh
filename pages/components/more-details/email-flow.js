@@ -24,26 +24,7 @@ const EmailFlow = ({ onGoBack,onhidetitle }) => {
     onGoBack(); // Invoke the callback function passed from the parent component to update the state
   };
 
-  useEffect(() => {
-   const gotodash= () => {
-    if(user){
 
-      refetchUserData();
-      if(currentStep === 2 && user.attributes.emailVerified){
-        router.push('/dashboard')
-      }
-      if(currentStep === 3 && user.attributes.emailVerified){
-        router.push('/dashboard')
-      }
-    }
-   }
-    gotodash();
-    const interval = setInterval(gotodash, 4000);
-    // Clean up the interval when the component unmounts
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
 
 
   const VerificationEmail = async () => {
@@ -64,6 +45,27 @@ const EmailFlow = ({ onGoBack,onhidetitle }) => {
       });
   };
   
+  useEffect(() => {
+    const gotodash= () => {
+      console.log("Inside gotodash");
+    //  if(user){
+       refetchUserData();
+       if(currentStep === 2 && user.attributes.emailVerified == true){
+         console.log("jii");
+         router.push('/dashboard')
+       }
+       if(currentStep === 3 && user.attributes.emailVerified == true){
+         console.log("jiiww");
+         router.push('/dashboard')
+       }
+    //  }
+    }
+     gotodash();
+     const interval = setInterval(gotodash, 4000);
+     return () => {
+       clearInterval(interval);
+     };
+   }, [currentStep, user, router, refetchUserData]);
 
 
 const emailadd = async () => {
@@ -105,28 +107,7 @@ const emailadd = async () => {
   }
 };
 
-// delete
-const deleteUser = async () => {
-  const currentUser = Moralis.User.current();
-  
-  if (currentUser) {
-    try {
-      // Delete the user
-      await currentUser.destroy();
-      console.log('User deleted successfully.');
-      
-      // Perform any necessary actions after user deletion
-      // For example, redirect to a login page or display a success message
-      
-    } catch (error) {
-      console.log('Error deleting user:', error);
-      // Handle the error appropriately
-    }
-  } else {
-    console.log('No user is currently logged in.');
-    // Handle the case when no user is logged in
-  }
-};
+
 
 
 const emailloginwithhide = async () => {
