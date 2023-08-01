@@ -1155,17 +1155,33 @@ font-weight: 500;
   padding: 25px 20px;
 }
 
-.monitor-form input{
+.monitor-form input,
+.monitor-form select
+{
   background: transparent;
   border-bottom: 1px solid grey;
   border-top: none;
   border-left: none;
   border-right: none;
-  font-size: 15px;
+  font-size: 13px;
   outline: none;
   min-width: 220px;
   color: white;
-
+}
+.monitor-form select {
+  font-style: italic;
+  font-size: 13px;
+  color: #b6afaf;
+}
+.monitor-form select option {
+  font-style: unset;
+  font-size: 13px;
+  color: var(--neon);
+  background-color: #000;
+}
+.monitor-form select option:hover{
+  background: unset;
+  color: white;
 }
 .monitor-form input::placeholder,
 .monitor-form textarea::placeholder
@@ -1230,11 +1246,15 @@ font-weight: 500;
   border-left: 1px solid var(--neon);
   border-right: 1px solid var(--neon);
   width: 25px;
+  cursor: pointer;
 }
 .threshold-div .price-ip-div .m-btn{
   width: 25px;
+  cursor: pointer;
 }
-
+.second-ip-div select{
+  max-width: 220px;
+}
 .monitor-form .card-content-div .third-ip-div{
   margin-top: 30px;
   width: 100%;
@@ -1246,6 +1266,7 @@ font-weight: 500;
   outline: none;
   color: white;
   padding: 8px;
+  font-size: 13px;
 }
 .mainalert-div {
   display: flex;
@@ -1267,6 +1288,7 @@ font-weight: 500;
   font-size: 20px;
   text-decoration: underline;
   margin-top: 5px;
+  cursor: pointer;
 }
 
 

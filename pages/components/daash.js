@@ -49,6 +49,31 @@ const VerticalTabs =() => {
   const [showcards,setShowcards] = useState(true);
   const [showalertfor, setShowalertfor] = useState(false);
   const [showpersonalform,setShowpersonalform] = useState(false);
+  const [showpreview,setShowpreview] = useState(false);
+
+
+  // personal monitor form value state //
+  const[name, setName] = useState("");
+  const[bchain, setBchain] = useState("");
+  const[walletadress, setWalletadress] = useState("");
+  const [count, setCount] = useState(0);
+  const[direction, setDirection] = useState("");
+  const[note, setNote] = useState("");
+  const handleIncrease = () => {
+    setCount((prevCount) => prevCount + 1);
+  };
+  const handleDecrease = () => {
+    if (count > 0) {
+      setCount((prevCount) => prevCount - 1);
+    }
+  };
+  const handlePersonalSave = () =>{
+    setShowpreview(true);
+    setShowpersonalform(false);
+  }
+
+
+
 
 
 
@@ -135,14 +160,35 @@ const VerticalTabs =() => {
           <div className="row">
             <div className="col-md-4">
               <div className="card-content-div cc-active">
+
                 <div className="status-div">
                   <div className="status-circle"></div>
                   <span className="status-txt">Active</span>
                 </div>
-                <h2 className="wallet-head">My_Wallet</h2>
+
+                <h3 className="wallet-head">My_Wallet</h3>
                 <span className="wallet-sub-head">0X85...3445</span>
-                .can
-              </div>
+
+                <div className="preview-bchain-div">
+                  <div className="bchain-value">
+                    <div className="bchain-img">
+
+                    </div>
+                    <div className="bchain-name">Ethereum</div>
+                  </div>
+                  <div className="bchain-value">
+                    <div className="bchain-img">
+
+                    </div>
+                    <div className="bchain-name">Polygon</div>
+                  </div>
+                </div>
+
+                <div className="main-value-direction-di">
+                  
+                </div>
+
+              </div>{/* card-content-div end */}
             </div>
           </div>
         </div>
@@ -197,9 +243,14 @@ const VerticalTabs =() => {
           <div className="monitor-form">
             <div className="card-content-div ">
               <div className="first-ip-div">
-                <input placeholder="Name" /> 
-                <input placeholder="Blockchain" /> 
-                <input placeholder="Wallet Address" /> 
+                <input placeholder="Name" value={name} onChange={(e)=>{setName(e.target.value)}} /> 
+                <select value={bchain} onChange={(e)=>{setBchain(e.target.value)}}>
+                  <option value="">Blockchain</option>
+                  <option value="ethereum">Ethereum</option>
+                  <option value="tether">Tether</option>
+                  <option value="BNB">BNB</option>
+                </select>
+                <input placeholder="Wallet Address" value={walletadress} onChange={(e)=>{setWalletadress(e.target.value)}} /> 
               </div>
 
               <div className="second-ip-div">
@@ -207,14 +258,19 @@ const VerticalTabs =() => {
                 <div className="threshold-div">
                   <span className="head">Threshold Price ($)</span>
                   <div className="price-ip-div">
-                    <div className="t-value">0</div><div className="plus-btn">+</div><div className="m-btn">-</div>
+                    <div className="t-value">{count}</div><div className="plus-btn" onClick={handleIncrease}>+</div><div className="m-btn" onClick={handleDecrease}   >-</div>
                   </div>
                 </div>
-                <input placeholder="Directons" /> 
+                <select value={direction} onChange={(e)=>{setDirection(e.target.value)}}>
+                  <option value="">Direction</option>
+                  <option value="send">Send</option>
+                  <option value="receive">Receive</option>
+                  <option value="both">Both</option>
+                </select> 
               </div>
 
               <div className="third-ip-div">
-              <textarea placeholder="Custom Note" rows={2} /> 
+              <textarea placeholder="Custom Note" rows={2} value={note} onChange={(e)=>{setNote(e.target.value)}}/> 
               </div>
               <div className="second-ip-div">
               <div className="head">Alert Method</div>
@@ -238,15 +294,40 @@ const VerticalTabs =() => {
                 </div>
               </div>
             </div>
-            <p className="preview-btn">Preview</p>
+            <p className="preview-btn" onClick={handlePersonalSave}>Preview</p>
             <div className="mdl-butns lg-butns">
-              <Button className="btn btn-fill" > Save Alert </Button>
+              <Button className="btn btn-fill" onClick={handlePersonalSave}> Save Alert </Button>
               <Button className="btn btn-emp" > Cancel </Button>
             </div>
           </div>{/* monitor-form end div */}
         </>
       )}
-
+      {/* showpreview */}
+      {showpreview && (
+        <>
+        <div className="title-btn-div"> 
+          <span className="title">Preview: <span>Personal Monitor</span></span>
+        </div>
+        <div className="main-preview-div">
+          <div className="row">
+            <div className="col-md-4">
+              <div className="card-content-div cc-active">
+                <div className="status-div">
+                  <div className="status-circle"></div>
+                  <span className="status-txt">Active</span>
+                </div>
+                <h2 className="wallet-head">My_Wallet</h2>
+                <span className="wallet-sub-head">0X85...3445</span>
+                .can
+              </div>
+              <div className="mdl-butns lg-butns">
+              <Button className="btn btn-fill" >Done</Button>
+            </div>
+            </div>
+          </div>
+        </div>
+        </>
+      )}
 
     </div>
     </>
@@ -631,8 +712,16 @@ const VerticalTabs =() => {
       }
     });
   };
+    const totalValueUSD = alldataresult.reduce((accumulator, item) => {
+      const valueUSD = parseFloat(item.valueinusd.replace("$", "").trim());
+      return accumulator + valueUSD;
+    }, 0);
 
-
+    const [rowsToShow, setRowsToShow] = useState(6);
+    const rowsToLoad = 10;
+    const handleLoadMore = () => {
+      setRowsToShow((prevRowsToShow) => prevRowsToShow + rowsToLoad);
+    };
 
     return (
     <>
@@ -678,7 +767,7 @@ const VerticalTabs =() => {
               <div className="col-md-3">
                 <div className="card-content-div">
                   <span className="c-title">Token Balance</span>
-                  <h2>$75.87</h2>
+                  <h2>${totalValueUSD.toFixed(3)}</h2>
                 </div>
               </div>
               <div className="col-md-3">
@@ -715,11 +804,11 @@ const VerticalTabs =() => {
                   <div class="tbl-cell">Price Per Unit</div>
                   <div class="tbl-cell">USD Value</div>
                </div>
-                <div className="tmain-body">
-                  {alldataresult.map((data, index) => (
-                    <div class="tbl-row row-cnt" >
-                      <div className="tb-body-r" >
-                        <div className="tbl-row" key={index}>
+               <div className="tmain-body">
+                  {alldataresult.slice(0, rowsToShow).map((data, index) => (
+                    <div className="tbl-row row-cnt" key={index}>
+                      <div className="tb-body-r">
+                        <div className="tbl-row">
                           <div className="tbl-cell">{data.name}</div>
                           <div className="tbl-cell">{data.symbol}</div>
                           <div className="tbl-cell">{data.quantity}</div>
@@ -729,7 +818,14 @@ const VerticalTabs =() => {
                       </div>
                     </div>
                   ))}
-                 </div>
+                  {rowsToShow < alldataresult.length && (
+                    <>
+                     <div className="lm-btn">
+                        <button onClick={handleLoadMore}>Load More<BsChevronDown/></button>
+                     </div>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
          </div>
@@ -890,7 +986,7 @@ const VerticalTabs =() => {
                             <button className="main-btn" type="button">Notification</button>
                         </div>
                         <div className={`vertical-tab ${activeTab === 3 ? 'active' : ''}`} onClick={() => handleTabClick(3)}>
-                            <button className="main-btn" type="button">wallet Contents</button>
+                            <button className="main-btn" type="button">Wallet Contents</button>
                         </div>
                         <div className={`vertical-tab ${activeTab === 4 ? 'active' : ''}`} onClick={() => handleTabClick(4)}>
                             <button className="main-btn" type="button">Profile</button>
