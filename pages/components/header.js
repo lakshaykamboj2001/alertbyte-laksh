@@ -5,7 +5,6 @@ import React, { useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
 import MegaMenu from './megamenu'
 import { useRouter } from 'next/router';
-import LoginForm from './loginForm';
 import { useMoralis, useMoralisCloudFunction  } from "react-moralis";
 import Image from 'next/image';
 import Accordion from 'react-bootstrap/Accordion';
