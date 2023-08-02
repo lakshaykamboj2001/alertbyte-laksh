@@ -19,7 +19,7 @@ if (!MainMoralis.Core.isStarted) {
 MainMoralis.start({ apiKey: "GomgxLzN3uLVh5BqJH1qR2yOaQip4EHYzzhnBmAf60G840xQWbGmgPhrjmVP1JQ8"}) 
 }
 
-const VerticalTabs =() => {
+const VerticalTabs =({ account, setAccount, networks }) => {
   const {
     logout,
     user,
@@ -31,6 +31,36 @@ const VerticalTabs =() => {
   const [error, success, setSuccess, setError] = useContext(StatusContext);
   const [loading, setloading] = useState(false);
 
+  // ===========MANAGING STATE OF first dashboard flow================ //
+ // ==Define here cause we can call the resetAllstate() call globaly==//
+ const [showcards,setShowcards] = useState(true);
+ const [showalertfor, setShowalertfor] = useState(false);
+ const [showpersonalform,setShowpersonalform] = useState(false);
+ const [showpreview,setShowpreview] = useState(false);
+
+ const resetAllstate = () => {
+  setShowcards(true);
+  setShowalertfor(false);
+  setShowpersonalform(false);
+  setShowpreview(false);
+}
+
+const [personalformData, setPersonalformData] = useState({
+  name: "",
+  chain: "",
+  walletadress: "",
+  count: 0,
+  direction: "",
+  note: "",
+
+});
+
+
+
+
+
+
+
   const handleLogout = async () => {
     await logout();
     if (router.pathname !== "/") router.push("/", undefined, { shallow: true });
@@ -39,26 +69,26 @@ const VerticalTabs =() => {
     setActiveTab(tabNumber);
   };
   
-  
-
   // =====================DASHBOARD================== //
   const Tab1 = () => {
   const [showContent, setShowContent] = useState(false);
   const [showFilterExpand, setShowFilterExpand] = useState(false);
   const filterRef = useRef(null);
-  const [showcards,setShowcards] = useState(true);
-  const [showalertfor, setShowalertfor] = useState(false);
-  const [showpersonalform,setShowpersonalform] = useState(false);
-  const [showpreview,setShowpreview] = useState(false);
+
 
 
   // personal monitor form value state //
   const[name, setName] = useState("");
-  const[bchain, setBchain] = useState("");
+  const[chain, setChain] = useState("");
   const[walletadress, setWalletadress] = useState("");
   const [count, setCount] = useState(0);
   const[direction, setDirection] = useState("");
   const[note, setNote] = useState("");
+
+  function chainChanged(event) {
+    setChain(event);
+  }
+
   const handleIncrease = () => {
     setCount((prevCount) => prevCount + 1);
   };
@@ -68,12 +98,34 @@ const VerticalTabs =() => {
     }
   };
   const handlePersonalSave = () =>{
+    setPersonalformData({
+      name: name,
+      chain: chain,
+      walletadress: walletadress,
+      count: count,
+      direction: direction,
+      note: note,
+    });
     setShowpreview(true);
     setShowpersonalform(false);
   }
+ // Check user mail and telegram //
+ const [mail, setMail] = useState("");
+ const [telegram, setTelegram] = useState("");
+  useEffect(() => {
+    if (user) {
+      setMail(user.get("email"));
+      setTelegram(user.get("telegram"))
+    }
+  }, [user]);
 
-
-
+  const handlemail = ()=>{
+    router.push('/more-details?fromDashmail=true');
+  }
+  
+  const handltele = ()=>{
+   router.push('/more-details?fromDash=true');
+  }
 
 
 
@@ -99,10 +151,6 @@ const VerticalTabs =() => {
   const handleRadioChange = (event) => {
     setRadioValue(event.target.value);
   };
-  const resetstate = () => {
-    console.log("ko")
-  }
-    
     return (
     <>
     <div className="main-dash-tab">
@@ -157,39 +205,44 @@ const VerticalTabs =() => {
           </div>
         </div> {/* filter-main-div end */}
         <div className="main-cards-div">
-          <div className="row">
+          <div className="row g-5">
             <div className="col-md-4">
-              <div className="card-content-div cc-active">
+              <div className="card-content-div personal-card cc-active">
 
                 <div className="status-div">
                   <div className="status-circle"></div>
                   <span className="status-txt">Active</span>
                 </div>
+                <h3 className="wallet-name">My_Wallet</h3>
+                <span className="wallet-adress">0X85...3445</span>
 
-                <h3 className="wallet-head">My_Wallet</h3>
-                <span className="wallet-sub-head">0X85...3445</span>
-
-                <div className="preview-bchain-div">
+                <div className="bchain-value-div">
                   <div className="bchain-value">
                     <div className="bchain-img">
 
                     </div>
-                    <div className="bchain-name">Ethereum</div>
+                    <div className="sub-head">Ethereum</div>
                   </div>
                   <div className="bchain-value">
                     <div className="bchain-img">
 
                     </div>
-                    <div className="bchain-name">Polygon</div>
+                    <div className="sub-head">Polygon</div>
                   </div>
                 </div>
 
-                <div className="main-value-direction-di">
-                  
+                <div className="main-value-direction-div">
+                  <div className="sub-head">Personal Monitor for</div>
+                  <div className="value-dir">
+                  <div className="value">&lt;$50</div>
+                    <div className="value">IN</div>
+                  </div>
                 </div>
+                <div className="notification-count">3 Notification Sent</div>
 
               </div>{/* card-content-div end */}
             </div>
+            
           </div>
         </div>
         </>
@@ -243,13 +296,31 @@ const VerticalTabs =() => {
           <div className="monitor-form">
             <div className="card-content-div ">
               <div className="first-ip-div">
-                <input placeholder="Name" value={name} onChange={(e)=>{setName(e.target.value)}} /> 
-                <select value={bchain} onChange={(e)=>{setBchain(e.target.value)}}>
-                  <option value="">Blockchain</option>
-                  <option value="ethereum">Ethereum</option>
-                  <option value="tether">Tether</option>
-                  <option value="BNB">BNB</option>
-                </select>
+                <input placeholder="Name" value={name} onChange={(e) => setName( e.target.value)} /> 
+                 <div className=" ">
+                    <Dropdown
+                      id="blockchain"
+                      name="blockchain"
+                      onSelect={(e) => chainChanged(e)}
+                    >
+                      <Dropdown.Toggle className="select-type2">
+                        {networks.chains[chain]
+                          ? networks.chains[chain]
+                          : "Network  "}
+                      </Dropdown.Toggle>
+                      <Dropdown.Menu>
+                        {Object.keys(networks.chains).map((chain) => (
+                          <Dropdown.Item
+                            eventKey={chain}
+                            data-chainlookupvalue={chain}
+                            key={chain}
+                          >
+                            {networks.chains[chain]}
+                          </Dropdown.Item>
+                        ))}
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  </div>
                 <input placeholder="Wallet Address" value={walletadress} onChange={(e)=>{setWalletadress(e.target.value)}} /> 
               </div>
 
@@ -277,19 +348,35 @@ const VerticalTabs =() => {
                 <div className="mainalert-div">
                   <div className="alrt-cnt">
                     <span className="d-block">Email</span>
-                    <span className="d-block">subhadip@webninjaz.com</span>
+                    <span className="d-block">{mail}</span>
                   </div>
                   <div className="verification-status">
-                    <div className="btn btn-fill">verify now</div>
+                    { mail ? (
+                      <>
+                       <input type="checkbox" id="switch"  /><label for="switch" >Toggle</label>
+                      </>
+                      ):
+                      <div className="btn btn-fill" onClick={handlemail}>
+                        verify now
+                      </div>
+                    }
                   </div>
                 </div>
                 <div className="mainalert-div">
                   <div className="alrt-cnt">
                     <span className="d-block">Telegram</span>
-                    <span className="d-block">SubhadipBisai</span>
+                    <span className="d-block">{telegram}</span>
                   </div>
                   <div className="verification-status">
-                    <div className="btn btn-fill">verify now</div>
+                  { telegram ? (
+                      <>
+                       <input type="checkbox" id="switch"  /><label for="switch">Toggle</label>
+                      </>
+                      ):
+                      <div className="btn btn-fill"  onClick={handltele}>
+                        verify now
+                      </div>
+                    }
                   </div>
                 </div>
               </div>
@@ -309,21 +396,47 @@ const VerticalTabs =() => {
           <span className="title">Preview: <span>Personal Monitor</span></span>
         </div>
         <div className="main-preview-div">
-          <div className="row">
+        <div className="row g-5">
             <div className="col-md-4">
-              <div className="card-content-div cc-active">
+              <div className="card-content-div personal-card cc-active">
+
                 <div className="status-div">
                   <div className="status-circle"></div>
                   <span className="status-txt">Active</span>
                 </div>
-                <h2 className="wallet-head">My_Wallet</h2>
-                <span className="wallet-sub-head">0X85...3445</span>
-                .can
-              </div>
+                <h3 className="wallet-name">{personalformData.name}</h3>
+                <span className="wallet-adress">{personalformData.walletadress}</span>
+
+                <div className="bchain-value-div">
+                  <div className="bchain-value">
+                    <div className="bchain-img">
+
+                    </div>
+                    <div className="sub-head">{personalformData.chain}</div>
+                  </div>
+                  <div className="bchain-value">
+                    <div className="bchain-img">
+
+                    </div>
+                    <div className="sub-head">Polygon</div>
+                  </div>
+                </div>
+
+                <div className="main-value-direction-div">
+                  <div className="sub-head">Personal Monitor for</div>
+                  <div className="value-dir">
+                  <div className="value">&lt;${personalformData.count}</div>
+                    <div className="value">IN</div>
+                  </div>
+                </div>
+                <div className="notification-count">3 Notification Sent</div>
+
+              </div>{/* card-content-div end */}
               <div className="mdl-butns lg-butns">
-              <Button className="btn btn-fill" >Done</Button>
+              <Button className="btn btn-fill" onClick={()=>{console.log(name)}}>Done</Button>
             </div>
             </div>
+            
           </div>
         </div>
         </>
@@ -335,7 +448,7 @@ const VerticalTabs =() => {
   };
   
 
- // ===================NOTIFICATIONS============== //
+ // ================NOTIFICATIONS=========== //
   const Tab2 = () => {
   const [radioValue, setRadioValue] = useState(''); 
   const [showContent, setShowContent] = useState(false);
@@ -600,7 +713,11 @@ const VerticalTabs =() => {
         .catch((e) => resolve(0));
     });
   }
-
+  const [rowsToShow, setRowsToShow] = useState(6);
+  const rowsToLoad = 10;
+  const handleLoadMore = () => {
+    setRowsToShow((prevRowsToShow) => prevRowsToShow + rowsToLoad);
+  };
 
   const { fetch: tokencheckedinput } = useMoralisCloudFunction(
     "tokencheck",
@@ -711,17 +828,15 @@ const VerticalTabs =() => {
        
       }
     });
+    setRowsToShow(6); //cause onno table e jaoar por abar jeno 6 ta row dekhai 
   };
+
     const totalValueUSD = alldataresult.reduce((accumulator, item) => {
       const valueUSD = parseFloat(item.valueinusd.replace("$", "").trim());
       return accumulator + valueUSD;
     }, 0);
 
-    const [rowsToShow, setRowsToShow] = useState(6);
-    const rowsToLoad = 10;
-    const handleLoadMore = () => {
-      setRowsToShow((prevRowsToShow) => prevRowsToShow + rowsToLoad);
-    };
+    
 
     return (
     <>
@@ -839,7 +954,7 @@ const VerticalTabs =() => {
   };
 
 
-  // ======================PROFILE======================== //
+  // ==============PROFILE================= //
   const Tab4 = () => {
     const [emailError, setEmailError] = useState(false);
     const [username, setUsername] = useState("");
@@ -920,7 +1035,7 @@ const VerticalTabs =() => {
   };
 
 
-  // ============LEARN=========== //
+  // ===============LEARN================== //
   const Tab5 = () => {
     return <>
       <div className="main-learn-div">
@@ -979,7 +1094,7 @@ const VerticalTabs =() => {
             <div className="row">
                 <div className="col-lg-2">
                     <div className="tabs-butns">
-                        <div className={`vertical-tab ${activeTab === 1 ? 'active' : ''}`} onClick={() => handleTabClick(1)}>
+                        <div className={`vertical-tab ${activeTab === 1 ? 'active' : ''}`} onClick={() =>{ handleTabClick(1); resetAllstate();}}>
                             <button className="main-btn" type="button">Dashboard</button>
                         </div>
                         <div className={`vertical-tab ${activeTab === 2 ? 'active' : ''}`} onClick={() => handleTabClick(2)}>

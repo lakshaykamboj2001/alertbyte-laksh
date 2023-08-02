@@ -1156,7 +1156,8 @@ font-weight: 500;
 }
 
 .monitor-form input,
-.monitor-form select
+.monitor-form select,
+.monitor-form .dropdown button
 {
   background: transparent;
   border-bottom: 1px solid grey;
@@ -1168,6 +1169,24 @@ font-weight: 500;
   min-width: 220px;
   color: white;
 }
+.monitor-form .dropdown button {
+  appearance: unset;
+  position: relative;
+  text-align: left;
+  padding: unset;
+  font-style: italic;
+  color: #b6afaf;
+  border-radius: unset;
+}
+.monitor-form .select-type2::before {
+  right: -10px;
+}
+.btn:first-child:active{
+  background-color: unset;
+  border-color: unset;
+  color: #b6afaf;
+}
+
 .monitor-form select {
   font-style: italic;
   font-size: 13px;
@@ -1281,6 +1300,47 @@ font-weight: 500;
   min-width: 113px;
   font-size: 15px;
 }
+ .mainalert-div .verification-status input[type=checkbox]{
+	height: 0;
+	width: 0;
+	visibility: hidden;
+  min-width: unset;
+}
+.mainalert-div .verification-status label {
+	cursor: pointer;
+	text-indent: -9999px;
+	width: 45px;
+	height: 20px;
+	background:var(--black);
+	border-radius: 100px;
+	position: relative;
+  border: 1px solid var(--neon);
+}
+.mainalert-div .verification-status label:after {
+  content: '';
+  position: absolute;
+  top: 0px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  background: var(--neon);
+  border-radius: 90px;
+  transition: 0.3s;
+}
+.mainalert-div .verification-status input:checked + label {
+	background:#30645aa3;
+}
+ .mainalert-div .verification-status input:checked + label:after {
+	left: calc(100% - 3px);
+	transform: translateX(-100%);
+}
+ .mainalert-div .verification-status label:active:after {
+	width: 10px;
+}
+
+
+
+
 
 .monitor-form .preview-btn{
   color: #0d6efd;
@@ -1293,14 +1353,60 @@ font-weight: 500;
 
 
 
+.personal-card .status-div .status-circle{
+  background: var(--neon);
+  padding: 5px;
+  display: inline-block;
+  border-radius: 50%;
+}
+.personal-card .status-div .status-txt{
+  font-size: 12px;
+}
+.personal-card .status-div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  /* margin-bottom: 8px; */
 
-
-
-
-
-
-
-
+}
+.personal-card .wallet-name{
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: unset;
+}
+.personal-card .wallet-adress{
+  font-size: 14px;
+}
+.personal-card .bchain-value-div{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0;
+  width: 100%;
+}
+.personal-card .sub-head{
+  font-size: 20px;
+}
+.personal-card .value-dir{
+  display: flex;
+  gap: 10px;
+  margin-top: 5px;
+}
+.personal-card .value-dir .value{
+  min-width: 60px;
+  padding: 5px 0;
+  border: 1px solid var(--neon);
+  border-radius: 5px;
+  text-align: center;
+  background: #30645aa3;
+}
+.personal-card .notification-count{
+  color: #0d6efd;
+  border-bottom: 1px solid #0d6efd;
+  font-size: 20px;
+  line-height: 1;
+  margin-top: 30px;
+}
 
 
 /* ====================profile================== */
@@ -1627,6 +1733,10 @@ font-weight: 600;
   display: flex;
   flex-direction: row;
   width: 100%;
+}
+.lm-btn {
+  display: flex;
+  justify-content: center;
 }
 /* ===============WALLET CONTENTS=============== */
 .main-learn-div{

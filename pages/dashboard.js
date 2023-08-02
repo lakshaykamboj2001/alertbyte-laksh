@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import LHeader from './components/logo-header'
 import DashBoard from './components/daash'
 
-const Dashboard = () => {
+const Dashboard = ({ account, setAccount, networks }) => {
  return(
     <>
     <main className="main-dashboard">
      <LHeader />
-     <DashBoard/>
+     <DashBoard networks={networks}  />
     </main>
      
     </>

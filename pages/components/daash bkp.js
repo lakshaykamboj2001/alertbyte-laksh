@@ -12,20 +12,53 @@ import {BsChevronDown} from 'react-icons/bs';
 import {FaChevronDown} from 'react-icons/fa';
 import StatusContext from '@/store/status-context';
 
-
 const MainMoralis = require("moralis").default;
 const { EvmChain } = require("@moralisweb3/common-evm-utils");
 
-const VerticalTabs =() => {
+if (!MainMoralis.Core.isStarted) {
+MainMoralis.start({ apiKey: "GomgxLzN3uLVh5BqJH1qR2yOaQip4EHYzzhnBmAf60G840xQWbGmgPhrjmVP1JQ8"}) 
+}
+
+const VerticalTabs =({ account, setAccount, networks }) => {
   const {
     logout,
     user,
     setUserData,
     refetchUserData,
   } = useMoralis();
-  const [activeTab, setActiveTab] = useState(3); 
+  const [activeTab, setActiveTab] = useState(1); 
   const router = useRouter();
   const [error, success, setSuccess, setError] = useContext(StatusContext);
+  const [loading, setloading] = useState(false);
+
+  // ===========MANAGING STATE OF first dashboard flow================ //
+ // ==Define here cause we can call the resetAllstate() call globaly==//
+ const [showcards,setShowcards] = useState(true);
+ const [showalertfor, setShowalertfor] = useState(false);
+ const [showpersonalform,setShowpersonalform] = useState(false);
+ const [showpreview,setShowpreview] = useState(false);
+
+ const resetAllstate = () => {
+  setShowcards(true);
+  setShowalertfor(false);
+  setShowpersonalform(false);
+  setShowpreview(false);
+}
+
+const [personalformData, setPersonalformData] = useState({
+  name: "",
+  chain: "",
+  walletadress: "",
+  count: 0,
+  direction: "",
+  note: "",
+
+});
+
+
+
+
+
 
 
   const handleLogout = async () => {
@@ -35,12 +68,59 @@ const VerticalTabs =() => {
   const handleTabClick = (tabNumber) => {
     setActiveTab(tabNumber);
   };
-
+  
   // =====================DASHBOARD================== //
   const Tab1 = () => {
   const [showContent, setShowContent] = useState(false);
   const [showFilterExpand, setShowFilterExpand] = useState(false);
   const filterRef = useRef(null);
+
+
+
+  // personal monitor form value state //
+  const[name, setName] = useState("");
+  const[chain, setChain] = useState("");
+  const[walletadress, setWalletadress] = useState("");
+  const [count, setCount] = useState(0);
+  const[direction, setDirection] = useState("");
+  const[note, setNote] = useState("");
+  function chainChanged(event) {
+    setChain(event);
+  }
+
+  const handleIncrease = () => {
+    setCount((prevCount) => prevCount + 1);
+  };
+  const handleDecrease = () => {
+    if (count > 0) {
+      setCount((prevCount) => prevCount - 1);
+    }
+  };
+  const handlePersonalSave = () =>{
+    setPersonalformData({
+      name: name,
+      chain: chain,
+      walletadress: walletadress,
+      count: count,
+      direction: direction,
+      note: note,
+    });
+    setShowpreview(true);
+    setShowpersonalform(false);
+  }
+ // Check user mail and telegram //
+ const [mail, setMail] = useState("");
+ const [telegram, setTelegram] = useState("");
+  useEffect(() => {
+    if (user) {
+      setMail(user.get("email"));
+      setTelegram(user.get("telegram"))
+    }
+  }, [user]);
+
+
+
+
 
   const handleFilterButtonClick = () => {
     setShowFilterExpand(!showFilterExpand);
@@ -63,14 +143,16 @@ const VerticalTabs =() => {
   const handleRadioChange = (event) => {
     setRadioValue(event.target.value);
   };
-    
     return (
     <>
-     <div className="main-dash-tab">
+    <div className="main-dash-tab">
+      {/*  showcards*/}
+      {showcards && (
+        <>
         <div className="title-btn-div"> 
           <span className="title">All Alerts</span>
           <div className="">
-            <button className="btn-fill">+ Add Alert</button>
+            <button className="btn-fill" onClick={()=>{setShowalertfor(true); setShowcards(false)} }>+ Add Alert</button>
           </div>
         </div>
         <div className="filter-main-div">
@@ -113,24 +195,252 @@ const VerticalTabs =() => {
               </div>
             )}
           </div>
-        </div>
-        {/* filter-main-div end */}
+        </div> {/* filter-main-div end */}
         <div className="main-cards-div">
-          <div className="row">
+          <div className="row g-5">
+            <div className="col-md-4">
+              <div className="card-content-div personal-card cc-active">
+
+                <div className="status-div">
+                  <div className="status-circle"></div>
+                  <span className="status-txt">Active</span>
+                </div>
+                <h3 className="wallet-name">My_Wallet</h3>
+                <span className="wallet-adress">0X85...3445</span>
+
+                <div className="bchain-value-div">
+                  <div className="bchain-value">
+                    <div className="bchain-img">
+
+                    </div>
+                    <div className="sub-head">Ethereum</div>
+                  </div>
+                  <div className="bchain-value">
+                    <div className="bchain-img">
+
+                    </div>
+                    <div className="sub-head">Polygon</div>
+                  </div>
+                </div>
+
+                <div className="main-value-direction-div">
+                  <div className="sub-head">Personal Monitor for</div>
+                  <div className="value-dir">
+                  <div className="value">&lt;$50</div>
+                    <div className="value">IN</div>
+                  </div>
+                </div>
+                <div className="notification-count">3 Notification Sent</div>
+
+              </div>{/* card-content-div end */}
+            </div>
+            
+          </div>
+        </div>
+        </>
+      )}
+       {/* showalertfor */}
+      { showalertfor && (
+        <>
+        <div className="title-btn-div"> 
+          <span className="title">Add Alert For</span>
+        </div>
+        <div className="addalert-btn-boxes">
+          <div className="row g-5">
             <div className="col-md-4">
               <div className="card-content-div">
-
+                <h5 className="alert-title">Personal Monitor</h5>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent pellentesque ipsum purus.</p>
+                <div className="title-btn-div ">
+                  <button className="btn-fill" onClick={()=>{setShowpersonalform(true); setShowalertfor(false)}} >+ Add Alert</button>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-4">
+              <div className="card-content-div">
+                <h5 className="alert-title">Community Monitor</h5>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent pellentesque ipsum purus.</p>
+                <div className="title-btn-div ">
+                  <button className="btn-fill" >+ Add Alert</button>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-4">
+              <div className="card-content-div">
+                <h5 className="alert-title">Price Alert</h5>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent pellentesque ipsum purus.</p>
+                <div className="title-btn-div ">
+                  <button className="btn-fill" >+ Add Alert</button>
+                </div>
               </div>
             </div>
           </div>
         </div>
-     </div>
+        </>
+      )}
+      {/* showpersonalform */}
+      { showpersonalform && (
+        <>     
+          <div className="title-btn-div"> 
+            <span className="title">Add Alert: <span>Personal Monitor</span></span>
+          </div>
+          
+          <div className="monitor-form">
+            <div className="card-content-div ">
+              <div className="first-ip-div">
+                <input placeholder="Name" value={name} onChange={(e) => setName( e.target.value)} /> 
+                 <div className=" ">
+                    <Dropdown
+                      id="blockchain"
+                      name="blockchain"
+                      onSelect={(e) => chainChanged(e)}
+                    >
+                      <Dropdown.Toggle className="select-type2">
+                        {networks.chains[chain]
+                          ? networks.chains[chain]
+                          : "Network  "}
+                      </Dropdown.Toggle>
+                      <Dropdown.Menu>
+                        {Object.keys(networks.chains).map((chain) => (
+                          <Dropdown.Item
+                            eventKey={chain}
+                            data-chainlookupvalue={chain}
+                            key={chain}
+                          >
+                            {networks.chains[chain]}
+                          </Dropdown.Item>
+                        ))}
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  </div>
+                <input placeholder="Wallet Address" value={walletadress} onChange={(e)=>{setWalletadress(e.target.value)}} /> 
+              </div>
+
+              <div className="second-ip-div">
+                <div className="head">Triggers</div>
+                <div className="threshold-div">
+                  <span className="head">Threshold Price ($)</span>
+                  <div className="price-ip-div">
+                    <div className="t-value">{count}</div><div className="plus-btn" onClick={handleIncrease}>+</div><div className="m-btn" onClick={handleDecrease}   >-</div>
+                  </div>
+                </div>
+                <select value={direction} onChange={(e)=>{setDirection(e.target.value)}}>
+                  <option value="">Direction</option>
+                  <option value="send">Send</option>
+                  <option value="receive">Receive</option>
+                  <option value="both">Both</option>
+                </select> 
+              </div>
+
+              <div className="third-ip-div">
+              <textarea placeholder="Custom Note" rows={2} value={note} onChange={(e)=>{setNote(e.target.value)}}/> 
+              </div>
+              <div className="second-ip-div">
+              <div className="head">Alert Method</div>
+                <div className="mainalert-div">
+                  <div className="alrt-cnt">
+                    <span className="d-block">Email</span>
+                    <span className="d-block">{mail}</span>
+                  </div>
+                  <div className="verification-status">
+                    { mail ? (
+                      <>
+                       <input type="checkbox" id="switch"  /><label for="switch">Toggle</label>
+                      </>
+                      ):
+                      <div className="btn btn-fill">
+                        verify now
+                      </div>
+                    }
+                  </div>
+                </div>
+                <div className="mainalert-div">
+                  <div className="alrt-cnt">
+                    <span className="d-block">Telegram</span>
+                    <span className="d-block">{telegram}</span>
+                  </div>
+                  <div className="verification-status">
+                  { telegram ? (
+                      <>
+                       <input type="checkbox" id="switch" checked /><label for="switch">Toggle</label>
+                      </>
+                      ):
+                      <div className="btn btn-fill">
+                        verify now
+                      </div>
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p className="preview-btn" onClick={handlePersonalSave}>Preview</p>
+            <div className="mdl-butns lg-butns">
+              <Button className="btn btn-fill" onClick={handlePersonalSave}> Save Alert </Button>
+              <Button className="btn btn-emp" > Cancel </Button>
+            </div>
+          </div>{/* monitor-form end div */}
+        </>
+      )}
+      {/* showpreview */}
+      {showpreview && (
+        <>
+        <div className="title-btn-div"> 
+          <span className="title">Preview: <span>Personal Monitor</span></span>
+        </div>
+        <div className="main-preview-div">
+        <div className="row g-5">
+            <div className="col-md-4">
+              <div className="card-content-div personal-card cc-active">
+
+                <div className="status-div">
+                  <div className="status-circle"></div>
+                  <span className="status-txt">Active</span>
+                </div>
+                <h3 className="wallet-name">{personalformData.name}</h3>
+                <span className="wallet-adress">{personalformData.walletadress}</span>
+
+                <div className="bchain-value-div">
+                  <div className="bchain-value">
+                    <div className="bchain-img">
+
+                    </div>
+                    <div className="sub-head">{personalformData.chain}</div>
+                  </div>
+                  <div className="bchain-value">
+                    <div className="bchain-img">
+
+                    </div>
+                    <div className="sub-head">Polygon</div>
+                  </div>
+                </div>
+
+                <div className="main-value-direction-div">
+                  <div className="sub-head">Personal Monitor for</div>
+                  <div className="value-dir">
+                  <div className="value">&lt;${personalformData.count}</div>
+                    <div className="value">IN</div>
+                  </div>
+                </div>
+                <div className="notification-count">3 Notification Sent</div>
+
+              </div>{/* card-content-div end */}
+              <div className="mdl-butns lg-butns">
+              <Button className="btn btn-fill" onClick={()=>{console.log(name)}}>Done</Button>
+            </div>
+            </div>
+            
+          </div>
+        </div>
+        </>
+      )}
+
+    </div>
     </>
     );
   };
   
 
- // ===================NOTIFICATIONS============== //
+ // ================NOTIFICATIONS=========== //
   const Tab2 = () => {
   const [radioValue, setRadioValue] = useState(''); 
   const [showContent, setShowContent] = useState(false);
@@ -185,7 +495,7 @@ const VerticalTabs =() => {
             <div>
               <input
                 type="radio"
-                
+               
                 name="in-out"
                 value="out"
                 checked={radioValue === 'out'}
@@ -389,13 +699,17 @@ const VerticalTabs =() => {
       response
         .then(function (result) {
           // console.log(result.toJSON().usdPrice); // Returns a primitive
-
+          console.log(result.toJSON())
           resolve(result.toJSON().usdPrice);
         })
         .catch((e) => resolve(0));
     });
   }
-
+  const [rowsToShow, setRowsToShow] = useState(6);
+  const rowsToLoad = 10;
+  const handleLoadMore = () => {
+    setRowsToShow((prevRowsToShow) => prevRowsToShow + rowsToLoad);
+  };
 
   const { fetch: tokencheckedinput } = useMoralisCloudFunction(
     "tokencheck",
@@ -405,112 +719,125 @@ const VerticalTabs =() => {
     }
   );
 
-const handlesearch = async () => {
-
-  Moralis.Cloud.run("gettokentrails").then(async () => {
-
-      const address = searchedvalue;
-
-      // const chain = EvmChain.ETHEREUM;
-
-      const evmchainvalue =
-        chain == "eth"
-          ? EvmChain.ETHEREUM
-          : chain == "bsc"
-          ? EvmChain.BSC
-          : chain == "matic"
-          ? EvmChain.POLYGON
-          : chain == "avalanche"
-          ? EvmChain.AVALANCHE
-          : EvmChain.ETHEREUM;
+  const runApp = async () => {
     
-      const chainforsend =
-        chain == "eth"
-          ? "0x1"
-          : chain == "bsc"
-          ? "0x38"
-          : chain == "matic"
-          ? "0x89"
-          : chain == "avalanche"
-          ? "0xa86a"
-          : "0x1";
+    Moralis.Cloud.run("gettokentrails").then(async (a) => {
+      if (a == false) {
+        window.alert(
+          "You've exceeded the limit (15 checks) on the free plan. Please upgrade to a paid plan to check more tokens."
+        );
+      
 
-      const headers = {
-        accept: "application/json",
-        "X-API-Key":
-          "GomgxLzN3uLVh5BqJH1qR2yOaQip4EHYzzhnBmAf60G840xQWbGmgPhrjmVP1JQ8",
-      };
+        return;
+      } else {
+        const address = searchedvalue;
+        const evmchainvalue =
+          chain == "eth"
+            ? EvmChain.ETHEREUM
+            : chain == "bsc"
+            ? EvmChain.BSC
+            : chain == "matic"
+            ? EvmChain.POLYGON
+            : chain == "avalanche"
+            ? EvmChain.AVALANCHE
+            : EvmChain.ETHEREUM;
 
-      fetch(
-        "https://deep-index.moralis.io/api/v2/" +
-          address +
-          "/balance?chain=" +
-          chainforsend,
-        { headers }
-      )
+        const chainforsend =
+          chain == "eth"
+            ? "0x1"
+            : chain == "bsc"
+            ? "0x38"
+            : chain == "matic"
+            ? "0x89"
+            : chain == "avalanche"
+            ? "0xa86a"
+            : "0x1";
+
+        const headers = {
+          accept: "application/json",
+          "X-API-Key": "GomgxLzN3uLVh5BqJH1qR2yOaQip4EHYzzhnBmAf60G840xQWbGmgPhrjmVP1JQ8",
+        };
+
+        fetch(
+          "https://deep-index.moralis.io/api/v2/" + address + "/balance?chain=" + chainforsend,
+          { headers }
+        )
         .then((response) => response.json())
-
         .then(async (data) => {
           setpriceamount((data.balance / 1e18).toFixed(2));
-          console.log("price total:",priceamo);
         })
         .catch((error) => {
           window.alert(JSON.stringify("🚫 Error Occures 🚫", 0, 2));
         });
 
-      const response = await MainMoralis.EvmApi.token.getWalletTokenBalances({
-        address,
-        chain: evmchainvalue,
-      });
+        try {
+          const response = await MainMoralis.EvmApi.token.getWalletTokenBalances({
+            address,
+            chain: evmchainvalue,
+          });
 
-      setalldataresult(
-        await Promise.all(
-          response.toJSON().map(async (a) => {
-            return {
-              balance: "6000000000",
-              decimals: 9,
-              name: a.name,
-              symbol: a.symbol,
-              quantity: Number(a.balance) / Math.pow(10, a.decimals),
-              token_address: a.token_address,
-              price: Number(await latestTime(a.token_address)).toFixed(3),
-              valueinusd:
-                "$" +
-                " " +
-                (
-                  (await latestTime(a.token_address)) *
-                  (Number(a.balance) / Math.pow(10, a.decimals))
-                ).toFixed(3),
-            };
-          })
-        )
-      );
-      console.log("weee:", alldataresult);
+          setalldataresult(
+            await Promise.all(
+              response.toJSON().map(async (a) => {
+                return {
+                  balance: "6000000000",
+                  decimals: 9,
+                  name: a.name,
+                  symbol: a.symbol,
+                  quantity: Number(a.balance) / Math.pow(10, a.decimals),
+                  token_address: a.token_address,
+                  price: Number(await latestTime(a.token_address)).toFixed(3),
+                  valueinusd:
+                    "$" +
+                    " " +
+                    (
+                      (await latestTime(a.token_address)) *
+                      (Number(a.balance) / Math.pow(10, a.decimals))
+                    ).toFixed(3),
+                };
+              })
+            )
+          );
 
-      tokencheckedinput({
-        onSuccess: async (object) => {
-          console.log("succedd");
-        },
-        onError: (error) => {
-          console.log("nftchecked Error:", error);
-        },
-      });
+        } catch (error) {
+          setError((prevState) => ({
+            ...prevState,
+            title: "Data Not Found",
+            message: "please enter a valid wallet adress !",
+            showErrorBox: true,
+          }));
+        }
+
+        tokencheckedinput({
+          onSuccess: async (object) => {
+            console.log("succedd");
+          },
+          onError: (error) => {
+            console.log("nftchecked Error:", error);
+          },
+        });
+
+       
+      }
+    });
+    setRowsToShow(6); //cause onno table e jaoar por abar jeno 6 ta row dekhai 
+  };
+
+    const totalValueUSD = alldataresult.reduce((accumulator, item) => {
+      const valueUSD = parseFloat(item.valueinusd.replace("$", "").trim());
+      return accumulator + valueUSD;
+    }, 0);
 
     
-  });
-};
-
-
 
     return (
     <>
-    <Form className="cu-form search-form" onSubmit={(event) => { event.preventDefault(); handlesearch(); }}>
+    <Form className="cu-form search-form" onSubmit={(event) => { event.preventDefault(); runApp(); }}>
       <Form.Group >
-        <Dropdown  id="blockchain" name="blockchain"  onSelect={(e) => chainChanged(e)} > 
+      <Dropdown  id="blockchain" name="blockchain"  onSelect={(e) => chainChanged(e)} > 
           <Dropdown.Toggle className="select-type2">
             {networks.chains[chain] ? networks.chains[chain] : "Network"}
           </Dropdown.Toggle>
-
           <Dropdown.Menu>
             {Object.keys(networks.chains).map((chain) => (
               <Dropdown.Item eventKey={chain} data-chainlookupvalue={chain} key={chain} >
@@ -528,7 +855,7 @@ const handlesearch = async () => {
     { alldataresult.length != 0 && (
       <>
        <div className="main-search-content">
-         <p className="adress-title"><span>Address: </span>0xb47e3cd837dDF8e4c57F05d70Ab865de6e193BBB</p>
+         <p className="adress-title"><span>Address: </span>{searchedvalue}</p>
          <div className="data-div">
             <p className="title">Summary</p>
             <div className="row">
@@ -541,19 +868,19 @@ const handlesearch = async () => {
               <div className="col-md-3">
                 <div className="card-content-div">
                   <span className="c-title">ETH Balance</span>
-                  <h2>0.2359 ETH<span className="d-block">(1,867.67 USD)</span></h2>
+                  <h2>{priceamount} ETH<span className="d-block">( USD)</span></h2>
                 </div>
               </div>
               <div className="col-md-3">
                 <div className="card-content-div">
                   <span className="c-title">Token Balance</span>
-                  <h2>$75.87</h2>
+                  <h2>${totalValueUSD.toFixed(3)}</h2>
                 </div>
               </div>
               <div className="col-md-3">
                 <div className="card-content-div">
                 <span className="c-title">Number Of NFTs</span>
-                  <h2>23</h2>
+                  <h2>{alldataresult.length}</h2>
                 </div>
               </div>
             </div>
@@ -576,7 +903,37 @@ const handlesearch = async () => {
               </div>
             </div>
             <div className="erc-tale">
-
+              <div class="tbl">
+                <div class="tbl-row tb-head">
+                  <div class="tbl-cell">Name</div>
+                  <div class="tbl-cell">Ticker</div>
+                  <div class="tbl-cell">Balance</div>
+                  <div class="tbl-cell">Price Per Unit</div>
+                  <div class="tbl-cell">USD Value</div>
+               </div>
+               <div className="tmain-body">
+                  {alldataresult.slice(0, rowsToShow).map((data, index) => (
+                    <div className="tbl-row row-cnt" key={index}>
+                      <div className="tb-body-r">
+                        <div className="tbl-row">
+                          <div className="tbl-cell">{data.name}</div>
+                          <div className="tbl-cell">{data.symbol}</div>
+                          <div className="tbl-cell">{data.quantity}</div>
+                          <div className="tbl-cell">{data.price}</div>
+                          <div className="tbl-cell">{data.valueinusd}</div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                  {rowsToShow < alldataresult.length && (
+                    <>
+                     <div className="lm-btn">
+                        <button onClick={handleLoadMore}>Load More<BsChevronDown/></button>
+                     </div>
+                    </>
+                  )}
+                </div>
+              </div>
             </div>
          </div>
        </div>
@@ -589,7 +946,7 @@ const handlesearch = async () => {
   };
 
 
-  // ======================PROFILE======================== //
+  // ==============PROFILE================= //
   const Tab4 = () => {
     const [emailError, setEmailError] = useState(false);
     const [username, setUsername] = useState("");
@@ -670,10 +1027,52 @@ const handlesearch = async () => {
   };
 
 
-  // ============LEARN=========== //
+  // ===============LEARN================== //
   const Tab5 = () => {
     return <>
-        <h2 onClick={()=>{}}>this is tab5</h2>
+      <div className="main-learn-div">
+
+        <div className="learn-cnt">
+          <h2 className="head">Alerts</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus diam urna, pulvinar sed nisl sit amet, vestibulum fermentun
+          leo. Aenean non efficitur quam. Proin ultrices metus lectus, eu mattis lectus sagittis quis. Suspendisse et interdum eros.
+          Maecenas efficitur enim eget mauris tempor mattis. Morbi blandit molestie felis ut faucibus. Praesent aliquam arcu ac nisl
+          finibus tempor. Nunc sed sapien id risus varius tempor. In lobortis sed velit sed auctor.</p>
+        </div>
+
+        <div className="learn-cnt">
+          <h2 className="head">Personal Monitor</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus diam urna, pulvinar sed nisl sit amet, vestibulum fermentun
+          leo. Aenean non efficitur quam. Proin ultrices metus lectus, eu mattis lectus sagittis quis. Suspendisse et interdum eros.
+          Maecenas efficitur enim eget mauris tempor mattis. Morbi blandit molestie felis ut faucibus. Praesent aliquam arcu ac nisl
+          finibus tempor. Nunc sed sapien id risus varius tempor. In lobortis sed velit sed auctor.</p>
+        </div>
+
+        <div className="learn-cnt">
+          <h2 className="head">Community Monitor</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus diam urna, pulvinar sed nisl sit amet, vestibulum fermentun
+          leo. Aenean non efficitur quam. Proin ultrices metus lectus, eu mattis lectus sagittis quis. Suspendisse et interdum eros.
+          Maecenas efficitur enim eget mauris tempor mattis. Morbi blandit molestie felis ut faucibus. Praesent aliquam arcu ac nisl
+          finibus tempor. Nunc sed sapien id risus varius tempor. In lobortis sed velit sed auctor.</p>
+        </div>
+
+        <div className="learn-cnt">
+          <h2 className="head">NFT Checker</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus diam urna, pulvinar sed nisl sit amet, vestibulum fermentun
+          leo. Aenean non efficitur quam. Proin ultrices metus lectus, eu mattis lectus sagittis quis. Suspendisse et interdum eros.
+          Maecenas efficitur enim eget mauris tempor mattis. Morbi blandit molestie felis ut faucibus. Praesent aliquam arcu ac nisl
+          finibus tempor. Nunc sed sapien id risus varius tempor. In lobortis sed velit sed auctor.</p>
+        </div>
+
+        <div className="learn-cnt">
+          <h2 className="head">Profile</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus diam urna, pulvinar sed nisl sit amet, vestibulum fermentun
+          leo. Aenean non efficitur quam. Proin ultrices metus lectus, eu mattis lectus sagittis quis. Suspendisse et interdum eros.
+          Maecenas efficitur enim eget mauris tempor mattis. Morbi blandit molestie felis ut faucibus. Praesent aliquam arcu ac nisl
+          finibus tempor. Nunc sed sapien id risus varius tempor. In lobortis sed velit sed auctor.</p>
+        </div>
+
+      </div>
     </>;
   };
 
@@ -687,14 +1086,14 @@ const handlesearch = async () => {
             <div className="row">
                 <div className="col-lg-2">
                     <div className="tabs-butns">
-                        <div className={`vertical-tab ${activeTab === 1 ? 'active' : ''}`} onClick={() => handleTabClick(1)}>
+                        <div className={`vertical-tab ${activeTab === 1 ? 'active' : ''}`} onClick={() =>{ handleTabClick(1); resetAllstate();}}>
                             <button className="main-btn" type="button">Dashboard</button>
                         </div>
                         <div className={`vertical-tab ${activeTab === 2 ? 'active' : ''}`} onClick={() => handleTabClick(2)}>
                             <button className="main-btn" type="button">Notification</button>
                         </div>
                         <div className={`vertical-tab ${activeTab === 3 ? 'active' : ''}`} onClick={() => handleTabClick(3)}>
-                            <button className="main-btn" type="button">wallet Contents</button>
+                            <button className="main-btn" type="button">Wallet Contents</button>
                         </div>
                         <div className={`vertical-tab ${activeTab === 4 ? 'active' : ''}`} onClick={() => handleTabClick(4)}>
                             <button className="main-btn" type="button">Profile</button>
