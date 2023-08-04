@@ -1148,6 +1148,29 @@ font-weight: 500;
   font-weight: 400;
 }
 
+.monitor-form .input-div{
+ position: relative;
+ padding-right: 2px;
+}
+.monitor-form .input-div::after {
+  position: absolute;
+  content: "";
+  left: 100%;
+  top:calc(50% + 2px);
+  background-image: url('../public/Icons/information.svg');
+  background-position: 100% 50%;
+  background-repeat: no-repeat;
+  background-size: 19px;
+  height: 20px;
+  width: 20px;
+  transform: translateY(-50%);
+}
+.monitor-form .threshold-div.input-div::after,
+.monitor-form .direction-div.input-div::after
+{
+  left: calc(100% - 30px);
+}
+
 .monitor-form{
   max-width: 365px;
 }
@@ -1232,6 +1255,10 @@ font-weight: 500;
 .monitor-form .head{
   font-size: 18px;
   font-weight: 500;
+  width: max-content  ;
+}
+.monitor-form .input-div.head{
+  padding-right: 5px;
 }
 .threshold-div{
   display: flex;
@@ -1649,7 +1676,7 @@ font-weight: 600;
 }
 .select-type2::before {
   content: "";
-  background: url('../public/chevron-down.svg');
+  background: url('../public/Icons/dropdown-arrow.svg');
   display: block;
   width: 20px;
   height: 20px;
@@ -1657,6 +1684,8 @@ font-weight: 600;
   position: absolute;
   top: 50%;
   transform: translate(-50% , -50%);
+  background-size: 18px;
+  background-repeat: no-repeat;
 }
 .select-type2::after{
   display: none;

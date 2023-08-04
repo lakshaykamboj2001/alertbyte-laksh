@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="104" height="95" viewBox="0 0 104 95">
+  <defs>
+    <clipPath id="clip-notifications">
+      <rect width="104" height="95"/>
+    </clipPath>
+  </defs>
+  <g id="notifications" clip-path="url(#clip-notifications)">
+    <path id="Icon_open-bell" data-name="Icon open-bell" d="M47,0A23.569,23.569,0,0,0,23.5,23.5c0,12.22-6.11,23.265-15.745,31.255A20.519,20.519,0,0,0,0,70.5H94a20.154,20.154,0,0,0-7.755-15.745C76.611,46.765,70.5,35.72,70.5,23.5A23.494,23.494,0,0,0,47,0ZM35.25,82.251a11.75,11.75,0,0,0,23.5,0Z" transform="translate(5.114 0.999)" fill="#00ffce"/>
+  </g>
+</svg>

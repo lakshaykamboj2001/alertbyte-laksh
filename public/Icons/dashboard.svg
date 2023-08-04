@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="104" height="95" viewBox="0 0 104 95">
+  <defs>
+    <clipPath id="clip-dashboard">
+      <rect width="104" height="95"/>
+    </clipPath>
+  </defs>
+  <g id="dashboard" clip-path="url(#clip-dashboard)">
+    <path id="Path_12" data-name="Path 12" d="M179.2,74.835,130.545,38.75a5.273,5.273,0,0,0-6.3,0L75.6,74.835l6.3,8.489,9.345-6.929v52.782h22.505V94.234h27.294v34.943h22.505V76.389l9.355,6.94Z" transform="translate(-75.601 -35.708)" fill="#00ffce"/>
+  </g>
+</svg>

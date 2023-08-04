@@ -52,6 +52,8 @@ const [personalformData, setPersonalformData] = useState({
   count: 0,
   direction: "",
   note: "",
+  ismailchecked: true,
+  istelechecked: true,
 
 });
 
@@ -84,6 +86,15 @@ const [personalformData, setPersonalformData] = useState({
   const [count, setCount] = useState(0);
   const[direction, setDirection] = useState("");
   const[note, setNote] = useState("");
+  const [ismailChecked, setIsmailChecked] = useState(true);
+  const [isteleChecked, setIsteleChecked] = useState(true);
+
+  const handleMailCheckboxChange = () => {
+    setIsmailChecked(!ismailChecked);
+  };
+  const handleTeleCheckboxChange = () => {
+    setIsteleChecked(!isteleChecked);
+  };
   function chainChanged(event) {
     setChain(event);
   }
@@ -104,6 +115,8 @@ const [personalformData, setPersonalformData] = useState({
       count: count,
       direction: direction,
       note: note,
+      ismailchecked: ismailChecked,
+      istelechecked: isteleChecked
     });
     setShowpreview(true);
     setShowpersonalform(false);
@@ -118,6 +131,13 @@ const [personalformData, setPersonalformData] = useState({
     }
   }, [user]);
 
+  const handlemail = ()=>{
+    router.push('/more-details?fromDashmail=true');
+  }
+  
+  const handltele = ()=>{
+   router.push('/more-details?fromDash=true');
+  }
 
 
 
@@ -143,6 +163,16 @@ const [personalformData, setPersonalformData] = useState({
   const handleRadioChange = (event) => {
     setRadioValue(event.target.value);
   };
+
+ // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~API Prosess~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+
+  const submitData = () => { 
+    console.log("hi")
+  }
+
+
+
+
     return (
     <>
     <div className="main-dash-tab">
@@ -288,8 +318,11 @@ const [personalformData, setPersonalformData] = useState({
           <div className="monitor-form">
             <div className="card-content-div ">
               <div className="first-ip-div">
-                <input placeholder="Name" value={name} onChange={(e) => setName( e.target.value)} /> 
-                 <div className=" ">
+                <div className="input-div">
+                  <input placeholder="Name" value={name} onChange={(e) => setName( e.target.value)} /> 
+                </div>
+
+                 <div className="input-div">
                     <Dropdown
                       id="blockchain"
                       name="blockchain"
@@ -313,30 +346,34 @@ const [personalformData, setPersonalformData] = useState({
                       </Dropdown.Menu>
                     </Dropdown>
                   </div>
-                <input placeholder="Wallet Address" value={walletadress} onChange={(e)=>{setWalletadress(e.target.value)}} /> 
+                <div className="input-div">
+                  <input placeholder="Wallet Address" value={walletadress} onChange={(e)=>{setWalletadress(e.target.value)}} /> 
+                </div>
               </div>
 
               <div className="second-ip-div">
-                <div className="head">Triggers</div>
-                <div className="threshold-div">
+                <div className="head input-div">Triggers</div>
+                <div className="threshold-div input-div">
                   <span className="head">Threshold Price ($)</span>
                   <div className="price-ip-div">
                     <div className="t-value">{count}</div><div className="plus-btn" onClick={handleIncrease}>+</div><div className="m-btn" onClick={handleDecrease}   >-</div>
                   </div>
                 </div>
-                <select value={direction} onChange={(e)=>{setDirection(e.target.value)}}>
-                  <option value="">Direction</option>
-                  <option value="send">Send</option>
-                  <option value="receive">Receive</option>
-                  <option value="both">Both</option>
-                </select> 
-              </div>
+                <div className="direction-div input-div">
+                  <select value={direction} onChange={(e)=>{setDirection(e.target.value)}}>
+                    <option value="">Direction</option>
+                    <option value="send">Send</option>
+                    <option value="receive">Receive</option>
+                    <option value="both">Both</option>
+                  </select> 
+                </div>
+                </div>
 
               <div className="third-ip-div">
               <textarea placeholder="Custom Note" rows={2} value={note} onChange={(e)=>{setNote(e.target.value)}}/> 
               </div>
               <div className="second-ip-div">
-              <div className="head">Alert Method</div>
+              <div className="head input-div">Alert Method</div>
                 <div className="mainalert-div">
                   <div className="alrt-cnt">
                     <span className="d-block">Email</span>
@@ -345,10 +382,9 @@ const [personalformData, setPersonalformData] = useState({
                   <div className="verification-status">
                     { mail ? (
                       <>
-                       <input type="checkbox" id="switch"  /><label for="switch">Toggle</label>
-                      </>
+                       <input type="checkbox" id="switch" checked={ismailChecked} onChange={handleMailCheckboxChange} /><label for="switch" >Toggle</label> </>
                       ):
-                      <div className="btn btn-fill">
+                      <div className="btn btn-fill" onClick={handlemail}>
                         verify now
                       </div>
                     }
@@ -362,10 +398,10 @@ const [personalformData, setPersonalformData] = useState({
                   <div className="verification-status">
                   { telegram ? (
                       <>
-                       <input type="checkbox" id="switch" checked /><label for="switch">Toggle</label>
+                       <input type="checkbox" id="switch" checked={isteleChecked} onChange={handleTeleCheckboxChange} /><label for="switch">Toggle</label>
                       </>
                       ):
-                      <div className="btn btn-fill">
+                      <div className="btn btn-fill"  onClick={handltele}>
                         verify now
                       </div>
                     }
@@ -425,7 +461,7 @@ const [personalformData, setPersonalformData] = useState({
 
               </div>{/* card-content-div end */}
               <div className="mdl-butns lg-butns">
-              <Button className="btn btn-fill" onClick={()=>{console.log(name)}}>Done</Button>
+              <Button className="btn btn-fill" onClick={submitData}>Done</Button>
             </div>
             </div>
             

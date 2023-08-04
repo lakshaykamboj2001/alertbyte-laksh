@@ -11,7 +11,7 @@ import {BsFillTriangleFill} from 'react-icons/bs';
 import {BsChevronDown} from 'react-icons/bs';
 import {FaChevronDown} from 'react-icons/fa';
 import StatusContext from '@/store/status-context';
-
+import FirstTab from './dashboard/firsttab'
 const MainMoralis = require("moralis").default;
 const { EvmChain } = require("@moralisweb3/common-evm-utils");
 
@@ -26,38 +26,36 @@ const VerticalTabs =({ account, setAccount, networks }) => {
     setUserData,
     refetchUserData,
   } = useMoralis();
+  
   const [activeTab, setActiveTab] = useState(1); 
   const router = useRouter();
   const [error, success, setSuccess, setError] = useContext(StatusContext);
   const [loading, setloading] = useState(false);
 
   // ===========MANAGING STATE OF first dashboard flow================ //
- // ==Define here cause we can call the resetAllstate() call globaly==//
- const [showcards,setShowcards] = useState(true);
- const [showalertfor, setShowalertfor] = useState(false);
- const [showpersonalform,setShowpersonalform] = useState(false);
- const [showpreview,setShowpreview] = useState(false);
-
- const resetAllstate = () => {
-  setShowcards(true);
-  setShowalertfor(false);
-  setShowpersonalform(false);
-  setShowpreview(false);
-}
-
-const [personalformData, setPersonalformData] = useState({
-  name: "",
-  chain: "",
-  walletadress: "",
-  count: 0,
-  direction: "",
-  note: "",
-
-});
-
-
-
-
+ //  ==Define here cause we can call the resetAllstate() call globaly==//
+  const [states, setStates] = useState({
+    showcards: true,
+    showalertfor: false,
+    showpersonalform: false,
+    showpreview: false,
+  });
+  // Function to update the states object
+  const updateStates = (updatedStates) => {
+    setStates((prevState) => ({
+      ...prevState,
+      ...updatedStates,
+    }));
+  };
+  const resetAllstate = () => {
+    updateStates({
+      showcards: true,
+      showalertfor: false,
+      showpersonalform: false,
+      showpreview: false,
+    });
+  }
+//  ======================================== //
 
 
 
@@ -69,384 +67,16 @@ const [personalformData, setPersonalformData] = useState({
     setActiveTab(tabNumber);
   };
   
+
+
   // =====================DASHBOARD================== //
-  const Tab1 = () => {
-  const [showContent, setShowContent] = useState(false);
-  const [showFilterExpand, setShowFilterExpand] = useState(false);
-  const filterRef = useRef(null);
-
-
-
-  // personal monitor form value state //
-  const[name, setName] = useState("");
-  const[chain, setChain] = useState("");
-  const[walletadress, setWalletadress] = useState("");
-  const [count, setCount] = useState(0);
-  const[direction, setDirection] = useState("");
-  const[note, setNote] = useState("");
-
-  function chainChanged(event) {
-    setChain(event);
+  const Tab1 = () =>{
+    return(
+      <>
+       <FirstTab networks={networks}  states={states} updateStates={updateStates} />
+      </>
+    )
   }
-
-  const handleIncrease = () => {
-    setCount((prevCount) => prevCount + 1);
-  };
-  const handleDecrease = () => {
-    if (count > 0) {
-      setCount((prevCount) => prevCount - 1);
-    }
-  };
-  const handlePersonalSave = () =>{
-    setPersonalformData({
-      name: name,
-      chain: chain,
-      walletadress: walletadress,
-      count: count,
-      direction: direction,
-      note: note,
-    });
-    setShowpreview(true);
-    setShowpersonalform(false);
-  }
- // Check user mail and telegram //
- const [mail, setMail] = useState("");
- const [telegram, setTelegram] = useState("");
-  useEffect(() => {
-    if (user) {
-      setMail(user.get("email"));
-      setTelegram(user.get("telegram"))
-    }
-  }, [user]);
-
-  const handlemail = ()=>{
-    router.push('/more-details?fromDashmail=true');
-  }
-  
-  const handltele = ()=>{
-   router.push('/more-details?fromDash=true');
-  }
-
-
-
-
-  const handleFilterButtonClick = () => {
-    setShowFilterExpand(!showFilterExpand);
-  };
-
-  const handleClickOutside = (event) => {
-    if (filterRef.current && !filterRef.current.contains(event.target)) {
-      setShowFilterExpand(false);
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener('click', handleClickOutside, true);
-
-    return () => {
-      document.removeEventListener('click', handleClickOutside, true);
-    };
-  }, []);
-
-  const handleRadioChange = (event) => {
-    setRadioValue(event.target.value);
-  };
-    return (
-    <>
-    <div className="main-dash-tab">
-      {/*  showcards*/}
-      {showcards && (
-        <>
-        <div className="title-btn-div"> 
-          <span className="title">All Alerts</span>
-          <div className="">
-            <button className="btn-fill" onClick={()=>{setShowalertfor(true); setShowcards(false)} }>+ Add Alert</button>
-          </div>
-        </div>
-        <div className="filter-main-div">
-          <div className="filter-sub-div inout-sec" ref={filterRef}>
-            <span className="head dropdowntoggle" onClick={handleFilterButtonClick}>Filter {!showFilterExpand && <FaChevronDown/>}</span>
-            {showFilterExpand && (
-              <div className="filter-expand">
-                <p className="clr-all">
-                  <span>Filter</span>
-                  <span>Clear All</span>
-                </p>
-                <div className="radios">
-                  <span>Direction</span>
-                  <div>
-                    <input
-                      type="radio"
-                      id="in"
-                      name="in-out"
-                      value="in"
-                      
-                      onChange={handleRadioChange}
-                    />
-                    <label htmlFor="in">IN</label>
-                  </div>
-                  <div>
-                    <input
-                      type="radio"
-                      id="out"
-                      name="in-out"
-                      value="out"
-                    
-                      onChange={handleRadioChange}
-                    />
-                    <label htmlFor="out">OUT</label>
-                  </div>
-                </div>
-                <div className="">
-                  <span >Blockchain</span>
-                </div>
-              </div>
-            )}
-          </div>
-        </div> {/* filter-main-div end */}
-        <div className="main-cards-div">
-          <div className="row g-5">
-            <div className="col-md-4">
-              <div className="card-content-div personal-card cc-active">
-
-                <div className="status-div">
-                  <div className="status-circle"></div>
-                  <span className="status-txt">Active</span>
-                </div>
-                <h3 className="wallet-name">My_Wallet</h3>
-                <span className="wallet-adress">0X85...3445</span>
-
-                <div className="bchain-value-div">
-                  <div className="bchain-value">
-                    <div className="bchain-img">
-
-                    </div>
-                    <div className="sub-head">Ethereum</div>
-                  </div>
-                  <div className="bchain-value">
-                    <div className="bchain-img">
-
-                    </div>
-                    <div className="sub-head">Polygon</div>
-                  </div>
-                </div>
-
-                <div className="main-value-direction-div">
-                  <div className="sub-head">Personal Monitor for</div>
-                  <div className="value-dir">
-                  <div className="value">&lt;$50</div>
-                    <div className="value">IN</div>
-                  </div>
-                </div>
-                <div className="notification-count">3 Notification Sent</div>
-
-              </div>{/* card-content-div end */}
-            </div>
-            
-          </div>
-        </div>
-        </>
-      )}
-       {/* showalertfor */}
-      { showalertfor && (
-        <>
-        <div className="title-btn-div"> 
-          <span className="title">Add Alert For</span>
-        </div>
-        <div className="addalert-btn-boxes">
-          <div className="row g-5">
-            <div className="col-md-4">
-              <div className="card-content-div">
-                <h5 className="alert-title">Personal Monitor</h5>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent pellentesque ipsum purus.</p>
-                <div className="title-btn-div ">
-                  <button className="btn-fill" onClick={()=>{setShowpersonalform(true); setShowalertfor(false)}} >+ Add Alert</button>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-4">
-              <div className="card-content-div">
-                <h5 className="alert-title">Community Monitor</h5>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent pellentesque ipsum purus.</p>
-                <div className="title-btn-div ">
-                  <button className="btn-fill" >+ Add Alert</button>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-4">
-              <div className="card-content-div">
-                <h5 className="alert-title">Price Alert</h5>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent pellentesque ipsum purus.</p>
-                <div className="title-btn-div ">
-                  <button className="btn-fill" >+ Add Alert</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        </>
-      )}
-      {/* showpersonalform */}
-      { showpersonalform && (
-        <>     
-          <div className="title-btn-div"> 
-            <span className="title">Add Alert: <span>Personal Monitor</span></span>
-          </div>
-          
-          <div className="monitor-form">
-            <div className="card-content-div ">
-              <div className="first-ip-div">
-                <input placeholder="Name" value={name} onChange={(e) => setName( e.target.value)} /> 
-                 <div className=" ">
-                    <Dropdown
-                      id="blockchain"
-                      name="blockchain"
-                      onSelect={(e) => chainChanged(e)}
-                    >
-                      <Dropdown.Toggle className="select-type2">
-                        {networks.chains[chain]
-                          ? networks.chains[chain]
-                          : "Network  "}
-                      </Dropdown.Toggle>
-                      <Dropdown.Menu>
-                        {Object.keys(networks.chains).map((chain) => (
-                          <Dropdown.Item
-                            eventKey={chain}
-                            data-chainlookupvalue={chain}
-                            key={chain}
-                          >
-                            {networks.chains[chain]}
-                          </Dropdown.Item>
-                        ))}
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  </div>
-                <input placeholder="Wallet Address" value={walletadress} onChange={(e)=>{setWalletadress(e.target.value)}} /> 
-              </div>
-
-              <div className="second-ip-div">
-                <div className="head">Triggers</div>
-                <div className="threshold-div">
-                  <span className="head">Threshold Price ($)</span>
-                  <div className="price-ip-div">
-                    <div className="t-value">{count}</div><div className="plus-btn" onClick={handleIncrease}>+</div><div className="m-btn" onClick={handleDecrease}   >-</div>
-                  </div>
-                </div>
-                <select value={direction} onChange={(e)=>{setDirection(e.target.value)}}>
-                  <option value="">Direction</option>
-                  <option value="send">Send</option>
-                  <option value="receive">Receive</option>
-                  <option value="both">Both</option>
-                </select> 
-              </div>
-
-              <div className="third-ip-div">
-              <textarea placeholder="Custom Note" rows={2} value={note} onChange={(e)=>{setNote(e.target.value)}}/> 
-              </div>
-              <div className="second-ip-div">
-              <div className="head">Alert Method</div>
-                <div className="mainalert-div">
-                  <div className="alrt-cnt">
-                    <span className="d-block">Email</span>
-                    <span className="d-block">{mail}</span>
-                  </div>
-                  <div className="verification-status">
-                    { mail ? (
-                      <>
-                       <input type="checkbox" id="switch"  /><label for="switch" >Toggle</label>
-                      </>
-                      ):
-                      <div className="btn btn-fill" onClick={handlemail}>
-                        verify now
-                      </div>
-                    }
-                  </div>
-                </div>
-                <div className="mainalert-div">
-                  <div className="alrt-cnt">
-                    <span className="d-block">Telegram</span>
-                    <span className="d-block">{telegram}</span>
-                  </div>
-                  <div className="verification-status">
-                  { telegram ? (
-                      <>
-                       <input type="checkbox" id="switch"  /><label for="switch">Toggle</label>
-                      </>
-                      ):
-                      <div className="btn btn-fill"  onClick={handltele}>
-                        verify now
-                      </div>
-                    }
-                  </div>
-                </div>
-              </div>
-            </div>
-            <p className="preview-btn" onClick={handlePersonalSave}>Preview</p>
-            <div className="mdl-butns lg-butns">
-              <Button className="btn btn-fill" onClick={handlePersonalSave}> Save Alert </Button>
-              <Button className="btn btn-emp" > Cancel </Button>
-            </div>
-          </div>{/* monitor-form end div */}
-        </>
-      )}
-      {/* showpreview */}
-      {showpreview && (
-        <>
-        <div className="title-btn-div"> 
-          <span className="title">Preview: <span>Personal Monitor</span></span>
-        </div>
-        <div className="main-preview-div">
-        <div className="row g-5">
-            <div className="col-md-4">
-              <div className="card-content-div personal-card cc-active">
-
-                <div className="status-div">
-                  <div className="status-circle"></div>
-                  <span className="status-txt">Active</span>
-                </div>
-                <h3 className="wallet-name">{personalformData.name}</h3>
-                <span className="wallet-adress">{personalformData.walletadress}</span>
-
-                <div className="bchain-value-div">
-                  <div className="bchain-value">
-                    <div className="bchain-img">
-
-                    </div>
-                    <div className="sub-head">{personalformData.chain}</div>
-                  </div>
-                  <div className="bchain-value">
-                    <div className="bchain-img">
-
-                    </div>
-                    <div className="sub-head">Polygon</div>
-                  </div>
-                </div>
-
-                <div className="main-value-direction-div">
-                  <div className="sub-head">Personal Monitor for</div>
-                  <div className="value-dir">
-                  <div className="value">&lt;${personalformData.count}</div>
-                    <div className="value">IN</div>
-                  </div>
-                </div>
-                <div className="notification-count">3 Notification Sent</div>
-
-              </div>{/* card-content-div end */}
-              <div className="mdl-butns lg-butns">
-              <Button className="btn btn-fill" onClick={()=>{console.log(name)}}>Done</Button>
-            </div>
-            </div>
-            
-          </div>
-        </div>
-        </>
-      )}
-
-    </div>
-    </>
-    );
-  };
-  
 
  // ================NOTIFICATIONS=========== //
   const Tab2 = () => {
@@ -667,7 +297,6 @@ const [personalformData, setPersonalformData] = useState({
       </>
     );
   };
-
   
   
   // ============WALLET CONTENTS=========== //

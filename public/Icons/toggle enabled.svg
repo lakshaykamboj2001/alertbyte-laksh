@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="104" height="95" viewBox="0 0 104 95">
+  <defs>
+    <clipPath id="clip-toggle_enabled">
+      <rect width="104" height="95"/>
+    </clipPath>
+  </defs>
+  <g id="toggle_enabled" data-name="toggle enabled" clip-path="url(#clip-toggle_enabled)">
+    <g id="Group_36147" data-name="Group 36147" transform="translate(-787 -790.744)">
+      <g id="Rectangle_4098" data-name="Rectangle 4098" transform="translate(788 817)" fill="rgba(0,255,206,0.1)" stroke="#00ffce" stroke-width="1">
+        <rect width="103" height="43.489" rx="21.744" stroke="none"/>
+        <rect x="0.5" y="0.5" width="102" height="42.489" rx="21.244" fill="none"/>
+      </g>
+      <circle id="Ellipse_57" data-name="Ellipse 57" cx="18" cy="18" r="18" transform="translate(848 820.744)" fill="#00ffce"/>
+    </g>
+  </g>
+</svg>

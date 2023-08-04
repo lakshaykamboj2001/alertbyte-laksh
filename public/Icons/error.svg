@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="104" height="95" viewBox="0 0 104 95">
+  <defs>
+    <clipPath id="clip-error">
+      <rect width="104" height="95"/>
+    </clipPath>
+  </defs>
+  <g id="error" clip-path="url(#clip-error)">
+    <g id="Icon_material-error" data-name="Icon material-error" transform="translate(10.113 5.676)">
+      <path id="Icon_material-error-2" data-name="Icon material-error" d="M45.324,3A42.324,42.324,0,1,0,87.649,45.324,42.34,42.34,0,0,0,45.324,3Zm4.232,63.486H41.092V58.022h8.465Zm0-16.93H41.092V24.162h8.465Z" transform="translate(-3 -3)" fill="#00ffce"/>
+    </g>
+  </g>
+</svg>

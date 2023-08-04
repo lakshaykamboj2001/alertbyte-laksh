@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="48" height="45" viewBox="0 0 48 45">
+  <defs>
+    <clipPath id="clip-card_ellipses">
+      <rect width="48" height="45"/>
+    </clipPath>
+  </defs>
+  <g id="card_ellipses" data-name="card ellipses" clip-path="url(#clip-card_ellipses)">
+    <g id="Group_36481" data-name="Group 36481" transform="translate(-10 -10)">
+      <g id="Ellipse_36" data-name="Ellipse 36" transform="translate(12 11)" fill="none" stroke="#00ffce" stroke-width="3">
+        <circle cx="22" cy="22" r="22" stroke="none"/>
+        <circle cx="22" cy="22" r="20.5" fill="none"/>
+      </g>
+      <g id="Group_28127" data-name="Group 28127" transform="translate(19.333 36.667) rotate(-90)">
+        <circle id="Ellipse_33" data-name="Ellipse 33" cx="4" cy="4" r="4" transform="translate(-0.333 21.667)" fill="#00ffce"/>
+        <circle id="Ellipse_34" data-name="Ellipse 34" cx="4" cy="4" r="4" transform="translate(-0.333 10.667)" fill="#00ffce"/>
+        <circle id="Ellipse_35" data-name="Ellipse 35" cx="4" cy="4" r="4" transform="translate(-0.333 -0.333)" fill="#00ffce"/>
+      </g>
+    </g>
+  </g>
+</svg>

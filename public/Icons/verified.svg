@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="104" height="95" viewBox="0 0 104 95">
+  <defs>
+    <clipPath id="clip-verified">
+      <rect width="104" height="95"/>
+    </clipPath>
+  </defs>
+  <g id="verified" clip-path="url(#clip-verified)">
+    <path id="Icon_awesome-check-circle" data-name="Icon awesome-check-circle" d="M93.687,47.125A46.562,46.562,0,1,1,47.125.563,46.562,46.562,0,0,1,93.687,47.125ZM41.739,71.779,76.285,37.233a3,3,0,0,0,0-4.248l-4.248-4.248a3,3,0,0,0-4.248,0L39.615,56.91,26.461,43.756a3,3,0,0,0-4.248,0L17.964,48a3,3,0,0,0,0,4.248L37.491,71.779a3,3,0,0,0,4.248,0Z" transform="translate(5.313 1.313)" fill="#00ffce"/>
+  </g>
+</svg>
