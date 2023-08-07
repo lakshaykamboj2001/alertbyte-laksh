@@ -1156,7 +1156,8 @@ font-weight: 500;
   position: absolute;
   content: "";
   left: 100%;
-  top:calc(50% + 2px);
+  /* top:calc(50% + 2px); */
+  top:50%;
   background-image: url('../public/Icons/information.svg');
   background-position: 100% 50%;
   background-repeat: no-repeat;
@@ -1305,7 +1306,7 @@ font-weight: 500;
   margin-top: 30px;
   width: 100%;
 }
-.third-ip-div textarea{
+.monitor-form textarea{
   width: 100%;
   background: transparent;
   border: 1px solid grey;
@@ -1364,11 +1365,6 @@ font-weight: 500;
  .mainalert-div .verification-status label:active:after {
 	width: 10px;
 }
-
-
-
-
-
 .monitor-form .preview-btn{
   color: #0d6efd;
   text-align: center;
@@ -1420,7 +1416,7 @@ font-weight: 500;
   margin-top: 5px;
 }
 .personal-card .value-dir .value{
-  min-width: 60px;
+  min-width: 65px;
   padding: 5px 0;
   border: 1px solid var(--neon);
   border-radius: 5px;
@@ -1433,6 +1429,57 @@ font-weight: 500;
   font-size: 20px;
   line-height: 1;
   margin-top: 30px;
+}
+.input-div.whitelist-adr-div::after{
+  content: none;
+}
+
+/* `````community monitor`````` */
+.monitor-form.community-monitor-form .first-ip-div{
+  gap: 25px;
+}
+.monitor-form.community-monitor-form .card-content-div .second-ip-div{
+  margin-top: 15px;
+}
+.monitor-form .child-wallets .child-wallet-cnt{
+  font-size:13px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+}
+.monitor-form .child-wallets{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+}
+.monitor-form.monitor-form.community-monitor-form .threshold-div {
+  justify-content: space-between;
+  max-width: 220px;
+}
+.monitor-form.monitor-form.community-monitor-form .price-ip-div.input-div::after {
+  transform: translate(20px ,-50%);
+}
+.monitor-form.monitor-form.community-monitor-form textarea{
+  max-width: 220px;
+}
+.community-monitor-form .flex-form {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+}
+.flex-form .add-btn{
+  margin-top:15px;
+}
+.flex-form .add-btn img{
+  width: 28px;
+}
+.custom-date-input{
+  min-width: 104px !important;
+}
+.custom-date-input::before {
+  color: var(--neon); 
 }
 
 

@@ -5,13 +5,15 @@ import { useMoralis, useMoralisCloudFunction  } from "react-moralis";
 import Link from 'next/link';
 import {FaChevronDown} from 'react-icons/fa';
 import StatusContext from '@/store/status-context';
-import Personalform  from "./personal/personalform";
+import Personalform  from "./monitor_forms/personalform";
+import Communityform from "./monitor_forms/communityform"
+import Priceform from "./monitor_forms/priceform"
 
 
 
 
 
-const Firsttab = ({networks, showcards, setShowcards,  showalertfor, setShowalertfor, showpersonalform , setShowpersonalform} ) => {
+const Firsttab = ({networks, showcards, setShowcards,  showalertfor, setShowalertfor, showpersonalform , setShowpersonalform,showcommunityform,setShowcommunityform,showpriceform,setShowpriceform} ) => {
 
   const router = useRouter();
   const [error, success, setSuccess, setError] = useContext(StatusContext);
@@ -169,7 +171,7 @@ const Firsttab = ({networks, showcards, setShowcards,  showalertfor, setShowaler
                 <h5 className="alert-title">Community Monitor</h5>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent pellentesque ipsum purus.</p>
                 <div className="title-btn-div ">
-                  <button className="btn-fill" >+ Add Alert</button>
+                  <button className="btn-fill" onClick={()=>{setShowalertfor(false); setShowcommunityform(true) }} >+ Add Alert</button>
                 </div>
               </div>
             </div>
@@ -178,7 +180,7 @@ const Firsttab = ({networks, showcards, setShowcards,  showalertfor, setShowaler
                 <h5 className="alert-title">Price Alert</h5>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent pellentesque ipsum purus.</p>
                 <div className="title-btn-div ">
-                  <button className="btn-fill" >+ Add Alert</button>
+                  <button className="btn-fill" onClick={()=>{setShowalertfor(false); setShowpriceform(true) }}>+ Add Alert</button>
                 </div>
               </div>
             </div>
@@ -190,6 +192,16 @@ const Firsttab = ({networks, showcards, setShowcards,  showalertfor, setShowaler
       { showpersonalform && (
         <>
          <Personalform networks={networks}/>
+        </>
+      )}
+      { showcommunityform && (
+        <>
+         <Communityform networks={networks}/>
+        </>
+      )}
+      { showpriceform && (
+        <>
+         <Priceform networks={networks}/>
         </>
       )}
 

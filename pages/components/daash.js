@@ -46,17 +46,21 @@ const VerticalTabs =({ account, setAccount, networks }) => {
   //     ...updatedStates,
   //   }));
   // };
-  // const resetAllstate = () => {
-  //   updateStates({
-  //     showcards: true,
-  //     showalertfor: false,
-  //     showpersonalform: false
-  //   });
-  // }
-
+  
   const [showcards,setShowcards] = useState(true);
   const [showalertfor, setShowalertfor] = useState(false);
   const [showpersonalform,setShowpersonalform] = useState(false);
+  const [showcommunityform,setShowcommunityform] = useState(false);
+  const [showpriceform,setShowpriceform] = useState(false);
+
+
+  const resetAllstate = () => {
+    setShowcards(true);
+    setShowalertfor(false);
+    setShowpersonalform(false);
+    setShowcommunityform(false);
+    setShowpriceform(false);
+  }
 //  ======================================== //
 
 
@@ -75,7 +79,7 @@ const VerticalTabs =({ account, setAccount, networks }) => {
   const Tab1 = () =>{
     return(
       <>
-       <FirstTab networks={networks} showcards={showcards} setShowcards={setShowcards}  showalertfor={showalertfor} setShowalertfor={setShowalertfor} showpersonalform ={showpersonalform} setShowpersonalform ={setShowpersonalform} />
+       <FirstTab networks={networks} showcards={showcards} setShowcards={setShowcards}  showalertfor={showalertfor} setShowalertfor={setShowalertfor} showpersonalform ={showpersonalform} setShowpersonalform ={setShowpersonalform} showcommunityform={showcommunityform} setShowcommunityform={setShowcommunityform} showpriceform={showpriceform} setShowpriceform={setShowpriceform} />
       </>
     )
   }

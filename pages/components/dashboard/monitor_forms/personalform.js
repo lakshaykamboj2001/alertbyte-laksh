@@ -472,7 +472,7 @@ const personalform = ({networks}) => {
                             <span className="status-txt">Active</span>
                             </div>
                             <h3 className="wallet-name">{personalformData.name}</h3>
-                            <span className="wallet-adress">{personalformData.walletadress}</span>
+                            <span className="wallet-adress">{personalformData.walletadress.substring(0,4)+"..."+personalformData.walletadress.substring(38,42)}</span>
                             <div className="bchain-value-div">
                             <div className="bchain-value">
                                 <div className="bchain-img">
@@ -492,7 +492,7 @@ const personalform = ({networks}) => {
                             <div className="sub-head">Personal Monitor for</div>
                             <div className="value-dir">
                             <div className="value">&lt;${personalformData.count}</div>
-                                <div className="value">IN</div>
+                                <div className="value">{personalformData.direction}</div>
                             </div>
                             </div>
                             <div className="notification-count">3 Notification Sent</div>
