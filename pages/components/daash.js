@@ -34,27 +34,29 @@ const VerticalTabs =({ account, setAccount, networks }) => {
 
   // ===========MANAGING STATE OF first dashboard flow================ //
  //  ==Define here cause we can call the resetAllstate() call globaly==//
-  const [states, setStates] = useState({
-    showcards: true,
-    showalertfor: false,
-    showpersonalform: false,
-    showpreview: false,
-  });
-  // Function to update the states object
-  const updateStates = (updatedStates) => {
-    setStates((prevState) => ({
-      ...prevState,
-      ...updatedStates,
-    }));
-  };
-  const resetAllstate = () => {
-    updateStates({
-      showcards: true,
-      showalertfor: false,
-      showpersonalform: false,
-      showpreview: false,
-    });
-  }
+  // const [states, setStates] = useState({
+  //   showcards: true,
+  //   showalertfor: false,
+  //   showpersonalform: false
+  // });
+  // // Function to update the states object
+  // const updateStates = (updatedStates) => {
+  //   setStates((prevState) => ({
+  //     ...prevState,
+  //     ...updatedStates,
+  //   }));
+  // };
+  // const resetAllstate = () => {
+  //   updateStates({
+  //     showcards: true,
+  //     showalertfor: false,
+  //     showpersonalform: false
+  //   });
+  // }
+
+  const [showcards,setShowcards] = useState(true);
+  const [showalertfor, setShowalertfor] = useState(false);
+  const [showpersonalform,setShowpersonalform] = useState(false);
 //  ======================================== //
 
 
@@ -73,7 +75,7 @@ const VerticalTabs =({ account, setAccount, networks }) => {
   const Tab1 = () =>{
     return(
       <>
-       <FirstTab networks={networks}  states={states} updateStates={updateStates} />
+       <FirstTab networks={networks} showcards={showcards} setShowcards={setShowcards}  showalertfor={showalertfor} setShowalertfor={setShowalertfor} showpersonalform ={showpersonalform} setShowpersonalform ={setShowpersonalform} />
       </>
     )
   }

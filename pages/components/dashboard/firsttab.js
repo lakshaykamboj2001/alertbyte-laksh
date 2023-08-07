@@ -11,7 +11,7 @@ import Personalform  from "./personal/personalform";
 
 
 
-const Firsttab = ({networks,states, updateStates} ) => {
+const Firsttab = ({networks, showcards, setShowcards,  showalertfor, setShowalertfor, showpersonalform , setShowpersonalform} ) => {
 
   const router = useRouter();
   const [error, success, setSuccess, setError] = useContext(StatusContext);
@@ -21,7 +21,8 @@ const Firsttab = ({networks,states, updateStates} ) => {
 
 
 // Access the states from the props
-const { showcards, showalertfor, showpersonalform, showpreview } = states;
+// const { showcards, showalertfor, showpersonalform, showpreview } = states;
+// const { showcards = false, showalertfor = false, showpersonalform = false} = states;
 
 
 
@@ -52,13 +53,13 @@ const { showcards, showalertfor, showpersonalform, showpreview } = states;
     return (
     <>
     <div className="main-dash-tab">
-      {/*  showcards*/}
+     
       {showcards && (
         <>
         <div className="title-btn-div"> 
           <span className="title">All Alerts</span>
           <div className="">
-            <button className="btn-fill" onClick={()=>{updateStates({showalertfor:true ,showcards:false  });} }>+ Add Alert</button>
+            <button className="btn-fill" onClick={()=>{setShowalertfor(true),setShowcards(false)} }>+ Add Alert</button>
           </div>
         </div>
         <div className="filter-main-div">
@@ -159,7 +160,7 @@ const { showcards, showalertfor, showpersonalform, showpreview } = states;
                 <h5 className="alert-title">Personal Monitor</h5>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent pellentesque ipsum purus.</p>
                 <div className="title-btn-div ">
-                  <button className="btn-fill" onClick={()=>{updateStates({showalertfor:false ,showpersonalform:true  });} } >+ Add Alert</button>
+                  <button className="btn-fill" onClick={()=>{setShowalertfor(false); setShowpersonalform(true)} } >+ Add Alert</button>
                 </div>
               </div>
             </div>
