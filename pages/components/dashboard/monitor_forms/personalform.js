@@ -45,6 +45,7 @@ const personalform = ({networks}) => {
     const handleTeleCheckboxChange = () => {
         setIsteleChecked(!isteleChecked);
     };
+
     function chainChanged(event) {
         setChain(event);
     }
@@ -180,6 +181,7 @@ const personalform = ({networks}) => {
           }else{
             selected_alert_method = 'email';
           }
+
           let condition = personalformData.direction;
           let threshold = personalformData.count;
           let note = personalformData.note;
@@ -343,10 +345,6 @@ const personalform = ({networks}) => {
     };
   
     const flow = () =>{
-
-
-
-      
       switch (currentStep) {
         case 1:
           return (
@@ -419,6 +417,7 @@ const personalform = ({networks}) => {
                           <span className="d-block">Email</span>
                           <span className="d-block">{mail}</span>
                         </div>
+
                         <div className="verification-status">
                           { mail ? (
                             <>
@@ -435,10 +434,11 @@ const personalform = ({networks}) => {
                           <span className="d-block">Telegram</span>
                           <span className="d-block">{telegram}</span>
                         </div>
+                        
                         <div className="verification-status">
                         { telegram ? (
                             <>
-                            <input type="checkbox" id="switch" checked={isteleChecked} onChange={handleTeleCheckboxChange} /><label for="switch">Toggle</label>
+                            <input type="checkbox" id="switcht" checked={isteleChecked} onChange={handleTeleCheckboxChange} /><label for="switcht">Toggle</label>
                             </>
                             ):
                             <div className="btn btn-fill"  onClick={handltele}>
@@ -452,7 +452,7 @@ const personalform = ({networks}) => {
                   <p className="preview-btn" onClick={handlePersonalSave}>Preview</p>
                   <div className="mdl-butns lg-butns">
                     <Button className="btn btn-fill" onClick={handlePersonalSave}> Save Alert </Button>
-                    <Button className="btn btn-emp" > Cancel </Button>
+                    <Button className="btn btn-emp" onClick={()=>{console.log(ismailChecked,isteleChecked)}} > Cancel </Button>
                   </div>
               </div>{/* monitor-form end div */}
             </>
@@ -466,7 +466,7 @@ const personalform = ({networks}) => {
             <div className="main-preview-div">
                 <div className="row g-5">
                     <div className="col-md-4">
-                        <div className="card-content-div personal-card cc-active">
+                        <div className="card-content-div preview-card ">
                             <div className="status-div">
                             <div className="status-circle"></div>
                             <span className="status-txt">Active</span>

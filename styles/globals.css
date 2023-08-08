@@ -1374,48 +1374,50 @@ font-weight: 500;
   cursor: pointer;
 }
 
+.main-cards-div .card-content-div.preview-card{
+  height: 100%;
+}
 
-
-.personal-card .status-div .status-circle{
+.preview-card .status-div .status-circle{
   background: var(--neon);
   padding: 5px;
   display: inline-block;
   border-radius: 50%;
 }
-.personal-card .status-div .status-txt{
+.preview-card .status-div .status-txt{
   font-size: 12px;
 }
-.personal-card .status-div {
+.preview-card .status-div {
   display: flex;
   align-items: center;
   gap: 8px;
   /* margin-bottom: 8px; */
 
 }
-.personal-card .wallet-name{
+.preview-card .wallet-name{
   font-size: 20px;
   font-weight: 500;
   margin-bottom: unset;
 }
-.personal-card .wallet-adress{
+.preview-card .wallet-adress{
   font-size: 14px;
 }
-.personal-card .bchain-value-div{
+.preview-card .bchain-value-div{
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin: 20px 0;
   width: 100%;
 }
-.personal-card .sub-head{
+.preview-card .sub-head{
   font-size: 20px;
 }
-.personal-card .value-dir{
+.preview-card .value-dir{
   display: flex;
   gap: 10px;
   margin-top: 5px;
 }
-.personal-card .value-dir .value{
+.preview-card .value-dir .value{
   min-width: 65px;
   padding: 5px 0;
   border: 1px solid var(--neon);
@@ -1423,32 +1425,32 @@ font-weight: 500;
   text-align: center;
   background: #30645aa3;
 }
-.personal-card .notification-count{
+.preview-card .notification-count{
   color: #0d6efd;
   border-bottom: 1px solid #0d6efd;
   font-size: 20px;
   line-height: 1;
-  margin-top: 30px;
+  margin-top: 25px;
 }
 .input-div.whitelist-adr-div::after{
   content: none;
 }
 
-/* `````community monitor`````` */
+/* `````community monitor form`````` */
 .monitor-form.community-monitor-form .first-ip-div{
   gap: 25px;
 }
 .monitor-form.community-monitor-form .card-content-div .second-ip-div{
   margin-top: 15px;
 }
-.monitor-form .child-wallets .child-wallet-cnt{
+.child-wallets .child-wallet-cnt{
   font-size:13px;
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 5px;
 }
-.monitor-form .child-wallets{
+ .child-wallets{
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -1481,8 +1483,113 @@ font-weight: 500;
 .custom-date-input::before {
   color: var(--neon); 
 }
+.date-div {
+  position: relative;
+  width: 100%;
+  max-width: 104px;
+  height: 26px;
+}
+.visual-date, .custom-date-input {
+  position: absolute;
+  min-width: unset !important;
+  width: 100%;
+  max-width: 220px;
+}
+.visual-date{
+  background: url('../public/Icons/calender.svg') no-repeat right 5px center / 12px !important;
+  color: var(--neon) !important;
+  padding-left: 10px;
+}
+.visual-date::placeholder{
+  color: var(--neon) !important;
+  font-size: 10px !important;
+  padding-left: 5px;
+}
+.custom-date-input {
+  opacity: 0;
+  background-color: #ff000020 !important;
+  cursor: pointer;
+}
+/* `````community monitor card`````` */
+.community-card.preview-card{
+  padding: 30px 20px;
+}
+.community-card.preview-card .alert-method{
+  margin: 8px 0;
+}
+.preview-card .alert-method{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.preview-card .alert-method img{
+  width: 15px;
+}
+.preview-card .grey-fill-div{
+  background-color: #201E21;
+  border: none;
+  border-radius: 5px;
+  width: 100% !important;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 10px 10px 15px 10px;
+  margin-top: 14px;
+}
+.hb-stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
 
+.hbs {
+  position: relative;
+}
+.hbs span{
+  font-size: 15px;
+}
 
+.hb-stats .hbs:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  right: -18px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-left: 1px solid #fff6;
+  width: 0;
+  height: 70%;
+}
+.hbs h2 {
+  color: var(--dark-cyan);
+  font-weight: 400;
+}
+.community-card .note-div {
+  display: flex;
+  gap: 25px;
+  font-size: 14px;
+}
+.community-card .note-div .note-first{
+  font-weight: 500;
+}
+.community-card .note-div .note-info{
+  min-width: 190px;
+}
+.bchain-value{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.bchain-value .bchain-img img{
+  width: 15px;
+}
+.slide-btn-div{
+  display: flex;
+  justify-content: center;
+
+}
+.slide-btn-div .slide-btn svg{
+  color: var(--neon); cursor: pointer;
+}
 /* ====================profile================== */
 .cu-form.profile-form {
   max-width: unset;

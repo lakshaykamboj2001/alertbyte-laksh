@@ -229,7 +229,7 @@ const [personalformData, setPersonalformData] = useState({
         <div className="main-cards-div">
           <div className="row g-5">
             <div className="col-md-4">
-              <div className="card-content-div personal-card cc-active">
+              <div className="card-content-div preview-card">
 
                 <div className="status-div">
                   <div className="status-circle"></div>
@@ -426,7 +426,7 @@ const [personalformData, setPersonalformData] = useState({
         <div className="main-preview-div">
         <div className="row g-5">
             <div className="col-md-4">
-              <div className="card-content-div personal-card cc-active">
+              <div className="card-content-div preview-card">
 
                 <div className="status-div">
                   <div className="status-circle"></div>
