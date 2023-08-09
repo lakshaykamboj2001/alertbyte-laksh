@@ -1323,18 +1323,18 @@ font-weight: 500;
 .mainalert-div .alrt-cnt > span{
   font-size: 13px;
 }
-.mainalert-div .verification-status .btn.btn-fill{
+ .verification-status .btn.btn-fill{
   padding: 5px;
   min-width: 113px;
   font-size: 15px;
 }
- .mainalert-div .verification-status input[type=checkbox]{
+  .verification-status input[type=checkbox]{
 	height: 0;
 	width: 0;
 	visibility: hidden;
   min-width: unset;
 }
-.mainalert-div .verification-status label {
+ .verification-status label {
 	cursor: pointer;
 	text-indent: -9999px;
 	width: 45px;
@@ -1344,7 +1344,7 @@ font-weight: 500;
 	position: relative;
   border: 1px solid var(--neon);
 }
-.mainalert-div .verification-status label:after {
+ .verification-status label:after {
   content: '';
   position: absolute;
   top: 0px;
@@ -1355,14 +1355,14 @@ font-weight: 500;
   border-radius: 90px;
   transition: 0.3s;
 }
-.mainalert-div .verification-status input:checked + label {
+ .verification-status input:checked + label {
 	background:#30645aa3;
 }
- .mainalert-div .verification-status input:checked + label:after {
+  .verification-status input:checked + label:after {
 	left: calc(100% - 3px);
 	transform: translateX(-100%);
 }
- .mainalert-div .verification-status label:active:after {
+  .verification-status label:active:after {
 	width: 10px;
 }
 .monitor-form .preview-btn{
@@ -1590,6 +1590,124 @@ font-weight: 500;
 .slide-btn-div .slide-btn svg{
   color: var(--neon); cursor: pointer;
 }
+
+/* ---------price alert-------- */
+.price-crypto-search {
+  width: 100%;
+  display: flex;
+  gap:20px ;
+  align-items: center;
+}
+.price-crypto-search .cu-form.search-form{
+  margin: unset;
+  width: 100%;
+}
+.wn-body .price-crypto-search .btn-fill{
+  min-width: 130px;
+  font-size: 20px;
+}
+
+.price-form.monitor-form {
+  max-width: 590px;
+  padding: 25px;
+}
+.price-form .title {
+  width: 100%;
+  justify-content: center;
+  color: #b5b2b2e6;
+  max-width: 50%;
+  margin-left: auto;
+  text-align: left;
+}
+.price-form .param-name{
+  font-size: 18px;
+  font-weight: 500;
+}
+.price-form .param-name span{
+  color: #a2a1a1;
+}
+.price-ip-field input{
+  width: 100px;
+  height: 35px;
+  background: var(--black);
+  border: 1px solid var(--neon);
+  outline: none;
+  border-radius: 5px;
+  color: white;
+  text-align: center;
+  min-width: unset;
+  font-size: 19px;
+}
+.main-param-div{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 38px;
+  margin-top: 10px;
+}
+.single-param {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+.toggle-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 50%;
+  padding-right: 60px;
+}
+.toggle-field .verification-status label{
+  width: 60px;
+  height: 25px;
+}
+.toggle-field  .verification-status label:after {
+  top: 1px;
+  left: 3px;
+  width: 21px;
+  height: 21px;
+}
+.price-alert-mode {
+  padding: unset;
+  width: 100%;
+  margin-top: 65px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  max-width: 270px;
+}
+/* -----price card----- */
+.price-card.preview-card {
+  padding: 30px 20px;
+}
+.price-card .alert-method{
+  margin-top: 10px;
+}
+.price-card.preview-card .notification-count{
+  margin-top: 10px;
+}
+.price-card.preview-card.preview-card .sub-head {
+  font-size: 14px;
+}
+.price-card.preview-card .bchain-value .bchain-img img {
+  width: 10px;
+}
+.param {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.main-params-value-div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.param-name {
+  min-width: 95px;
+}
+
 /* ====================profile================== */
 .cu-form.profile-form {
   max-width: unset;

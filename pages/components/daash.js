@@ -34,19 +34,6 @@ const VerticalTabs =({ account, setAccount, networks }) => {
 
   // ===========MANAGING STATE OF first dashboard flow================ //
  //  ==Define here cause we can call the resetAllstate() call globaly==//
-  // const [states, setStates] = useState({
-  //   showcards: true,
-  //   showalertfor: false,
-  //   showpersonalform: false
-  // });
-  // // Function to update the states object
-  // const updateStates = (updatedStates) => {
-  //   setStates((prevState) => ({
-  //     ...prevState,
-  //     ...updatedStates,
-  //   }));
-  // };
-  
   const [showcards,setShowcards] = useState(true);
   const [showalertfor, setShowalertfor] = useState(false);
   const [showpersonalform,setShowpersonalform] = useState(false);
@@ -162,21 +149,21 @@ const VerticalTabs =({ account, setAccount, networks }) => {
       <Tabs defaultActiveKey="first" className="monitor-btn">
         <Tab eventKey="first" title="Personal Monitor">
           <div className="notification-tbl">
-          <div class="tbl">
-            <div class="tbl-row tb-head">
-              <div class="tbl-cell">Date</div>
-              <div class="tbl-cell">Amount</div>
-              <div class="tbl-cell">From</div>
-              <div class="tbl-cell blank"></div> 
-              <div class="tbl-cell">To</div>
-              <div class="tbl-cell">Alert</div>
-              <div class="tbl-cell">Trx. Hash</div>
-              <div class="tbl-cell blank"></div>
+          <div className="tbl">
+            <div className="tbl-row tb-head">
+              <div className="tbl-cell">Date</div>
+              <div className="tbl-cell">Amount</div>
+              <div className="tbl-cell">From</div>
+              <div className="tbl-cell blank"></div> 
+              <div className="tbl-cell">To</div>
+              <div className="tbl-cell">Alert</div>
+              <div className="tbl-cell">Trx. Hash</div>
+              <div className="tbl-cell blank"></div>
             </div>
 
             <div className="tmain-body">
 
-            <div class="tbl-row row-cnt" onClick={() => setShowContent(!showContent)}>
+            <div className="tbl-row row-cnt" onClick={() => setShowContent(!showContent)}>
               <div className="tb-body-r" >
                 <div className="tbl-cell">23-06-2022<span className="d-block">08:06:12</span></div>
                 <div className="tbl-cell">0.0071ETH<span className="d-block">~$76.92</span></div>
@@ -193,25 +180,7 @@ const VerticalTabs =({ account, setAccount, networks }) => {
                 Orem Viverra, At Commodo Lorem Porttitor.</p>
               </div>
             </div>
-             <div class="tbl-row row-cnt" onClick={() => setShowContent(!showContent)}>
-              <div className="tb-body-r" >
-                <div className="tbl-cell">23-06-2022<span className="d-block">08:06:12</span></div>
-                <div className="tbl-cell">0.0071ETH<span className="d-block">~$76.92</span></div>
-                <div className="tbl-cell">0Xe9...<span className="d-block">...9876</span></div>
-                <div className="tbl-cell blank mod-bk">In</div>
-                <div className="tbl-cell">0Xe9...</div>
-                <div className="tbl-cell">My Alert</div>
-                <div className="tbl-cell hasharrow-icn "><IoMdArrowRoundUp></IoMdArrowRoundUp></div>
-                <div className="tbl-cell blank notice-arrow"><BsFillTriangleFill/></div>
-              </div>
-              <div className={`note-div ${showContent ? '' : 'd-none'}`}>
-                <p>Note:</p>
-                <p>Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Nullam Ipsum Eros, Mattis A Dui
-                Orem Viverra, At Commodo Lorem Porttitor.</p>
-              </div>
-            </div>
-
-            <div class="tbl-row row-cnt" onClick={() => setShowContent(!showContent)}>
+             <div className="tbl-row row-cnt" onClick={() => setShowContent(!showContent)}>
               <div className="tb-body-r" >
                 <div className="tbl-cell">23-06-2022<span className="d-block">08:06:12</span></div>
                 <div className="tbl-cell">0.0071ETH<span className="d-block">~$76.92</span></div>
@@ -229,8 +198,26 @@ const VerticalTabs =({ account, setAccount, networks }) => {
               </div>
             </div>
 
+            <div className="tbl-row row-cnt" onClick={() => setShowContent(!showContent)}>
+              <div className="tb-body-r" >
+                <div className="tbl-cell">23-06-2022<span className="d-block">08:06:12</span></div>
+                <div className="tbl-cell">0.0071ETH<span className="d-block">~$76.92</span></div>
+                <div className="tbl-cell">0Xe9...<span className="d-block">...9876</span></div>
+                <div className="tbl-cell blank mod-bk">In</div>
+                <div className="tbl-cell">0Xe9...</div>
+                <div className="tbl-cell">My Alert</div>
+                <div className="tbl-cell hasharrow-icn "><IoMdArrowRoundUp></IoMdArrowRoundUp></div>
+                <div className="tbl-cell blank notice-arrow"><BsFillTriangleFill/></div>
+              </div>
+              <div className={`note-div ${showContent ? '' : 'd-none'}`}>
+                <p>Note:</p>
+                <p>Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Nullam Ipsum Eros, Mattis A Dui
+                Orem Viverra, At Commodo Lorem Porttitor.</p>
+              </div>
+            </div>
 
-             <div class="tbl-row row-cnt" onClick={() => setShowContent(!showContent)}>
+
+             <div className="tbl-row row-cnt" onClick={() => setShowContent(!showContent)}>
               <div className="tb-body-r" >
                 <div className="tbl-cell">23-06-2022<span className="d-block">08:06:12</span></div>
                 <div className="tbl-cell">0.0071ETH<span className="d-block">~$76.92</span></div>
@@ -259,17 +246,17 @@ const VerticalTabs =({ account, setAccount, networks }) => {
         {/* =================================================================================================================== */}
         <Tab eventKey="second" title="Community Monitor">
         <div className="notification-tbl">
-          <div class="tbl">
-            <div class="tbl-row tb-head">
-              <div class="tbl-cell">Date & Time</div>
-              <div class="tbl-cell">Violation</div>
-              <div class="tbl-cell">From</div>
-              <div class="tbl-cell">To</div>
-              <div class="tbl-cell">Trx. Hash</div>
+          <div className="tbl">
+            <div className="tbl-row tb-head">
+              <div className="tbl-cell">Date & Time</div>
+              <div className="tbl-cell">Violation</div>
+              <div className="tbl-cell">From</div>
+              <div className="tbl-cell">To</div>
+              <div className="tbl-cell">Trx. Hash</div>
             </div>
 
             <div className="tmain-body">
-              <div class="tbl-row row-cnt" >
+              <div className="tbl-row row-cnt" >
                 <div className="tb-body-r" >
                   <div className="tbl-cell">23-06-2022<span className="d-block">08:06:12</span></div>
                   <div className="tbl-cell">0.0071ETH<span className="d-block">~$76.92</span></div>
@@ -279,7 +266,7 @@ const VerticalTabs =({ account, setAccount, networks }) => {
                 </div>
               </div>
 
-              <div class="tbl-row row-cnt" >
+              <div className="tbl-row row-cnt" >
                 <div className="tb-body-r" >
                   <div className="tbl-cell">23-06-2022<span className="d-block">08:06:12</span></div>
                   <div className="tbl-cell">0.0071ETH<span className="d-block">~$76.92</span></div>
@@ -546,13 +533,13 @@ const VerticalTabs =({ account, setAccount, networks }) => {
               </div>
             </div>
             <div className="erc-tale">
-              <div class="tbl">
-                <div class="tbl-row tb-head">
-                  <div class="tbl-cell">Name</div>
-                  <div class="tbl-cell">Ticker</div>
-                  <div class="tbl-cell">Balance</div>
-                  <div class="tbl-cell">Price Per Unit</div>
-                  <div class="tbl-cell">USD Value</div>
+              <div className="tbl">
+                <div className="tbl-row tb-head">
+                  <div className="tbl-cell">Name</div>
+                  <div className="tbl-cell">Ticker</div>
+                  <div className="tbl-cell">Balance</div>
+                  <div className="tbl-cell">Price Per Unit</div>
+                  <div className="tbl-cell">USD Value</div>
                </div>
                <div className="tmain-body">
                   {alldataresult.slice(0, rowsToShow).map((data, index) => (

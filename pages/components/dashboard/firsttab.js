@@ -28,7 +28,6 @@ const Firsttab = ({networks, showcards, setShowcards,  showalertfor, setShowaler
 // const { showcards = false, showalertfor = false, showpersonalform = false} = states;
 
 
-
   const handleFilterButtonClick = () => {
     setShowFilterExpand(!showFilterExpand);
   };
@@ -205,6 +204,45 @@ const Firsttab = ({networks, showcards, setShowcards,  showalertfor, setShowaler
 
               </div>{/* card-content-div end */}
             </div>
+            <div className="col-md-4">
+              <div className="card-content-div preview-card price-card ">
+
+                <div className="status-div">
+                  <div className="status-circle"></div>
+                  <span className="status-txt">Active</span>
+                </div>
+                <h3 className="wallet-name">My_Wallet</h3>
+                <div className="grey-fill-div">
+                  <div className="bchain-value">
+                      <div className="bchain-img">
+                        <img src="/Icons/erc20.svg" alt="" />
+                      </div>
+                      <div className="sub-head">Ethereum</div>
+                  </div>
+
+                  <div className="main-params-value-div">
+                    <div className="param">
+                      <div className="param-name">Price :</div>
+                      <div className="param-value">$50 </div>
+                    </div>
+                    <div className="param">
+                      <div className="param-name">24H Volume :</div>
+                      <div className="param-value">$50 </div>
+                    </div>
+
+                  </div>
+
+                </div>
+                <div className="alert-method">
+                 <img src="/Icons/notifications.svg" alt="" />
+                    <span>Telegram</span>
+                </div>
+
+                <div className="notification-count">3 Notification Sent</div>
+              </div>{/* card-content-div end */}
+            </div>
+
+            
             
           </div>
         </div>

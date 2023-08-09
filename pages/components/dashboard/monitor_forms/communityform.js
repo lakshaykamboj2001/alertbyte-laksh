@@ -5,12 +5,15 @@ import { useMoralis, useMoralisCloudFunction  } from "react-moralis";
 import { EvmChain } from "@moralisweb3/common-evm-utils";
 import * as Moralismain from "moralis";
 import {BiSolidRightArrow , BiSolidLeftArrow} from 'react-icons/bi';
+import StatusContext from "@/store/status-context";
 
 
 
 const communityform = () => {
   const { logout, user, setUserData, refetchUserData } = useMoralis();
   const { Moralis, isAuthenticated } = useMoralis();
+  const [error, success, setSuccess, setError] = useContext(StatusContext);
+
   const router = useRouter();
 
   const mainnets = {
@@ -140,7 +143,7 @@ const communityform = () => {
 
 useEffect(() => {
   const assignAlertOptions = () => {
-    if (ismailChecked && isteleChecked ) {
+    if (ismailChecked && isteleChecked && mail && telegram) {
       setAlertOption('both');
     } else if (ismailChecked ) {
       setAlertOption('email');
@@ -435,7 +438,7 @@ useEffect(() => {
             </div>
             <p className="preview-btn" onClick={()=>{setCurrentStep(currentStep + 1);}}>Preview</p>
             <div className="mdl-butns lg-butns">
-              <Button className="btn btn-fill" onClick={()=>{console.log(inputFields)}}> Save Alert </Button>
+              <Button className="btn btn-fill" onClick={createdata}> Save Alert </Button>
               <Button className="btn btn-emp"  onClick={()=>{console.log(alertOption)}} > Cancel </Button>
             </div>
         </div>{/* monitor-form end div */}
