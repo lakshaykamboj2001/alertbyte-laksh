@@ -1559,10 +1559,7 @@ font-weight: 500;
   width: 0;
   height: 70%;
 }
-.hbs h2 {
-  color: var(--dark-cyan);
-  font-weight: 400;
-}
+
 .community-card .note-div {
   display: flex;
   gap: 25px;
@@ -1707,7 +1704,58 @@ font-weight: 500;
 .param-name {
   min-width: 95px;
 }
+.main-searcrypto-div{
+  position: relative;
+}
+.main-searcrypto-div .search-result{
+  position: absolute;
+  z-index: 9;
+  top: 85px;
+}
 
+.search-result {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  width: 100%;
+  max-width: 630px;
+  margin-left: 10px;
+  cursor: pointer;
+  background: var(--black);
+  padding: 20px;
+  border-radius: 5px;
+}
+.single-result {
+  font-size: 18px;
+}
+.single-result .symbol{
+  font-weight: 600;
+  flex: 0 1 50%;
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+}
+.single-result {
+  font-size: 18px;
+  display: flex;
+  gap: 30px;
+}
+.single-result .crypto-name {
+  flex: 0 1 50%;
+}
+
+.single-result {
+  position: relative;
+}
+
+.single-result:not(:last-child):after {
+  content: "";
+  position: absolute;
+  top: calc(100% + 11px);
+  width: 100%;
+  height: 1px;
+  border: 1px dashed #3A383C;
+}
 /* ====================profile================== */
 .cu-form.profile-form {
   max-width: unset;

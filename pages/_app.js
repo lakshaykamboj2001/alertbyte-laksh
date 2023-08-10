@@ -50,12 +50,6 @@ export default  function App({ Component, pageProps }) {
     showSuccessBox: false,
   });
 
-//  if (!Moralis.Core.isStarted) {
-//   Moralis.start({
-//       apiKey: "GomgxLzN3uLVh5BqJH1qR2yOaQip4EHYzzhnBmAf60G840xQWbGmgPhrjmVP1JQ8",
-//     });
-//   }
-
   
   return (
     <>

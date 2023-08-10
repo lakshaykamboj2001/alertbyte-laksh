@@ -7,7 +7,7 @@ const Dashboard = ({ account, setAccount, networks }) => {
     <>
     <main className="main-dashboard">
      <LHeader />
-     <DashBoard networks={networks}  />
+     <DashBoard networks={networks}    />
     </main>
      
     </>

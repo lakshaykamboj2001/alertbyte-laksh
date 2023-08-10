@@ -3,13 +3,12 @@ import { Form, Button, Dropdown } from "react-bootstrap";
 import { useRouter } from 'next/router';
 import { useMoralis, useMoralisCloudFunction  } from "react-moralis";
 import Link from 'next/link';
-import {FaChevronDown} from 'react-icons/fa';
 import StatusContext from '@/store/status-context';
 import Personalform  from "./monitor_forms/personalform";
 import Communityform from "./monitor_forms/communityform"
 import Priceform from "./monitor_forms/priceform"
 import {BiSolidRightArrow , BiSolidLeftArrow} from 'react-icons/bi';
-
+import Filter from "./dashboard_filter";
 
 
 
@@ -18,41 +17,8 @@ const Firsttab = ({networks, showcards, setShowcards,  showalertfor, setShowaler
 
   const router = useRouter();
   const [error, success, setSuccess, setError] = useContext(StatusContext);
-  const [showContent, setShowContent] = useState(false);
-  const [showFilterExpand, setShowFilterExpand] = useState(false);
-  const filterRef = useRef(null);
 
-
-// Access the states from the props
-// const { showcards, showalertfor, showpersonalform, showpreview } = states;
-// const { showcards = false, showalertfor = false, showpersonalform = false} = states;
-
-
-  const handleFilterButtonClick = () => {
-    setShowFilterExpand(!showFilterExpand);
-  };
-
-  const handleClickOutside = (event) => {
-    if (filterRef.current && !filterRef.current.contains(event.target)) {
-      setShowFilterExpand(false);
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener('click', handleClickOutside, true);
-
-    return () => {
-      document.removeEventListener('click', handleClickOutside, true);
-    };
-  }, []);
-
-  const handleRadioChange = (event) => {
-    setRadioValue(event.target.value);
-  };
-
-
-
-    return (
+  return (
     <>
     <div className="main-dash-tab">
      
@@ -64,47 +30,8 @@ const Firsttab = ({networks, showcards, setShowcards,  showalertfor, setShowaler
             <button className="btn-fill" onClick={()=>{setShowalertfor(true),setShowcards(false)} }>+ Add Alert</button>
           </div>
         </div>
-        <div className="filter-main-div">
-          <div className="filter-sub-div inout-sec" ref={filterRef}>
-            <span className="head dropdowntoggle" onClick={handleFilterButtonClick}>Filter {!showFilterExpand && <FaChevronDown/>}</span>
-            {showFilterExpand && (
-              <div className="filter-expand">
-                <p className="clr-all">
-                  <span>Filter</span>
-                  <span>Clear All</span>
-                </p>
-                <div className="radios">
-                  <span>Direction</span>
-                  <div>
-                    <input
-                      type="radio"
-                      id="in"
-                      name="in-out"
-                      value="in"
-                      
-                      onChange={handleRadioChange}
-                    />
-                    <label htmlFor="in">IN</label>
-                  </div>
-                  <div>
-                    <input
-                      type="radio"
-                      id="out"
-                      name="in-out"
-                      value="out"
-                    
-                      onChange={handleRadioChange}
-                    />
-                    <label htmlFor="out">OUT</label>
-                  </div>
-                </div>
-                <div className="">
-                  <span >Blockchain</span>
-                </div>
-              </div>
-            )}
-          </div>
-        </div> {/* filter-main-div end */}
+         <Filter/>
+        
         <div className="main-cards-div">
           <div className="row g-5">
             <div className="col-md-4">
@@ -301,7 +228,7 @@ const Firsttab = ({networks, showcards, setShowcards,  showalertfor, setShowaler
       )}
       { showpriceform && (
         <>
-         <Priceform networks={networks}/>
+         <Priceform networks={networks} />
         </>
       )}
 

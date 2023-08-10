@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { useMoralis, useMoralisCloudFunction  } from "react-moralis";
 import { EvmChain } from "@moralisweb3/common-evm-utils";
 import * as Moralismain from "moralis";
+import StatusContext from "@/store/status-context";
 
 const personalform = ({networks}) => {
     
@@ -14,6 +15,8 @@ const personalform = ({networks}) => {
     refetchUserData,
     } = useMoralis();
     const { Moralis, isAuthenticated } = useMoralis();
+    const [error, success, setSuccess, setError] = useContext(StatusContext);
+
     const [personalformData, setPersonalformData] = useState({
     name: "",
     chain: "",

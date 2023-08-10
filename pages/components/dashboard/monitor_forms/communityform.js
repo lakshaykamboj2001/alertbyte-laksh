@@ -254,14 +254,16 @@ useEffect(() => {
   
         //   return;
         // }
-  
+        const numberValue =  data.threshold;
+        const stringValue = numberValue.toString();
+
         {
           inputFields.map(async (data, index) => {
             setTimeout(() => {
               const params = {
                 admin_address: adminaddress.toLowerCase(),
                 user_address: data.fullName.toLowerCase(),
-                threshold: data.threshold,
+                threshold:stringValue,
                 alert_method: alertOption,
                 note: data.note,
                 expiredate: data.date,
