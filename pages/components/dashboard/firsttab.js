@@ -51,12 +51,6 @@ const Firsttab = ({networks, showcards, setShowcards,  showalertfor, setShowaler
                     </div>
                     <div className="sub-head">Ethereum</div>
                   </div>
-                  <div className="bchain-value">
-                    <div className="bchain-img">
-
-                    </div>
-                    <div className="sub-head">Polygon</div>
-                  </div>
                 </div>
 
                 <div className="main-value-direction-div">
@@ -70,7 +64,6 @@ const Firsttab = ({networks, showcards, setShowcards,  showalertfor, setShowaler
 
               </div>{/* card-content-div end */}
             </div>
-
             <div className="col-md-4">
               <div className="card-content-div preview-card community-card">
 

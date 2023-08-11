@@ -1278,16 +1278,21 @@ font-weight: 500;
   border: 1px solid var(--neon ) ;
   border-radius: 5px;
   display: flex;
-}
+
+} 
+
 .price-ip-div > * {
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.threshold-div .price-ip-div .t-value{
-  width: 50px;
+.threshold-div .price-ip-div .t-value input{
   font-size: 15px;
+  min-width: unset;
+  border: none;
+  max-width: 50px;
+  text-align: center;
 }
 .threshold-div .price-ip-div .plus-btn{
   border-left: 1px solid var(--neon);
@@ -1299,6 +1304,8 @@ font-weight: 500;
   width: 25px;
   cursor: pointer;
 }
+
+
 .second-ip-div select{
   max-width: 220px;
 }
@@ -1623,17 +1630,27 @@ font-weight: 500;
 .price-form .param-name span{
   color: #a2a1a1;
 }
-.price-ip-field input{
-  width: 100px;
-  height: 35px;
-  background: var(--black);
+.price-form .price-ip-field {
+  padding: 4px 0;
   border: 1px solid var(--neon);
-  outline: none;
   border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+.price-form .price-ip-field span {
+    font-size: 20px;
+    padding-left: 20px;
+}
+.price-ip-field input{
+  border: none;
+  background: var(--black);
+  outline: none;
   color: white;
-  text-align: center;
   min-width: unset;
   font-size: 19px;
+  max-width: 60px;
 }
 .main-param-div{
   width: 100%;

@@ -17,16 +17,16 @@ const personalform = ({networks}) => {
     const { Moralis, isAuthenticated } = useMoralis();
     const [error, success, setSuccess, setError] = useContext(StatusContext);
 
-    const [personalformData, setPersonalformData] = useState({
-    name: "",
-    chain: "",
-    walletadress: "",
-    count: 0,
-    direction: "",
-    note: "",
-    ismailchecked: true,
-    istelechecked: true,
-    });
+    // const [personalformData, setPersonalformData] = useState({
+    // name: "",
+    // chain: "",
+    // walletadress: "",
+    // count: 0,
+    // direction: "",
+    // note: "",
+    // ismailchecked: true,
+    // istelechecked: true,
+    // });
     const router = useRouter();
     
     const [currentStep, setCurrentStep] = useState(1);
@@ -43,35 +43,42 @@ const personalform = ({networks}) => {
     const [isteleChecked, setIsteleChecked] = useState(true);
     
     const handleMailCheckboxChange = () => {
-        setIsmailChecked(!ismailChecked);
+      if (telegram) {
+          setIsmailChecked(!ismailChecked);
+      } else {
+          setIsmailChecked(true);
+      }
     };
+    
     const handleTeleCheckboxChange = () => {
-        setIsteleChecked(!isteleChecked);
+      if (mail) {
+          setIsteleChecked(!isteleChecked);
+      } else {
+          setIsteleChecked(true);
+      }
     };
 
     function chainChanged(event) {
         setChain(event);
     }
     
-    const handleIncrease = () => {
-        setCount((prevCount) => prevCount + 1);
-    };
-    const handleDecrease = () => {
-        if (count > 0) {
-        setCount((prevCount) => prevCount - 1);
-        }
+    const handlecountChange = (event) => {
+      const newValue = event.target.value;
+      if (newValue === '' || /^[0-9]+$/.test(newValue)) {
+        setCount(newValue === '' ? 0 : parseInt(newValue));
+      }
     };
     const handlePersonalSave = () =>{
-      setPersonalformData({
-      name: name,
-      chain: chain,
-      walletadress: walletadress,
-      count: count,
-      direction: direction,
-      note: note,
-      ismailchecked: ismailChecked,
-      istelechecked: isteleChecked
-      });
+      // setPersonalformData({
+      // name: name,
+      // chain: chain,
+      // walletadress: walletadress,
+      // count: count,
+      // direction: direction,
+      // note: note,
+      // ismailchecked: ismailChecked,
+      // istelechecked: isteleChecked
+      // });
       setCurrentStep(currentStep + 1);
     }
     
@@ -185,12 +192,7 @@ const personalform = ({networks}) => {
             selected_alert_method = 'email';
           }
 
-          let condition = personalformData.direction;
-          let threshold = personalformData.count;
-          let note = personalformData.note;
-          let name = personalformData.name;
-          let walletaddress = personalformData.walletadress.toLowerCase();
-  
+        
           if (selected_alert_method == "telegram" && !user.attributes.telegram) {
             setError((prevState) => ({
               ...prevState,
@@ -241,16 +243,23 @@ const personalform = ({networks}) => {
             chain == "matic" ||
             chain == "avalanche"
           ) {
+            //   let condition = personalformData.direction;
+          // let threshold = personalformData.count;
+          // let note = personalformData.note;
+          // let name = personalformData.name;
+          // let walletaddress = personalformData.walletadress.toLowerCase();
+  
             // capture address
             const params = {
-              name: name,
-              address: walletaddress,
+              name:name,
+              address: walletadress.toLowerCase(),
               alert_method: selected_alert_method,
-              conditions: condition,
-              threshold: threshold,
-              notes: note,
+              conditions:direction,
+              threshold: count.toString(),
+              notes:note,
               chain: chain,
             };
+            console.log("params:",params)
   
             const _watched = await Moralis.Cloud.run("getWatchedAddresses");
             console.log(_watched);
@@ -266,16 +275,17 @@ const personalform = ({networks}) => {
             const watch = await Moralis.Cloud.run("watchAddress", params);
             // user feedback
             if (watch) {
-              setPersonalformData({
-                name: "",
-                chain: "",
-                walletadress: "",
-                count: 0,
-                direction: "",
-                note: "",
-                ismailchecked: true,
-                istelechecked: false
-                });
+              // setPersonalformData({
+              //   name: "",
+              //   chain: "",
+              //   walletadress: "",
+              //   count: 0,
+              //   direction: "",
+              //   note: "",
+              //   ismailchecked: true,
+              //   istelechecked: false
+              //   });
+              console.log("hoye gache bhai")
             } else {
               window.alert(
                 JSON.stringify("🚫 You're already watching this address 🚫", 0, 2)
@@ -301,7 +311,7 @@ const personalform = ({networks}) => {
                   "cache-control": "no-cache",
                 },
                 body: JSON.stringify({
-                  alert_method: alertOption, //korte hobe
+                  alert_method: selected_alert_method, //korte hobe
                   chain: chain,
                   condition: condition,
                   email_id: mail ? mail : "",
@@ -310,7 +320,7 @@ const personalform = ({networks}) => {
                   note: note,
                   telegram_id: telegram,
                   threshold: threshold,
-                  wallet_address:walletaddress ,
+                  wallet_address: walletadress.toLowerCase() ,
                 }),
               };
               fetch("https://alertbytes.com/put_alert", requestOptions)
@@ -320,16 +330,17 @@ const personalform = ({networks}) => {
                   await createMoralisStream(walletaddress);
                   console.log(data);
                   // setAddressAddedModalOpen(true);
-                  setPersonalformData({
-                    name: "",
-                    chain: "",
-                    walletadress: "",
-                    count: 0,
-                    direction: "",
-                    note: "",
-                    ismailchecked: true,
-                    istelechecked: false
-                    });
+                  // setPersonalformData({
+                  //   name: "",
+                  //   chain: "",
+                  //   walletadress: "",
+                  //   count: 0,
+                  //   direction: "",
+                  //   note: "",
+                  //   ismailchecked: true,
+                  //   istelechecked: false
+                  //   });
+                  console.log("hoye gache bhai dui")
                   // setloading(false);
                 })
                 .catch((error) => {
@@ -397,7 +408,15 @@ const personalform = ({networks}) => {
                       <div className="threshold-div input-div">
                         <span className="head">Threshold Price ($)</span>
                         <div className="price-ip-div">
-                          <div className="t-value">{count}</div><div className="plus-btn" onClick={handleIncrease}>+</div><div className="m-btn" onClick={handleDecrease}   >-</div>
+                          <div className="t-value">
+                            <input
+                              type="text"
+                              value={count}
+                              onChange={handlecountChange}
+                            />
+                          </div>
+                          <div className="plus-btn" onClick={() => setCount(count + 1)}>+</div>
+                          <div className="m-btn" onClick={() => { if (count > 0) setCount(count - 1); }}>-</div>
                         </div>
                       </div>
                       <div className="direction-div input-div">
@@ -414,7 +433,7 @@ const personalform = ({networks}) => {
                     <textarea placeholder="Custom Note" rows={2} value={note} onChange={(e)=>{setNote(e.target.value)}}/> 
                     </div>
                     <div className="second-ip-div">
-                    <div className="head input-div">Alert Method</div>
+                      <div className="head input-div">Alert Method</div>
                       <div className="mainalert-div">
                         <div className="alrt-cnt">
                           <span className="d-block">Email</span>
@@ -454,8 +473,8 @@ const personalform = ({networks}) => {
                   </div>
                   <p className="preview-btn" onClick={handlePersonalSave}>Preview</p>
                   <div className="mdl-butns lg-butns">
-                    <Button className="btn btn-fill" onClick={handlePersonalSave}> Save Alert </Button>
-                    <Button className="btn btn-emp" onClick={()=>{console.log(ismailChecked,isteleChecked)}} > Cancel </Button>
+                    <Button className="btn btn-fill" onClick={onSave}> Save Alert </Button>
+                    <Button className="btn btn-emp" onClick={()=>{console.log(direction)}} > Cancel </Button>
                   </div>
               </div>{/* monitor-form end div */}
             </>
@@ -474,34 +493,68 @@ const personalform = ({networks}) => {
                             <div className="status-circle"></div>
                             <span className="status-txt">Active</span>
                             </div>
-                            <h3 className="wallet-name">{personalformData.name}</h3>
-                            <span className="wallet-adress">{personalformData.walletadress.substring(0,4)+"..."+personalformData.walletadress.substring(38,42)}</span>
+                            <h3 className="wallet-name">{name}</h3>
+                            <span className="wallet-adress">{walletadress.substring(0,4)+"..."+walletadress.substring(38,42)}</span>
                             <div className="bchain-value-div">
                             <div className="bchain-value">
+                            { 
+                              networks.chains[chain] === "Ethereum Mainnet" || 
+                              networks.chains[chain] === "Ethereum Token" 
+                              ? (
                                 <div className="bchain-img">
-
+                                   <img src="/Icons/erc20.svg" alt="" />
                                 </div>
-                                <div className="sub-head">{personalformData.chain}</div>
-                            </div>
-                            <div className="bchain-value">
+                              ) 
+                              : null 
+                            }
+                            { 
+                              networks.chains[chain] === "BSC Mainnet" || 
+                              networks.chains[chain] === "BSC Token" 
+                              ? (
                                 <div className="bchain-img">
-
+                                  <img src="/Icons/binance.svg" alt="" />
                                 </div>
-                                <div className="sub-head">Polygon</div>
+                              ) 
+                              : null 
+                            }
+                            { 
+                              networks.chains[chain] === "Polygon (Matic) Mainnet" || 
+                              networks.chains[chain] === "Polygon (Matic) Token" 
+                              ? (
+                                <div className="bchain-img">
+                                  <img src="/Icons/polygon.svg" alt="" />
+                                </div>
+                              ) 
+                              : null 
+                            }
+                            { 
+                              networks.chains[chain] === "Avalanche Mainnet" || 
+                              networks.chains[chain] === "Avalanche Token" 
+                              ? (
+                                <div className="bchain-img">
+                                   <img src="/Icons/avalanche.svg" alt="" />
+                                </div>
+                              ) 
+                              : null 
+                            }
+
+                              <div className="sub-head">
+                                {networks.chains[chain]}
+                              </div>
                             </div>
                             </div>
 
                             <div className="main-value-direction-div">
                             <div className="sub-head">Personal Monitor for</div>
                             <div className="value-dir">
-                            <div className="value">&lt;${personalformData.count}</div>
-                                <div className="value">{personalformData.direction}</div>
+                            <div className="value">&lt;${count}</div>
+                              <div className="value">{direction}</div>
                             </div>
                             </div>
                             <div className="notification-count">3 Notification Sent</div>
                         </div>{/* card-content-div end */}
                         <div className="mdl-butns lg-butns">
-                        <Button className="btn btn-fill" onClick={onSave} >Done</Button>
+                        <Button className="btn btn-fill" onClick={()=>{setCurrentStep(currentStep - 1);}} >Done</Button>
                         </div>
                     </div>
                 </div>

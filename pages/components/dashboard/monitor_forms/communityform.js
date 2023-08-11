@@ -62,11 +62,20 @@ const communityform = () => {
     const list = [...inputFields];
     list[index][name] = value;
     setInputFields(list);
-  
+
+    if (name === 'threshold') {
+      const numericValue = value.replace(/\D/g, ''); // Remove non-numeric characters
+      const intValue = parseInt(numericValue);
+      list[index]['threshold'] = isNaN(intValue) ? 0 : intValue;
+      setInputFields(list);
+    }
+
+
     if (name === 'date') {
       list[index]['visualDateValue'] = value;
       setInputFields(list);
     }
+
   };
  
   const handleIncrement = (index) => {
@@ -157,15 +166,25 @@ useEffect(() => {
 }, [ismailChecked, isteleChecked, mail, telegram]);
 
   
-  const handleMailCheckboxChange = () => {
+const handleMailCheckboxChange = () => {
+  if (telegram) {
       setIsmailChecked(!ismailChecked);
-  };
-  const handleTeleCheckboxChange = () => {
-      setIsteleChecked(!isteleChecked);
-  };
-  function chainChanged(event) {
-      setChain(event);
+  } else {
+      setIsmailChecked(true);
   }
+};
+
+const handleTeleCheckboxChange = () => {
+  if (mail) {
+      setIsteleChecked(!isteleChecked);
+  } else {
+      setIsteleChecked(true);
+  }
+};
+function chainChanged(event) {
+  setChain(event);
+}
+
 
 
  
@@ -254,8 +273,7 @@ useEffect(() => {
   
         //   return;
         // }
-        const numberValue =  data.threshold;
-        const stringValue = numberValue.toString();
+
 
         {
           inputFields.map(async (data, index) => {
@@ -263,7 +281,7 @@ useEffect(() => {
               const params = {
                 admin_address: adminaddress.toLowerCase(),
                 user_address: data.fullName.toLowerCase(),
-                threshold:stringValue,
+                threshold: data.threshold.toString(),
                 alert_method: alertOption,
                 note: data.note,
                 expiredate: data.date,
@@ -364,12 +382,28 @@ useEffect(() => {
 
                         <div className="threshold-div">
                           <span className="head">Budget ($)</span>
+
                           <div className="price-ip-div input-div">
-                            <div className="t-value">{inputFields[index].threshold}</div>
+
+                            <div className="t-value">
+                              <input
+                              type="text"
+                              name="threshold"
+                              value={threshold}
+                              onChange={(evnt)=>{handleChange(index, evnt)}}
+                            />
+                            </div>
+
                             <div className="plus-btn" onClick={() => handleIncrement(index)}>+</div>
+
                             <div className="m-btn" onClick={() => handleDecrement(index)}>-</div>
                           </div>
+
                         </div>
+
+
+
+
                         <div className="threshold-div exp-date">
                           <span className="head">Expiry</span>
                           <div className="date-div price-ip-div input-div">
@@ -462,12 +496,50 @@ useEffect(() => {
                     <span className="status-txt">Active</span>
                   </div>
                   <h3 className="wallet-name">{name}</h3>
+
                   <div className="bchain-value">
+                    
+                  { 
+                    mainnets.chains[chain] === "Ethereum Mainnet"
+                    ? (
                       <div className="bchain-img">
-                        <img src="/Icons/erc20.svg" alt="" />
+                          <img src="/Icons/erc20.svg" alt="" />
                       </div>
-                      <div className="sub-head">{chain}</div>
+                    ) 
+                    : null 
+                  }
+                  { 
+                    mainnets.chains[chain] === "BSC Mainnet" 
+                    ? (
+                      <div className="bchain-img">
+                        <img src="/Icons/binance.svg" alt="" />
+                      </div>
+                    ) 
+                    : null 
+                  }
+                  { 
+                    mainnets.chains[chain] === "Polygon (Matic) Mainnet" 
+                    ? (
+                      <div className="bchain-img">
+                        <img src="/Icons/polygon.svg" alt="" />
+                      </div>
+                    ) 
+                    : null 
+                  }
+                  { 
+                    mainnets.chains[chain] === "Avalanche Mainnet" 
+                    ? (
+                      <div className="bchain-img">
+                          <img src="/Icons/avalanche.svg" alt="" />
+                      </div>
+                    ) 
+                    : null 
+                  }
+
+
+                  <div className="sub-head">{mainnets.chains[chain]}</div>
                   </div>
+
                   <span className="wallet-adress">{mainaccount.substring(0,4)+"..."+ mainaccount.substring(38,42)}</span>
 
                   <div className="alert-method">
@@ -516,7 +588,7 @@ useEffect(() => {
 
                 </div>{/* card-content-div end */}
                 <div className="mdl-butns lg-butns">
-                 <Button className="btn btn-fill" onClick={createdata} >Done</Button>
+                 <Button className="btn btn-fill" onClick={()=>{ setCurrentStep(currentStep - 1)}}>Done</Button>
                 </div>
               </div>
             </div>

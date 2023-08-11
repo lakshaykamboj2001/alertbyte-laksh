@@ -16,27 +16,47 @@ const priceform = () => {
     } = useMoralis();
   const [error, success, setSuccess, setError] = useContext(StatusContext);
   const { Moralis, isAuthenticated } = useMoralis();
-
+  const router = useRouter();
   const [searchedvalue , setSearchedvalue] = useState("");
   const [alldataresult, setalldataresult] = useState([]);
   const [showcrptosearch, setShowcrptosearch] = useState(false);
   const [showpriceform, setShowpriceform] = useState(false);
-  
 
-
-  const [ispriceChecked, setIspriceChecked] = useState(false);
+  const [ispriceChecked, setIspriceChecked] = useState(true);
   const [isvolumeChecked, setIsvolumeChecked] = useState(false);
   const [issupplyChecked, setIssupplyChecked] = useState(false);
   const [isfdvChecked, setIsfdvChecked] = useState(false);
 
+  const [cryptoslug, setcryptoslug] = useState("")
+  const [currentdata, setcurrentdata] = useState(null)
+  const [current_volume, setcurrent_volume] = useState(null)
+  const [current_circulating_supply, setcurrent_circulating_supply] = useState(null)
+  const [current_fully_diluted_market_cap, setcurrent_fully_diluted_market_cap] = useState(null)
+
+  const [userprice, setuserprice] = useState("");
+  const [uservolume, setuservolume] = useState("");
+  const [user_circulating_supply, setuser_circulating_supply] = useState("");
+  const [user_fully_diluted_market_cap, setuser_fully_diluted_market_cap] = useState("");
+
+  const [alertOption, setAlertOption] = useState("");
+
+
   const [ismailChecked, setIsmailChecked] = useState(true);
   const [isteleChecked, setIsteleChecked] = useState(true);
-  
   const handleMailCheckboxChange = () => {
-      setIsmailChecked(!ismailChecked);
+    if (telegram) {
+        setIsmailChecked(!ismailChecked);
+    } else {
+        setIsmailChecked(true);
+    }
   };
+  
   const handleTeleCheckboxChange = () => {
-      setIsteleChecked(!isteleChecked);
+    if (mail) {
+        setIsteleChecked(!isteleChecked);
+    } else {
+        setIsteleChecked(true);
+    }
   };
 
 
@@ -64,6 +84,20 @@ const priceform = () => {
 
 
 
+  useEffect(() => {
+    const assignAlertOptions = () => {
+      if (ismailChecked && isteleChecked && mail && telegram) {
+        setAlertOption('both');
+      } else if (ismailChecked ) {
+        setAlertOption('email');
+      } else if (isteleChecked ) {
+        setAlertOption('telegram');
+      } else {
+        setAlertOption('');
+      }
+    };
+    assignAlertOptions();
+  }, [ismailChecked, isteleChecked, mail, telegram]);
 
   const fetchsearcheddata = async () =>{
     let params = {searchvalue:searchedvalue}
@@ -82,11 +116,6 @@ const priceform = () => {
     });
   }
 
-  const [cryptoslug, setcryptoslug] = useState("")
-  const [currentdata, setcurrentdata] = useState(null)
-  const [current_volume, setcurrent_volume] = useState(null)
-  const [current_circulating_supply, setcurrent_circulating_supply] = useState(null)
-  const [current_fully_diluted_market_cap, setcurrent_fully_diluted_market_cap] = useState(null)
 
 
   const handlecryptoclicked = async (data) => {
@@ -98,10 +127,10 @@ const priceform = () => {
     let res = Object.values(data.data.data)[0];
     console.log("data from user searched crypto",res)
     setcryptoslug(res.slug)
-    setcurrentdata(res.quote.USD.price.toFixed(3))
-    setcurrent_volume(res.quote.USD.volume_24h.toFixed(3))
-    setcurrent_circulating_supply(res.circulating_supply)
-    setcurrent_fully_diluted_market_cap(res.quote.USD.fully_diluted_market_cap)
+    setcurrentdata(res.quote.USD.price.toFixed(2))
+    setcurrent_volume(res.quote.USD.volume_24h.toFixed(2))
+    setcurrent_circulating_supply(res.circulating_supply.toFixed(2))
+    setcurrent_fully_diluted_market_cap(res.quote.USD.fully_diluted_market_cap.toFixed(2))
   })
   .catch((error) => {
     console.log(JSON.stringify("🚫 Error Occures 🚫"+error, 0, 2,));
@@ -117,6 +146,109 @@ const priceform = () => {
   //   return () => clearInterval(intervalId);
   // }, []);
   
+
+  const createdata = async () => {
+    console.log(userprice)
+    if(userprice === "" && uservolume === "" && user_circulating_supply === "" && user_fully_diluted_market_cap === ""){
+      window.alert("Please add a value for the alert !"); 
+      return
+    } 
+    if (!isAuthenticated) {
+      setError((prevState) => ({
+        ...prevState,
+        title: "Signup/Login required",
+        message: "You must be signed in to add an address to your watchlist",
+        showErrorBox: true,
+      }));
+
+      return;
+    }  else {
+      // setloading(true);
+      try {
+        let userdata = conditionvalue == "price"?userprice:conditionvalue == "volume"?uservolume:conditionvalue == "circulating_supply"?user_circulating_supply:conditionvalue == "fully_diluted_market_cap"?user_fully_diluted_market_cap:undefined
+        let livedata = conditionvalue == "price"?currentdata:conditionvalue == "volume"?current_volume:conditionvalue == "circulating_supply"?current_circulating_supply:conditionvalue == "fully_diluted_market_cap"?current_fully_diluted_market_cap:undefined
+        if (alertOption == "telegram" && !user.attributes.telegram) {
+          setError((prevState) => ({
+            ...prevState,
+            title: "Telegram username not provided",
+            message:
+              "You must set up your Telegram username in your Profile page in order to proceed.",
+            showErrorBox: true,
+          }));
+          // setloading(false);
+
+          return;
+        } else if (
+          alertOption == "email" &&
+          (!user.attributes.email || !user.attributes.emailVerified)
+        ) {
+          setError((prevState) => ({
+            ...prevState,
+            title: "Email not provided and/or verified",
+            message:
+              "You must set up your email in your Profile page in order to proceed.",
+            showErrorBox: true,
+          }));
+          // setloading(false);
+
+          return;
+        } else if (
+          alertOption == "both" &&
+          (!user.attributes.email ||
+            !user.attributes.emailVerified ||
+            !user.attributes.telegram)
+        ) {
+          setError((prevState) => ({
+            ...prevState,
+            title: "Email/Telegram not set up",
+            message:
+              "You must set up your email/telegram in your Profile page in order to proceed.",
+            showErrorBox: true,
+          }));
+          console.log("kngaksn");
+          // setloading(false);
+
+          return;
+        }
+        const _market = await Moralis.Cloud.run("getMarketCapAddresses");
+        console.log(_market);
+        // if (_market.length > 4) {
+        //   window.alert(
+        //     "You've exceeded the limit on the free plan. Please upgrade to a paid plan to add more addresses."
+        //   );
+        //   // setloading(false);
+
+        //   return;
+        // }
+        const params = {
+          cryptoslug:cryptoslug,
+          condition: conditionvalue,
+          current_value: Number(livedata),
+          user_value:Number(userdata),
+          alert_method: alertOption,
+        };
+      
+        console.log(params)
+        const watch = await Moralis.Cloud.run("watchMarketCap", params)
+        if (watch) {
+          setAddressAddedModalOpen(true);
+          setEmail("");
+          setTelegram("");
+          setAlertOption("email");
+          setThreshold("");
+          console.log("done")
+        } else {
+          window.alert(
+            JSON.stringify("🚫 You're already watching this address 🚫", 0, 2)
+          );
+        }
+        // setloading(false);
+      } catch (error) {
+        console.log(error);
+        // setloading(false);
+      }
+    }
+  };
 
 
   const [currentStep, setCurrentStep] = useState(1);
@@ -168,7 +300,8 @@ const priceform = () => {
                         {ispriceChecked && (
                             <>
                               <div className="price-ip-field">
-                                <input type="text"  />
+                                <span>$</span>
+                                <input type="text" value={userprice} onChange={(e)=>{setuserprice(e.target.value)}} />
                               </div>
                             </>
                           )
@@ -186,8 +319,9 @@ const priceform = () => {
                         </div>
                         {isvolumeChecked && (
                           <>
-                            <div className="price-ip-field">
-                              <input type="text"  />
+                           <div className="price-ip-field">
+                              <span>$</span>
+                              <input type="text" value={uservolume} onChange={(e)=>{setuservolume(e.target.value)}}  />
                             </div>
                           </>
                         )}
@@ -205,7 +339,8 @@ const priceform = () => {
                         {issupplyChecked && (
                           <>
                             <div className="price-ip-field">
-                              <input type="text"  />
+                              <span>$</span>
+                              <input type="text" value={user_circulating_supply} onChange={(e)=>{setuser_circulating_supply(e.target.value)}} />
                             </div>
                           </>
                         )}
@@ -223,7 +358,8 @@ const priceform = () => {
                         {isfdvChecked && (
                         <>
                           <div className="price-ip-field">
-                            <input type="text"  />
+                            <span>$</span>
+                            <input type="text"  value={user_fully_diluted_market_cap} onChange={(e)=>{setuser_fully_diluted_market_cap(e.target.value)}}  />
                           </div>
                         </>)}
                       </div>
@@ -269,11 +405,11 @@ const priceform = () => {
                       </div>
                   </div>
                 </div>
-                <p className="preview-btn" onClick={()=>{      setCurrentStep(currentStep + 1);}}>Preview</p>
+                <p className="preview-btn" onClick={()=>{ setCurrentStep(currentStep + 1);}}>Preview</p>
                 <div className="mdl-butns lg-butns">
-                  <Button className="btn btn-fill"> Save Alert </Button>
+                  <Button className="btn btn-fill" onClick={createdata}> Save Alert </Button>
                   <Button className="btn btn-emp"  > Cancel </Button>
-                </div>
+                </div>  
       
              </div>{/* monitor-form end div */}
             </>
@@ -325,7 +461,7 @@ const priceform = () => {
                   <div className="notification-count">3 Notification Sent</div>
                 </div>{/* card-content-div end */}
                 <div className="mdl-butns lg-butns">
-                 <Button className="btn btn-fill" >Done</Button>
+                 <Button className="btn btn-fill"onClick={()=>{ setCurrentStep(currentStep - 1)}} >Done</Button>
                 </div>
               </div>
             </div>
