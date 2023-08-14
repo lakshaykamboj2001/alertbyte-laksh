@@ -7,7 +7,7 @@ import {FaArrowRight} from "react-icons/fa"
 
 
 
-const priceform = () => {
+const priceform = ({paramdata, setParamdata}) => {
   const {
     logout,
     user,
@@ -22,10 +22,10 @@ const priceform = () => {
   const [showcrptosearch, setShowcrptosearch] = useState(false);
   const [showpriceform, setShowpriceform] = useState(false);
 
-  const [ispriceChecked, setIspriceChecked] = useState(true);
-  const [isvolumeChecked, setIsvolumeChecked] = useState(false);
-  const [issupplyChecked, setIssupplyChecked] = useState(false);
-  const [isfdvChecked, setIsfdvChecked] = useState(false);
+  // const [ispriceChecked, setIspriceChecked] = useState(true);
+  // const [isvolumeChecked, setIsvolumeChecked] = useState(false);
+  // const [issupplyChecked, setIssupplyChecked] = useState(false);
+  // const [isfdvChecked, setIsfdvChecked] = useState(false);
 
   const [cryptoslug, setcryptoslug] = useState("")
   const [currentdata, setcurrentdata] = useState(null)
@@ -33,10 +33,10 @@ const priceform = () => {
   const [current_circulating_supply, setcurrent_circulating_supply] = useState(null)
   const [current_fully_diluted_market_cap, setcurrent_fully_diluted_market_cap] = useState(null)
 
-  const [userprice, setuserprice] = useState("");
-  const [uservolume, setuservolume] = useState("");
-  const [user_circulating_supply, setuser_circulating_supply] = useState("");
-  const [user_fully_diluted_market_cap, setuser_fully_diluted_market_cap] = useState("");
+  // const [userprice, setuserprice] = useState("");
+  // const [uservolume, setuservolume] = useState("");
+  // const [user_circulating_supply, setuser_circulating_supply] = useState("");
+  // const [user_fully_diluted_market_cap, setuser_fully_diluted_market_cap] = useState("");
 
   const [alertOption, setAlertOption] = useState("");
 
@@ -137,22 +137,52 @@ const priceform = () => {
   });
   }
 //  calling this function in  every 3 sec cause we have to update the value of searched crypto but ....
-  // useEffect(() => {
-  //   const intervalId = setInterval(() => {
-  //   console.log(paramdata)
-  //   handlecryptoclicked(paramdata);
-  //   }, 3000);
-  
-  //   return () => clearInterval(intervalId);
-  // }, []);
-  
+useEffect(() => {
+  const intervalId = setInterval(async () => {
+    console.log(paramdata);
+
+    try {
+      await handlecryptoclicked(paramdata);
+    } catch (error) {
+      console.log("🚫 Error Occurred 🚫", error);
+    }
+
+  }, 3000);
+
+  return () => clearInterval(intervalId);
+}, [paramdata]);
+
+  const [userInput, setUserInput] = useState([]);
+
+  const handleChange = (fieldName, value, isChecked) => {
+    if (isChecked) {
+      const existingFieldIndex = userInput.findIndex(item => item.conditionField === fieldName);
+
+      if (existingFieldIndex !== -1) {
+        setUserInput(prevInput => {
+          const updatedInput = [...prevInput];
+          updatedInput[existingFieldIndex].conditionValue = value;
+          return updatedInput;
+        });
+      } else {
+        setUserInput(prevInput => [
+          ...prevInput,
+          {
+            conditionField: fieldName,
+            conditionValue: value
+          }
+        ]);
+      }
+    } else {
+      setUserInput(prevInput => prevInput.filter(item => item.conditionField !== fieldName));
+    }
+  };
 
   const createdata = async () => {
-    console.log(userprice)
-    if(userprice === "" && uservolume === "" && user_circulating_supply === "" && user_fully_diluted_market_cap === ""){
-      window.alert("Please add a value for the alert !"); 
-      return
-    } 
+    // if(userprice === "" && uservolume === "" && user_circulating_supply === "" && user_fully_diluted_market_cap === ""){
+    //   window.alert("Please add a value for the alert !"); 
+    //   return
+    // } 
     if (!isAuthenticated) {
       setError((prevState) => ({
         ...prevState,
@@ -165,8 +195,8 @@ const priceform = () => {
     }  else {
       // setloading(true);
       try {
-        let userdata = conditionvalue == "price"?userprice:conditionvalue == "volume"?uservolume:conditionvalue == "circulating_supply"?user_circulating_supply:conditionvalue == "fully_diluted_market_cap"?user_fully_diluted_market_cap:undefined
-        let livedata = conditionvalue == "price"?currentdata:conditionvalue == "volume"?current_volume:conditionvalue == "circulating_supply"?current_circulating_supply:conditionvalue == "fully_diluted_market_cap"?current_fully_diluted_market_cap:undefined
+
+        
         if (alertOption == "telegram" && !user.attributes.telegram) {
           setError((prevState) => ({
             ...prevState,
@@ -207,42 +237,68 @@ const priceform = () => {
           }));
           console.log("kngaksn");
           // setloading(false);
-
+          
           return;
         }
-        const _market = await Moralis.Cloud.run("getMarketCapAddresses");
-        console.log(_market);
-        // if (_market.length > 4) {
-        //   window.alert(
-        //     "You've exceeded the limit on the free plan. Please upgrade to a paid plan to add more addresses."
-        //   );
-        //   // setloading(false);
 
-        //   return;
-        // }
-        const params = {
-          cryptoslug:cryptoslug,
-          condition: conditionvalue,
-          current_value: Number(livedata),
-          user_value:Number(userdata),
-          alert_method: alertOption,
-        };
+
+
+        // const _market = await Moralis.Cloud.run("getMarketCapAddresses");
+        // console.log(_market);
+
+        // let userdata = conditionvalue == "price"?userprice:conditionvalue == "volume"?uservolume:conditionvalue == "circulating_supply"?user_circulating_supply:conditionvalue == "fully_diluted_market_cap"?user_fully_diluted_market_cap:undefined
+        // let livedata = conditionvalue == "price"?currentdata:conditionvalue == "volume"?current_volume:conditionvalue == "circulating_supply"?current_circulating_supply:conditionvalue == "fully_diluted_market_cap"?current_fully_diluted_market_cap:undefined
+        // const params = {
+        //   cryptoslug:cryptoslug,
+        //   condition: conditionvalue,
+        //   current_value: Number(livedata),
+        //   user_value:Number(userdata),
+        //   alert_method: alertOption,
+        // };
       
-        console.log(params)
-        const watch = await Moralis.Cloud.run("watchMarketCap", params)
-        if (watch) {
-          setAddressAddedModalOpen(true);
-          setEmail("");
-          setTelegram("");
-          setAlertOption("email");
-          setThreshold("");
-          console.log("done")
-        } else {
-          window.alert(
-            JSON.stringify("🚫 You're already watching this address 🚫", 0, 2)
-          );
-        }
+        // console.log(params)
+        // const watch = await Moralis.Cloud.run("watchMarketCap", params)
+        // if (watch) {
+        //   // setAddressAddedModalOpen(true);
+        //   // setEmail("");
+        //   // setTelegram("");
+        //   // setAlertOption("email");
+        //   // setThreshold("");
+        //   console.log("done")
+        // } else {
+        //   window.alert(
+        //     JSON.stringify("🚫 You're already watching this address 🚫", 0, 2)
+        //   );
+        // }
         // setloading(false);
+
+
+        await Promise.all(userInput.map(async (item) => {
+          const { conditionField, conditionValue } = item;
+    
+          const _market = await Moralis.Cloud.run("getMarketCapAddresses");
+          console.log(_market);
+
+          let userdata = conditionField === "price" ? conditionValue : conditionField === "volume" ? conditionValue : conditionField === "circulating_supply" ? conditionValue : conditionField === "fully_diluted_market_cap" ? conditionValue : undefined;
+          let livedata = conditionField === "price" ? currentdata : conditionField === "volume" ? current_volume : conditionField === "circulating_supply" ? current_circulating_supply : conditionField === "fully_diluted_market_cap" ? current_fully_diluted_market_cap : undefined;
+
+          const params = {
+            cryptoslug: cryptoslug,
+            condition: conditionField,
+            current_value: Number(livedata),
+            user_value: Number(userdata),
+            alert_method: alertOption,
+          };
+
+          console.log("params:", params);
+          const watch = await Moralis.Cloud.run("watchMarketCap", params);
+          if (watch) {
+            console.log("done");
+          } else {
+            window.alert(JSON.stringify("🚫 You're already watching this address 🚫", 0, 2));
+          }
+        }));
+
       } catch (error) {
         console.log(error);
         // setloading(false);
@@ -272,7 +328,7 @@ const priceform = () => {
                 <div className="search-result">
                   {alldataresult? alldataresult.map((d)=> <>
                   {/* handlecryptoclicked */}
-                        <div className="single-result" onClick={()=>{handlecryptoclicked(d.slug) ;  setShowpriceform(true); setShowcrptosearch(false);}}>
+                        <div className="single-result" onClick={()=>{ setParamdata(d.slug); handlecryptoclicked(d.slug) ;  setShowpriceform(true); setShowcrptosearch(false);}}>
                           <span className="crypto-name"> {d.name} </span>
                           <div className="symbol"> {d.symbol} <FaArrowRight/> </div>
                         </div>
@@ -288,30 +344,39 @@ const priceform = () => {
                 <div className="card-content-div ">
                   <div className="title">Set Alert</div>
                   <div className="main-param-div">
-      
+
                     <div className="single-param">
                       <div className="param-name">
-                        Price <span>(${currentdata})</span>
+                       Price <span className="d-block">(${currentdata})</span>
                       </div>
-                      <div className="toggle-field ">
-                        <div className="verification-status">
-                        <input type="checkbox" id="Price" checked={ispriceChecked} onChange={()=>{setIspriceChecked(!ispriceChecked)}}  /><label for="Price" >Toggle</label>
-                        </div>
-                        {ispriceChecked && (
-                            <>
-                              <div className="price-ip-field">
-                                <span>$</span>
-                                <input type="text" value={userprice} onChange={(e)=>{setuserprice(e.target.value)}} />
-                              </div>
-                            </>
-                          )
-                        }
+                      <div className="toggle-field">
+                      <div className="verification-status">
+                        <input
+                          type="checkbox"
+                          id="Price"
+                          checked={userInput.some(item => item.conditionField === 'price')}
+                          onChange={(e) => handleChange('price', '', e.target.checked)}
+                        />
+                        <label htmlFor="Price">Toggle</label>
+
+                      </div>
+                        {userInput.some(item => item.conditionField === 'price') && (
+                          <div className="price-ip-field">
+                            <span>$</span>
+                            <input
+                              type="text"
+                              value={userInput.find(item => item.conditionField === 'price')?.conditionValue || ''}
+                              onChange={(e) => handleChange('price', e.target.value, true)}
+                              name="price"
+                            />
+                          </div>
+                        )}
                       </div>
                     </div>
       
-                    <div className="single-param">
+                    {/* <div className="single-param">
                       <div className="param-name">
-                        24H Volume <span>(${current_volume})</span>
+                        24H Volume <span className="d-block">(${current_volume})</span>
                       </div>
                       <div className="toggle-field ">
                         <div className="verification-status">
@@ -321,49 +386,105 @@ const priceform = () => {
                           <>
                            <div className="price-ip-field">
                               <span>$</span>
-                              <input type="text" value={uservolume} onChange={(e)=>{setuservolume(e.target.value)}}  />
+                              <input
+                                type="text"
+                                value={userInput.find(item => item.conditionField === 'volume')?.conditionValue || ''}
+                                onChange={(e) => handleChange('volume', e.target.value)}
+                                name="volume"
+                              />
                             </div>
                           </>
                         )}
                       </div>
-                    </div>
-      
+                    </div> */}
+
                     <div className="single-param">
                       <div className="param-name">
-                        Circulating Supply <span>(${current_circulating_supply})</span>
+                        24H Volume <span className="d-block">(${current_volume})</span>
                       </div>
-                      <div className="toggle-field ">
-                        <div className="verification-status">
-                        <input type="checkbox" id="Supply" checked={issupplyChecked} onChange={()=>{setIssupplyChecked(!issupplyChecked)}} /><label for="Supply" >Toggle</label>
-                        </div>
-                        {issupplyChecked && (
-                          <>
-                            <div className="price-ip-field">
-                              <span>$</span>
-                              <input type="text" value={user_circulating_supply} onChange={(e)=>{setuser_circulating_supply(e.target.value)}} />
-                            </div>
-                          </>
-                        )}
+                      <div className="toggle-field">
+                      <div className="verification-status">
+                        <input
+                          type="checkbox"
+                          id="volume"
+                          checked={userInput.some(item => item.conditionField === 'volume')}
+                          onChange={(e) => handleChange('volume', '', e.target.checked)}
+                        />
+                        <label htmlFor="volume">Toggle</label>
+
                       </div>
-                    </div>
-      
-                    <div className="single-param">
-                      <div className="param-name">
-                        FDV <span>(${current_fully_diluted_market_cap})</span>
-                      </div>
-                      <div className="toggle-field ">
-                        <div className="verification-status">
-                         <input type="checkbox" id="fdv" checked={isfdvChecked} onChange={()=>{setIsfdvChecked(!isfdvChecked)}} /><label for="fdv" >Toggle</label>
-                        </div>
-                        {isfdvChecked && (
-                        <>
+                        {userInput.some(item => item.conditionField === 'volume') && (
                           <div className="price-ip-field">
                             <span>$</span>
-                            <input type="text"  value={user_fully_diluted_market_cap} onChange={(e)=>{setuser_fully_diluted_market_cap(e.target.value)}}  />
+                            <input
+                              type="text"
+                              value={userInput.find(item => item.conditionField === 'volume')?.conditionValue || ''}
+                              onChange={(e) => handleChange('volume', e.target.value, true)}
+                              name="volume"
+                            />
                           </div>
-                        </>)}
+                        )}
                       </div>
                     </div>
+
+                   <div className="single-param">
+                      <div className="param-name">
+                       Circulating Supply <span className="d-block">(${current_circulating_supply})</span>
+                      </div>
+                      <div className="toggle-field">
+                      <div className="verification-status">
+                        <input
+                          type="checkbox"
+                          id="circulating_supply"
+                          checked={userInput.some(item => item.conditionField === 'circulating_supply')}
+                          onChange={(e) => handleChange('circulating_supply', '', e.target.checked)}
+                        />
+                        <label htmlFor="circulating_supply">Toggle</label>
+
+                      </div>
+                        {userInput.some(item => item.conditionField === 'circulating_supply') && (
+                          <div className="price-ip-field">
+                            <span>$</span>
+                            <input
+                              type="text"
+                              value={userInput.find(item => item.conditionField === 'circulating_supply')?.conditionValue || ''}
+                              onChange={(e) => handleChange('circulating_supply', e.target.value, true)}
+                              name="circulating_supply"
+                            />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="single-param">
+                      <div className="param-name">
+                       FDV <span className="d-block">(${current_fully_diluted_market_cap})</span>
+                      </div>
+                      <div className="toggle-field">
+                      <div className="verification-status">
+                        <input
+                          type="checkbox"
+                          id="fully_diluted_market_cap"
+                          checked={userInput.some(item => item.conditionField === 'fully_diluted_market_cap')}
+                          onChange={(e) => handleChange('fully_diluted_market_cap', '', e.target.checked)}
+                        />
+                        <label htmlFor="fully_diluted_market_cap">Toggle</label>
+
+                      </div>
+                        {userInput.some(item => item.conditionField === 'fully_diluted_market_cap') && (
+                          <div className="price-ip-field">
+                            <span>$</span>
+                            <input
+                              type="text"
+                              value={userInput.find(item => item.conditionField === 'fully_diluted_market_cap')?.conditionValue || ''}
+                              onChange={(e) => handleChange('fully_diluted_market_cap', e.target.value, true)}
+                              name="fully_diluted_market_cap"
+                            />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
                   </div>{/* main-param-div end */}
       
                   <div className="price-alert-mode">
@@ -408,7 +529,7 @@ const priceform = () => {
                 <p className="preview-btn" onClick={()=>{ setCurrentStep(currentStep + 1);}}>Preview</p>
                 <div className="mdl-butns lg-butns">
                   <Button className="btn btn-fill" onClick={createdata}> Save Alert </Button>
-                  <Button className="btn btn-emp"  > Cancel </Button>
+                  <Button className="btn btn-emp" onClick={()=>{console.log(userInput)}} > Cancel </Button>
                 </div>  
       
              </div>{/* monitor-form end div */}

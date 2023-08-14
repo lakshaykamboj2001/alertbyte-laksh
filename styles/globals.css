@@ -1973,7 +1973,7 @@ font-weight: 600;
   background: var(--black);
   padding: 5px 20px;
   border-radius: 5px;
-  min-width: 315px;
+  min-width:230px;
   min-height: 180px;
   z-index: 1;
 }

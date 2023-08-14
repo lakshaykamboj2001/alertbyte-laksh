@@ -41,3 +41,16 @@ const test = () => {
 }
 
 export default test
+
+
+// for price 
+// const _market = await Moralis.Cloud.run("getMarketCapAddresses");
+// console.log(_market);
+
+// for community 
+// const _market = await Moralis.Cloud.run("getCommunityAddresses");
+// console.log("market",_market);
+
+// for personal 
+// const _watched = await Moralis.Cloud.run("getWatchedAddresses");
+// console.log(_watched);

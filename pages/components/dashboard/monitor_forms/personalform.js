@@ -263,14 +263,14 @@ const personalform = ({networks}) => {
   
             const _watched = await Moralis.Cloud.run("getWatchedAddresses");
             console.log(_watched);
-            if (_watched.length > 4) {
-              window.alert(
-                "You've exceeded the limit on the free plan. Please upgrade to a paid plan to add more addresses."
-              );
-              // setloading(false);
+            // if (_watched.length > 4) {
+            //   window.alert(
+            //     "You've exceeded the limit on the free plan. Please upgrade to a paid plan to add more addresses."
+            //   );
+            //   // setloading(false);
   
-              return;
-            }
+            //   return;
+            // }
   
             const watch = await Moralis.Cloud.run("watchAddress", params);
             // user feedback
