@@ -1935,6 +1935,8 @@ font-weight: 600;
 
 }
 
+
+/* ====filter===== */
 .filter-main-div{
   position: absolute;
   top: 90px;
@@ -1954,14 +1956,14 @@ font-weight: 600;
   min-width: 150px;
   line-height: 24px;
 }
-.wn-body .filter-sub-div span{
- font-size: 15px;
-}
+
 .inout-sec .head {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  font-size: 14px;
+  font-weight: 300;
 }
 .inout-sec .head svg{
   color: var(--neon);
@@ -1971,20 +1973,58 @@ font-weight: 600;
   left: 0;
   top: 0;
   background: var(--black);
-  padding: 5px 20px;
+  padding: 10px 20px;
   border-radius: 5px;
-  min-width:230px;
-  min-height: 180px;
+  min-width: 230px;
+  /* min-height: 180px; */
   z-index: 1;
+  box-shadow: 1px 1px 2px 0px #ffffff20;
 }
-
-
+.filter-expand .filter-exp-head{
+  font-size: 14px;
+  font-weight: 500;
+}
 .radios{
   display: flex;
   flex-direction: column;
 }
+.radios .head{
+  margin-top: 15px;
+  color: var(--neon);
+  font-size: 15px;
+}
+.rd-field{
+  display: flex;
+  align-items: center;
+  gap: 7px;
 
-
+  line-height: 1.4;
+}
+.rd-field label{
+  font-size: 15px;
+}
+.rd-field input{
+  accent-color: var(--neon);
+  background-color: transparent;
+}
+.filter-buttons button{
+  background: transparent;
+  color: var(--neon);
+  border: 1px solid var(--neon);
+  min-width: 85px;
+  font-size: 14px;
+  border-radius: 5px;
+  padding: 2px 0;
+}
+.filter-buttons{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin-top: 15px;
+}
+.filter-buttons .apply-btn{
+  background-color: #1e6459b5;
+}
 /* ===============WALLET CONTENTS=============== */
 .cu-form.search-form{
   gap: 30px;

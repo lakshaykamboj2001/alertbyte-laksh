@@ -31,6 +31,7 @@ const Firsttab = ({networks, showcards, setShowcards,  showalertfor, setShowaler
   const [watchedAddresses, setWatchedAddresses] = useState([]);
   const [marketCapAddresses, setMarketCapAddresses] = useState([]);
   const [communityAddresses, setCommunityAddresses] = useState([]);
+  const [categorizedDataArray, setCategorizedDataArray] = useState([]);
 
   const getWatchedAddresses = async () => {
     try {
@@ -39,7 +40,7 @@ const Firsttab = ({networks, showcards, setShowcards,  showalertfor, setShowaler
       // user feedback
       if (_watched) {
         _watched.map((item) => {
-          console.log(item);
+          // console.log(item);
           setWatchedAddresses((watchedAddresses) => [
             ...watchedAddresses,
             item,
@@ -53,29 +54,7 @@ const Firsttab = ({networks, showcards, setShowcards,  showalertfor, setShowaler
       console.log("ERROR-", error);
     }
   };
-
-  const getMarketCapAddresses = async () => {
-    try {
-      const _market = await Moralis.Cloud.run("getMarketCapAddresses");
-      setMarketCapAddresses("");
-      // user feedback
-      if (_market) {
-        console.log(JSON.stringify(_market));
-        _market.map((item) => {
-          setMarketCapAddresses((watchedAddresses) => [
-            ...watchedAddresses,
-            item,
-          ]);
-        });
-      } else {
-        window.alert(JSON.stringify("No watched addresses found"));
-      }
-      return;
-    } catch (error) {
-      console.log("ERROR-", error);
-    }
-  };
-
+  
   const getCommunityAddresses = async () => {
     try {
       const _watched = await Moralis.Cloud.run("getCommunityAddresses");
@@ -83,7 +62,7 @@ const Firsttab = ({networks, showcards, setShowcards,  showalertfor, setShowaler
       // user feedback
       if (_watched) {
         _watched.map((item) => {
-          console.log(item);
+          // console.log(item);
           setCommunityAddresses((communityAddresses) => [
             ...communityAddresses,
             item,
@@ -98,65 +77,81 @@ const Firsttab = ({networks, showcards, setShowcards,  showalertfor, setShowaler
     }
   };
 
-  const [usednormal, setusednormal] = useState(0);
-  const [usednft, setusednft] = useState(0);
-  const [usedtoken, setusedtoken] = useState(0);
-  const [used_marketcap, setused_marketcap] = useState(0);
-  const [usedwhitelist, setusedwhitelist] = useState(0);
-  
-  const gettrailprofiles = async () => {
+  // const getMarketCapAddresses = async () => {
+  //   try {
+  //     const _market = await Moralis.Cloud.run("getMarketCapAddresses");
+  //     setMarketCapAddresses("");
+  //     // user feedback
+  //     if (_market) {
+  //       // console.log(JSON.stringify(_market));
+  //       _market.map((item) => {
+  //         console.log(item)
+  //         setMarketCapAddresses((watchedAddresses) => [
+  //           ...watchedAddresses,
+  //           item,
+  //         ]);
+  //       });
+  //     } else {
+  //       window.alert(JSON.stringify("No watched addresses found"));
+  //     }
+  //     return;
+  //   } catch (error) {
+  //     console.log("ERROR-", error);
+  //   }
+  // };
+
+  const getMarketCapAddresses = async () => {
+     
     try {
-      const _market = await Moralis.Cloud.run("getusertrailprofile");
-      setMarketCapAddresses("");
-      // user feedback
-      if (_market) {
-        console.log(JSON.parse(JSON.stringify(_market)));
-        setusednormal(
-          JSON.parse(JSON.stringify(_market)).used_notics
-            ? JSON.parse(JSON.stringify(_market)).used_notics
-            : 0
-        );
-        setusednft(
-          JSON.parse(JSON.stringify(_market)).usednftcheck
-            ? JSON.parse(JSON.stringify(_market)).usednftcheck
-            : 0
-        );
-        setusedtoken(
-          JSON.parse(JSON.stringify(_market)).usedtokencheck
-            ? JSON.parse(JSON.stringify(_market)).usedtokencheck
-            : 0
-        );
-        setused_marketcap(
-          JSON.parse(JSON.stringify(_market)).used_marketcap
-            ? JSON.parse(JSON.stringify(_market)).used_marketcap
-            : 0
-        );
-      } else {
+      const marketCapAddresses = await Moralis.Cloud.run("getMarketCapAddresses");
+      const tempArray = [];
+
+      if(marketCapAddresses){
+        // Categorize elements based on cryptoslug
+       marketCapAddresses.forEach((parseObject) => {
+          const attributes = parseObject.attributes;
+          const cryptoslug = attributes.cryptoslug;
+
+          // Find the index for the cryptoslug in the temp array
+          const index = tempArray.findIndex(
+            (item) =>
+              item && item[0] && item[0].attributes.cryptoslug === cryptoslug
+          );
+
+          if (index === -1) {
+            tempArray.push([parseObject]);
+          } else {
+            tempArray[index].push(parseObject);
+          }
+        });
+        setCategorizedDataArray(tempArray);
+      }else {
         window.alert(JSON.stringify("No watched addresses found"));
       }
-      return;
     } catch (error) {
       console.log("ERROR-", error);
     }
+
   };
+
+
   useEffect(() => {
     if (user) getWatchedAddresses();
   }, [user]);
-  useEffect(() => {
-    if (user) gettrailprofiles();
-  }, [user]);
-  useEffect(() => {
-    if (user) getWatchedAddresses();
-  }, [user]);
+
   useEffect(() => {
     if (user) getMarketCapAddresses();
   }, [user]);
-
   useEffect(() => {
-    console.log("getMarketCapAddresses", marketCapAddresses);
-  }, [marketCapAddresses]);
+    if (user) getCommunityAddresses();
+  }, [user]);
 
+  // useEffect(() => {
+  //   console.log("getMarketCapAddresses", marketCapAddresses);
+  // }, [marketCapAddresses]);
 
+  
+  
   return (
     <>
     <div className="main-dash-tab">
@@ -174,65 +169,62 @@ const Firsttab = ({networks, showcards, setShowcards,  showalertfor, setShowaler
         <div className="main-cards-div">
           <div className="row g-5">
 
-          {watchedAddresses.map((item, index) => (
-            <div className="col-md-4">
-              <div className="card-content-div preview-card ">
-                <div className="status-div">
-                  <div className="status-circle"></div>
-                  <span className="status-txt">Active</span>
-                </div>
-                <h3 className="wallet-name">{item.attributes.name}</h3>
-                <span className="wallet-adress"> 
-                  {item.attributes.address.substring(0,4)+"..."+item.attributes.address.substring(38,42)}
-                </span>
-                <div className="bchain-value-div">
-                  <div className="bchain-value">
-                    <div className="bchain-img">
-                    {item.className === "WatchedPolygon"
-                    ? ( <img src="/Icons/polygon.svg" alt="" />)
-                    : item.className === "WatchedBsc"
-                    ? (<img src="/Icons/binance.svg" alt="" />)
-                    : item.className === "WatchedEth"
-                    ? (<img src="/Icons/erc20.svg" alt="" />)
-                    : item.className === "WatchedAvax"
-                    ? (<img src="/Icons/avalanche.svg" alt="" />)
-                    : item.className === "WatchedFtm"
-                    ? "FTM"
-                    : null}
-                    </div>
-                    <div className="sub-head">
-                    {item.className === "WatchedPolygon"
-                    ? "Polygon"
-                    : item.className === "WatchedBsc"
-                    ? "BSC"
-                    : item.className === "WatchedEth"
-                    ? "Ethereum"
-                    : item.className === "WatchedAvax"
-                    ? "Avalanche"
-                    : item.className === "WatchedFtm"
-                    ? "FTM"
-                    : null}
+            {watchedAddresses.map((item, index) => (
+              <div className="col-md-4">
+                <div className="card-content-div preview-card ">
+                  <div className="status-div">
+                    <div className="status-circle"></div>
+                    <span className="status-txt">Active</span>
+                  </div>
+                  <h3 className="wallet-name">{item.attributes.name}</h3>
+                  <span className="wallet-adress"> 
+                    {item.attributes.address.substring(0,4)+"..."+item.attributes.address.substring(38,42)}
+                  </span>
+                  <div className="bchain-value-div">
+                    <div className="bchain-value">
+                      <div className="bchain-img">
+                      {item.className === "WatchedPolygon"
+                      ? ( <img src="/Icons/polygon.svg" alt="" />)
+                      : item.className === "WatchedBsc"
+                      ? (<img src="/Icons/binance.svg" alt="" />)
+                      : item.className === "WatchedEth"
+                      ? (<img src="/Icons/erc20.svg" alt="" />)
+                      : item.className === "WatchedAvax"
+                      ? (<img src="/Icons/avalanche.svg" alt="" />)
+                      : item.className === "WatchedFtm"
+                      ? "FTM"
+                      : null}
+                      </div>
+                      <div className="sub-head">
+                      {item.className === "WatchedPolygon"
+                      ? "Polygon"
+                      : item.className === "WatchedBsc"
+                      ? "BSC"
+                      : item.className === "WatchedEth"
+                      ? "Ethereum"
+                      : item.className === "WatchedAvax"
+                      ? "Avalanche"
+                      : item.className === "WatchedFtm"
+                      ? "FTM"
+                      : null}
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="main-value-direction-div">
-                  <div className="sub-head">Personal Monitor for</div>
-                  <div className="value-dir">
-                  <div className="value">&lt;${item.attributes.threshold}</div>
-                    <div className="value">{item.attributes.conditions}</div>
+                  <div className="main-value-direction-div">
+                    <div className="sub-head">Personal Monitor for</div>
+                    <div className="value-dir">
+                    <div className="value">&lt;${item.attributes.threshold}</div>
+                      <div className="value">{item.attributes.conditions}</div>
+                    </div>
                   </div>
-                </div>
-                <div className="notification-count">3 Notification Sent</div>
+                  <div className="notification-count">3 Notification Sent</div>
 
-              </div>{/* card-content-div end */}
-            </div>
-          ))}
-
-
+                </div>{/* card-content-div end */}
+              </div>
+            ))}
 
             <div className="col-md-4">
               <div className="card-content-div preview-card community-card">
-
                 <div className="status-div">
                   <div className="status-circle"></div>
                   <span className="status-txt">Active</span>
@@ -245,12 +237,10 @@ const Firsttab = ({networks, showcards, setShowcards,  showalertfor, setShowaler
                     <div className="sub-head">Ethereum</div>
                 </div>
                 <span className="wallet-adress">0X85...3445</span>
-
                 <div className="alert-method">
                  <img src="/Icons/notifications.svg" alt="" />
                     <span>Telegram</span>
                 </div>
-
                 <div className="input-div child-wallets">
                   <div className="child-wallet-cnt">
                     <img src="/Icons/community_monito_total_wallets.svg" alt="" />
@@ -261,7 +251,6 @@ const Firsttab = ({networks, showcards, setShowcards,  showalertfor, setShowaler
                     <span>$824</span>
                   </div>
                 </div>
-
                 <div className="main-wallet-cnt-div">
                   <div className="grey-fill-div">
                     <div className="hb-stats">
@@ -285,52 +274,50 @@ const Firsttab = ({networks, showcards, setShowcards,  showalertfor, setShowaler
                     <span className="slide-btn"> <BiSolidRightArrow/> </span>
                   </div>
                 </div>
-
                 <div className="notification-count">3 Notification Sent</div>
-
               </div>{/* card-content-div end */}
             </div>
 
-            <div className="col-md-4">
-              <div className="card-content-div preview-card price-card ">
-
-                <div className="status-div">
-                  <div className="status-circle"></div>
-                  <span className="status-txt">Active</span>
-                </div>
-                <h3 className="wallet-name">My_Wallet</h3>
-                <div className="grey-fill-div">
-                  <div className="bchain-value">
-                      <div className="bchain-img">
-                        <img src="/Icons/erc20.svg" alt="" />
-                      </div>
-                      <div className="sub-head">Ethereum</div>
+            {categorizedDataArray .map((category, index) => (
+              <div className="col-md-4" key={index}>
+                <div className="card-content-div preview-card price-card ">
+                  <div className="status-div">
+                    <div className="status-circle"></div>
+                    <span className="status-txt">Active</span>
                   </div>
-
-                  <div className="main-params-value-div">
-                    <div className="param">
-                      <div className="param-name">Price :</div>
-                      <div className="param-value">$50 </div>
+                  <h3 className="wallet-name">My_Wallet</h3>
+                  <div className="grey-fill-div">
+                    <div className="bchain-value">
+                        <div className="bchain-img">
+                          {
+                          category[0].attributes.cryptoslug.includes("ethereum") ? <img src="/Icons/erc20.svg" alt="" /> :
+                          category[0].attributes.cryptoslug.includes("bsc") ? <img src="/Icons/binance.svg" alt="" /> :
+                          category[0].attributes.cryptoslug.includes("ava") ? <img src="/Icons/avalanche.svg" alt="" /> :
+                          category[0].attributes.cryptoslug.includes("matic") ? <img src="/Icons/polygon.svg" alt="" /> :
+                          category[0].attributes.cryptoslug
+                          }
+                        </div>
+                        <div className="sub-head">{category[0].attributes.cryptoslug}</div>
                     </div>
-                    {/* <div className="param">
-                      <div className="param-name">24H Volume :</div>
-                      <div className="param-value">$50 </div>
-                    </div> */}
+                    <div className="main-params-value-div">
+                      {category.map((item, subIndex) => (
+                        <div className="param" key={subIndex}>
+                          <div className="param-name">{item.attributes.condition} :</div>
+                          <div className="param-value">${item.attributes.user_value}</div>
+                        </div>
+                      ))}
+                    </div>
 
                   </div>
+                  <div className="alert-method">
+                  <img src="/Icons/notifications.svg" alt="" />
+                      <span>{category[0].attributes.alertMethod}</span>
+                  </div>
 
-                </div>
-                <div className="alert-method">
-                 <img src="/Icons/notifications.svg" alt="" />
-                    <span>Telegram</span>
-                </div>
-
-                <div className="notification-count">3 Notification Sent</div>
-              </div>{/* card-content-div end */}
-            </div>
-
-
-            
+                  <div className="notification-count">3 Notification Sent</div>
+                </div>{/* card-content-div end */}
+              </div>
+            ))}
             
           </div>
         </div>

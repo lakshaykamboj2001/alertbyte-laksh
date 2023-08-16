@@ -40,11 +40,11 @@ export default function DeleteModal({ isOpen = "", onClose = "", deleteWatchedAd
 				<Modal.Body>Are you sure you want to delete this watched address?</Modal.Body>
 				<Modal.Footer>
 					<Button variant="secondary" onClick={() => closeModal()}>
-						Close
+						Go Back
 					</Button>
 					<Button variant="danger" onClick={() => deleteWatchedAddress()}>
 						<i className="fa-solid fa-trash text-2xl"></i>
-						Delete
+						Yes
 					</Button>
 				</Modal.Footer>
 			</Modal>

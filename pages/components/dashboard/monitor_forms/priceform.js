@@ -136,19 +136,16 @@ const priceform = ({paramdata, setParamdata}) => {
     console.log(JSON.stringify("🚫 Error Occures 🚫"+error, 0, 2,));
   });
   }
-//  calling this function in  every 3 sec cause we have to update the value of searched crypto but ....
+
 useEffect(() => {
   const intervalId = setInterval(async () => {
     console.log(paramdata);
-
     try {
       await handlecryptoclicked(paramdata);
     } catch (error) {
       console.log("🚫 Error Occurred 🚫", error);
     }
-
   }, 3000);
-
   return () => clearInterval(intervalId);
 }, [paramdata]);
 
@@ -179,10 +176,7 @@ useEffect(() => {
   };
 
   const createdata = async () => {
-    // if(userprice === "" && uservolume === "" && user_circulating_supply === "" && user_fully_diluted_market_cap === ""){
-    //   window.alert("Please add a value for the alert !"); 
-    //   return
-    // } 
+
     if (!isAuthenticated) {
       setError((prevState) => ({
         ...prevState,
@@ -195,8 +189,6 @@ useEffect(() => {
     }  else {
       // setloading(true);
       try {
-
-        
         if (alertOption == "telegram" && !user.attributes.telegram) {
           setError((prevState) => ({
             ...prevState,
@@ -242,63 +234,37 @@ useEffect(() => {
         }
 
 
+        const hasValidConditionValue = userInput.some(item => item.conditionValue);
 
-        // const _market = await Moralis.Cloud.run("getMarketCapAddresses");
-        // console.log(_market);
-
-        // let userdata = conditionvalue == "price"?userprice:conditionvalue == "volume"?uservolume:conditionvalue == "circulating_supply"?user_circulating_supply:conditionvalue == "fully_diluted_market_cap"?user_fully_diluted_market_cap:undefined
-        // let livedata = conditionvalue == "price"?currentdata:conditionvalue == "volume"?current_volume:conditionvalue == "circulating_supply"?current_circulating_supply:conditionvalue == "fully_diluted_market_cap"?current_fully_diluted_market_cap:undefined
-        // const params = {
-        //   cryptoslug:cryptoslug,
-        //   condition: conditionvalue,
-        //   current_value: Number(livedata),
-        //   user_value:Number(userdata),
-        //   alert_method: alertOption,
-        // };
+        if (!hasValidConditionValue) {
+          window.alert("Please add a value for getting alert !");
+        } else {
+          await Promise.all(userInput.map(async (item) => {
+            const { conditionField, conditionValue } = item;
       
-        // console.log(params)
-        // const watch = await Moralis.Cloud.run("watchMarketCap", params)
-        // if (watch) {
-        //   // setAddressAddedModalOpen(true);
-        //   // setEmail("");
-        //   // setTelegram("");
-        //   // setAlertOption("email");
-        //   // setThreshold("");
-        //   console.log("done")
-        // } else {
-        //   window.alert(
-        //     JSON.stringify("🚫 You're already watching this address 🚫", 0, 2)
-        //   );
-        // }
-        // setloading(false);
-
-
-        await Promise.all(userInput.map(async (item) => {
-          const { conditionField, conditionValue } = item;
-    
-          const _market = await Moralis.Cloud.run("getMarketCapAddresses");
-          console.log(_market);
-
-          let userdata = conditionField === "price" ? conditionValue : conditionField === "volume" ? conditionValue : conditionField === "circulating_supply" ? conditionValue : conditionField === "fully_diluted_market_cap" ? conditionValue : undefined;
-          let livedata = conditionField === "price" ? currentdata : conditionField === "volume" ? current_volume : conditionField === "circulating_supply" ? current_circulating_supply : conditionField === "fully_diluted_market_cap" ? current_fully_diluted_market_cap : undefined;
-
-          const params = {
-            cryptoslug: cryptoslug,
-            condition: conditionField,
-            current_value: Number(livedata),
-            user_value: Number(userdata),
-            alert_method: alertOption,
-          };
-
-          console.log("params:", params);
-          const watch = await Moralis.Cloud.run("watchMarketCap", params);
-          if (watch) {
-            console.log("done");
-          } else {
-            window.alert(JSON.stringify("🚫 You're already watching this address 🚫", 0, 2));
-          }
-        }));
-
+            const _market = await Moralis.Cloud.run("getMarketCapAddresses");
+            console.log(_market);
+  
+            let userdata = conditionField === "price" ? conditionValue : conditionField === "volume" ? conditionValue : conditionField === "circulating_supply" ? conditionValue : conditionField === "fully_diluted_market_cap" ? conditionValue : undefined;
+            let livedata = conditionField === "price" ? currentdata : conditionField === "volume" ? current_volume : conditionField === "circulating_supply" ? current_circulating_supply : conditionField === "fully_diluted_market_cap" ? current_fully_diluted_market_cap : undefined;
+  
+            const params = {
+              cryptoslug: cryptoslug,
+              condition: conditionField,
+              current_value: Number(livedata),
+              user_value: Number(userdata),
+              alert_method: alertOption,
+            };
+  
+            console.log("params:", params);
+            const watch = await Moralis.Cloud.run("watchMarketCap", params);
+            if (watch) {
+              console.log("done");
+            } else {
+              window.alert(JSON.stringify("🚫 You're already watching this address 🚫", 0, 2));
+            }
+          }));
+        }
       } catch (error) {
         console.log(error);
         // setloading(false);

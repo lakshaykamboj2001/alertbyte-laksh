@@ -30,36 +30,40 @@ const filter = () => {
             <span className="head dropdowntoggle" onClick={handleFilterButtonClick}>Filter {!showFilterExpand && <FaChevronDown/>}</span>
             {showFilterExpand && (
               <div className="filter-expand">
-                <p className="clr-all">
-                  <span>Filter</span>
-                </p>
+                <div className="filter-exp-head">Filter</div>
 
                 <div className="radios">
-                  <span>Type</span>
-                  <div>
+                  <span className="head">Type</span>
+                  <div className="rd-field">
                     <input type="radio" id="personal" name="monitor-type" value="personal" />
                     <label htmlFor="personal">Personal Monitor</label>
                   </div>
-                  <div>
+                  <div className="rd-field">
                     <input type="radio" id="community" name="monitor-type" value="community" />
                     <label htmlFor="community">Community Monitor</label>
                   </div>
-                  <div>
+                  <div className="rd-field">
                     <input type="radio" id="price" name="monitor-type" value="price" />
                     <label htmlFor="price">Price Alert</label>
                   </div>
                 </div>
 
                 <div className="radios">
-                  <span>Direction</span>
-                  <div>
+                  <span className="head">Direction</span>
+                  <div className="rd-field">
                     <input type="radio" id="in" name="in-out" value="in" />
-                    <label htmlFor="in">IN</label>
+                    <label htmlFor="in">Recieve</label>
                   </div>
-                  <div>
+                  <div className="rd-field">
                     <input type="radio" id="out" name="in-out" value="out" />
-                    <label htmlFor="out">OUT</label>
+                    <label htmlFor="out">Send</label>
                   </div>
+                </div>
+
+                <div className="filter-buttons">
+                  <button className="apply-btn">Apply</button>
+                  <button>Reset</button>
+
                 </div>
               </div>
             )}
